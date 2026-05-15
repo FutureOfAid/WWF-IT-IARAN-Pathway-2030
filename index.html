@@ -275,6 +275,8 @@
         height: 100%;
         display: block;
         cursor: grab;
+        touch-action: none;
+        user-select: none;
       }
 
       #graph:active {
@@ -438,6 +440,30 @@
         border-color: var(--blue-mid);
       }
 
+      .graph-panel {
+        position: relative;
+      }
+
+      .mobile-hint {
+        display: none;
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        z-index: 2;
+        margin: 0;
+        padding: 9px 11px;
+        border: 1px solid rgba(216, 226, 232, 0.9);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.25;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0, 55, 92, 0.08);
+        pointer-events: none;
+      }
+
       @media (max-width: 1100px) {
         header {
           grid-template-columns: 1fr;
@@ -454,6 +480,144 @@
         }
         .panel {
           height: 560px;
+        }
+      }
+
+      @media (max-width: 700px) {
+        body {
+          overflow-x: hidden;
+        }
+
+        header {
+          grid-template-columns: 1fr auto;
+          gap: 10px;
+          padding: 12px 12px 10px;
+          align-items: start;
+        }
+
+        h1 {
+          font-size: 22px;
+          line-height: 1.05;
+          max-width: 250px;
+        }
+
+        .subtitle {
+          display: none;
+        }
+
+        .view-switch {
+          margin-top: 10px;
+          gap: 6px;
+        }
+
+        .view-button {
+          padding: 8px 9px;
+          font-size: 11px;
+          max-width: 148px;
+          line-height: 1.15;
+        }
+
+        .header-right {
+          align-items: flex-end;
+          gap: 6px;
+        }
+
+        .iaran-logo {
+          width: 42px;
+        }
+
+        .status {
+          display: none;
+        }
+
+        .layout {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 10px;
+          height: auto;
+        }
+
+        main.panel {
+          order: 1;
+          height: min(64vh, 560px);
+          min-height: 430px;
+          border-radius: 16px;
+        }
+
+        aside.panel {
+          order: 2;
+          height: auto;
+          max-height: none;
+          border-radius: 16px;
+        }
+
+        .panel-header {
+          padding: 12px 12px 8px;
+        }
+
+        .panel-note,
+        .footer-note {
+          display: none;
+        }
+
+        .controls {
+          height: auto;
+          max-height: none;
+          overflow: visible;
+          padding: 10px 12px 14px;
+        }
+
+        label {
+          margin: 10px 0 5px;
+          font-size: 10px;
+        }
+
+        select,
+        input[type="search"] {
+          font-size: 13px;
+          padding: 9px 10px;
+        }
+
+        .check {
+          font-size: 12px;
+          margin-top: 9px;
+        }
+
+        .legend {
+          grid-template-columns: 1fr 1fr;
+          gap: 6px 8px;
+          margin-top: 12px;
+        }
+
+        .legend-row {
+          font-size: 10.5px;
+          gap: 6px;
+        }
+
+        .dot {
+          width: 10px;
+          height: 10px;
+        }
+
+        .node text {
+          stroke-width: 3px;
+        }
+
+        .node-popup {
+          width: calc(100vw - 24px);
+          max-height: 45vh;
+          overflow: auto;
+          border-radius: 16px;
+          padding: 13px;
+        }
+
+        .popup-title {
+          font-size: 15px;
+        }
+
+        .mobile-hint {
+          display: block;
         }
       }
     </style>
@@ -530,7 +694,8 @@
         </div>
       </aside>
 
-      <main class="panel" aria-label="Interactive TOC network">
+      <main class="panel graph-panel" aria-label="Interactive TOC network">
+        <p class="mobile-hint">Pinch or drag to explore. Tap a node for details. Filters are below the map.</p>
         <svg id="graph" role="img" aria-label="WWF Italia Theory of Change network"></svg>
       </main>
     </div>
@@ -942,10 +1107,11 @@
           ${path ? `<strong>Path:</strong> ${escapeHtml(path)}<br>` : ""}
           ${escapeHtml(sourceLine)}
         `;
-        const margin = 18;
-        const rectWidth = 390;
+        const margin = window.innerWidth <= 700 ? 12 : 18;
+        const rectWidth = Math.min(390, window.innerWidth - margin * 2);
         const x = Math.min(window.innerWidth - rectWidth - margin, Math.max(margin, event.clientX + 14));
-        const y = Math.min(window.innerHeight - 180 - margin, Math.max(margin, event.clientY + 14));
+        const popupHeight = window.innerWidth <= 700 ? Math.min(360, window.innerHeight * 0.45) : 180;
+        const y = Math.min(window.innerHeight - popupHeight - margin, Math.max(margin, event.clientY + 14));
         nodePopup.style.left = `${x}px`;
         nodePopup.style.top = `${y}px`;
         nodePopup.classList.add("open");
@@ -976,6 +1142,10 @@
         data = await fetch("./network-data.json").then((r) => r.json());
         data.nodesById = new Map(data.nodes.map((n) => [n.id, n]));
         populateFilters();
+        if (window.innerWidth <= 700) {
+          document.getElementById("showCardElements").checked = false;
+          document.getElementById("showLevel5").checked = false;
+        }
         document.getElementById("popupClose").addEventListener("click", () => nodePopup.classList.remove("open"));
         document.getElementById("tocView").addEventListener("click", () => {
           currentView = "toc";
@@ -1002,6 +1172,10 @@
         });
         updateTerminology();
         render();
+        window.addEventListener("resize", () => {
+          nodePopup.classList.remove("open");
+          render();
+        });
       }
 
       init();

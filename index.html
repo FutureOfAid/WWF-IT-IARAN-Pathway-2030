@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -53,7 +53,7 @@
         display: grid;
         grid-template-columns: minmax(280px, 1fr) auto;
         gap: 18px;
-        align-items: end;
+        align-items: start;
         border-bottom: 1px solid var(--border);
         background: rgba(247, 249, 251, 0.94);
         position: sticky;
@@ -82,6 +82,44 @@
         gap: 8px;
         flex-wrap: wrap;
         justify-content: flex-end;
+      }
+
+      .header-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 14px;
+      }
+
+      .iaran-logo {
+        display: block;
+        width: 74px;
+        height: auto;
+        object-fit: contain;
+        background: transparent;
+      }
+
+      .view-switch {
+        display: flex;
+        gap: 8px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+
+      .view-button {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--surface);
+        color: var(--blue-dark);
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .view-button.active {
+        background: var(--blue-dark);
+        border-color: var(--blue-dark);
+        color: white;
       }
 
       .pill {
@@ -404,6 +442,9 @@
         header {
           grid-template-columns: 1fr;
         }
+        .header-right {
+          align-items: flex-start;
+        }
         .status {
           justify-content: flex-start;
         }
@@ -421,16 +462,23 @@
     <header>
       <div>
         <h1>WWF Italia TOC Network</h1>
-        <p class="subtitle">
+        <p class="subtitle" data-ui-label="subtitle">
           A visual interface to understand the Theory of Change system at a glance: strategic goals,
           objectives, official results, and the level 4 and 5 activities extracted from the results maps.
           Click any node to see its full information.
         </p>
+        <div class="view-switch" aria-label="Network view">
+          <button class="view-button active" id="tocView">TOC Network</button>
+          <button class="view-button" id="perceptionView">Implicit System Perception Map</button>
+        </div>
       </div>
-      <div class="status" aria-label="Statistiques du réseau">
-        <span class="pill" id="statNodes">Nodes</span>
-        <span class="pill" id="statLinks">Links</span>
-        <span class="pill">L4/L5 activities</span>
+      <div class="header-right">
+        <img class="iaran-logo" src="./iaran_logo.png" alt="IARAN logo" />
+        <div class="status" aria-label="Network statistics">
+          <span class="pill" id="statNodes">Nodes</span>
+          <span class="pill" id="statLinks">Links</span>
+          <span class="pill" data-ui-label="statLayer">L4/L5 activities</span>
+        </div>
       </div>
     </header>
 
@@ -438,13 +486,13 @@
       <aside class="panel">
         <div class="panel-header">
           <p class="panel-title">Filters & legend</p>
-          <p class="panel-note">Focus the official structure and decide how much detail to display.</p>
+          <p class="panel-note" data-ui-label="panelNote">Focus the official structure and decide how much detail to display.</p>
         </div>
         <div class="controls">
-          <label for="goalFilter">Strategic goal</label>
+          <label for="goalFilter" data-ui-label="goalFilter">Strategic goal</label>
           <select id="goalFilter"></select>
 
-          <label for="objectiveFilter">Objective</label>
+          <label for="objectiveFilter" data-ui-label="objectiveFilter">Objective</label>
           <select id="objectiveFilter"></select>
 
           <label for="mapFilter">Source map</label>
@@ -456,34 +504,27 @@
           <label>Display</label>
           <div class="check">
             <input type="checkbox" id="showFullLabels" />
-            <span>Show full titles for levels 1–3</span>
+            <span data-ui-label="showFullLabels">Show full titles for strategic goals, objectives, and results</span>
           </div>
           <div class="check">
             <input type="checkbox" id="showCardElements" checked />
-            <span>Level 4 activities</span>
+            <span data-ui-label="showCardElements">Level 4 activities</span>
           </div>
           <div class="check">
             <input type="checkbox" id="showLevel5" checked />
-            <span>Level 5 activities</span>
+            <span data-ui-label="showLevel5">Level 5 activities</span>
           </div>
           <div class="legend" aria-label="Legend">
-            <div class="legend-row"><span class="dot" style="background: #00375c"></span><span>Strategic goal, code G</span></div>
-            <div class="legend-row"><span class="dot" style="background: #99cae4"></span><span>Objective, code O</span></div>
-            <div class="legend-row"><span class="dot" style="background: #ffffff"></span><span>Official result, code R</span></div>
-            <div class="legend-row"><span class="dot" style="background: #e9eef2"></span><span>Level 4 activity</span></div>
-            <div class="legend-row"><span class="dot" style="background: #fff5eb"></span><span>Level 5 activity</span></div>
+            <div class="legend-row"><span class="dot" style="background: #00375c"></span><span data-legend="goal">Strategic goal, code G</span></div>
+            <div class="legend-row"><span class="dot" style="background: #99cae4"></span><span data-legend="objective">Objective, code O</span></div>
+            <div class="legend-row"><span class="dot" style="background: #ffffff"></span><span data-legend="result">Official result, code R</span></div>
+            <div class="legend-row"><span class="dot" style="background: #e9eef2"></span><span data-legend="toc_element">Level 4 activity</span></div>
+            <div class="legend-row"><span class="dot" style="background: #fff5eb"></span><span data-legend="toc_level5">Level 5 activity</span></div>
           </div>
 
-          <div class="definitions" aria-label="Definitions">
-            <div class="definition"><strong>Strategic goal</strong><span>One of the three long-term changes WWF Italia wants to contribute to.</span></div>
-            <div class="definition"><strong>Objective</strong><span>A major pathway that contributes to one strategic goal.</span></div>
-            <div class="definition"><strong>Official result</strong><span>A formal result from the WWF Italia strategic framework.</span></div>
-            <div class="definition"><strong>Level 4 activity</strong><span>The first activity layer directly below a result in the received map.</span></div>
-            <div class="definition"><strong>Level 5 activity</strong><span>The next readable activity layer below level 4. Direct L4→L5 links still require map-by-map validation.</span></div>
-          </div>
-
-          <p class="footer-note">
-            The network is composed only from readable elements in the received maps. For Objectives 5 and 6,
+          <p class="footer-note" data-ui-label="footerNote">
+            TOC Network shows the positive change architecture. Implicit System Perception Map mirrors the
+            current system conditions implied by the TOC. For Objectives 5 and 6,
             the source maps are aggregated at objective level, so the allocation to individual results should be checked.
           </p>
         </div>
@@ -527,6 +568,75 @@
         common_connector: "Recurring common variable",
       };
 
+      const perceptionTypeLabel = {
+        goal: "System challenge",
+        objective: "Change field",
+        result: "Situation to shift",
+        toc_element: "Visible driver",
+        toc_level5: "Deeper driver",
+        common_connector: "Recurring system variable",
+      };
+
+      const tocDefinitions = {
+        goal: "One of the three long-term changes WWF Italia wants to contribute to.",
+        objective: "A major pathway that contributes to one strategic goal.",
+        result: "A formal result from the WWF Italia strategic framework.",
+        toc_element: "The first activity layer directly below a result in the received map.",
+        toc_level5: "The next readable activity layer below level 4. Direct L4→L5 links still require map-by-map validation.",
+      };
+
+      const perceptionDefinitions = {
+        goal: "The broad issue in the system that WWF Italia appears to be navigating.",
+        objective: "The part of the system where change is perceived as necessary.",
+        result: "The current situation that the TOC implies needs to shift.",
+        toc_element: "A visible actor, behaviour, institution, or condition shaping the situation.",
+        toc_level5: "A deeper enabling or conditioning driver behind the visible driver.",
+      };
+
+      const tocUiLabels = {
+        goalFilter: "Strategic goal",
+        objectiveFilter: "Objective",
+        showFullLabels: "Show full titles for strategic goals, objectives, and results",
+        showCardElements: "Level 4 activities",
+        showLevel5: "Level 5 activities",
+        statLayer: "L4/L5 activities",
+        allGoals: "All strategic goals",
+        allObjectives: "All objectives",
+        subtitle: "A visual interface to understand the Theory of Change system at a glance: strategic goals, objectives, official results, and the level 4 and 5 activities extracted from the results maps. Click any node to see its full information.",
+        panelNote: "Focus the official structure and decide how much detail to display.",
+        footerNote: "TOC Network shows the positive change architecture. Implicit System Perception Map mirrors the current system conditions implied by the TOC. For Objectives 5 and 6, the source maps are aggregated at objective level, so the allocation to individual results should be checked.",
+      };
+
+      const perceptionUiLabels = {
+        goalFilter: "System challenge",
+        objectiveFilter: "Change field",
+        showFullLabels: "Show full descriptions for system challenges, change fields, and situations to shift",
+        showCardElements: "Visible drivers",
+        showLevel5: "Deeper drivers",
+        statLayer: "Visible/deeper drivers",
+        allGoals: "All system challenges",
+        allObjectives: "All change fields",
+        subtitle: "A visual interface to explore the implicit system perception mirrored from the TOC: system challenges, change fields, situations to shift, visible drivers, and deeper drivers. Click any node to see its full information.",
+        panelNote: "Focus the system perception and decide how much detail to display.",
+        footerNote: "TOC Network shows the positive change architecture. Implicit System Perception Map mirrors the current system conditions implied by the TOC. For Change Fields 5 and 6, the source maps are aggregated at change-field level, so the allocation to individual situations to shift should be checked.",
+      };
+
+      const tocCodeSuffix = {
+        goal: "",
+        objective: "",
+        result: "",
+        toc_element: "",
+        toc_level5: "",
+      };
+
+      const perceptionCodeSuffix = {
+        goal: ", code SC",
+        objective: ", code CF",
+        result: ", code S",
+        toc_element: ", code VD",
+        toc_level5: ", code DD",
+      };
+
       const goalOfObjective = { O1: "G1", O2: "G1", O3: "G2", O4: "G2", O5: "G3", O6: "G3" };
       const objectiveOfResult = {
         "R1.1": "O1", "R1.2": "O1", "R1.3": "O1", "R1.4": "O1",
@@ -545,7 +655,40 @@
         "R6.a": "R6.a", "R6.b": "R6.b", "R6.c": "R6.c",
       };
 
+      const perceptionLabels = {
+        G1: "Habitat and species loss is still an active systemic condition.",
+        G2: "The human footprint on nature remains above the desired threshold.",
+        G3: "Nature is not yet sufficiently central in values, institutions, education, and public culture.",
+        O1: "Habitat protection and restoration are not yet strong enough across land and sea systems.",
+        O2: "Key species protection and recovery are not yet sufficiently secured.",
+        O3: "Production and consumption models remain insufficiently transformed.",
+        O4: "The climate transition is not yet sufficient to reduce risk and pressure on nature.",
+        O5: "The institutional system is not yet consistently aligned with nature protection.",
+        O6: "Nature is not yet fully integrated into educational and formative environments.",
+        "R1.1": "Protected terrestrial and marine areas are not yet sufficiently extended.",
+        "R1.2": "Degraded habitats are not yet sufficiently restored.",
+        "R1.3": "Shared and sustainable territorial management models are not yet widely adopted.",
+        "R1.4": "The maritime space has not yet transitioned sufficiently toward a sustainable blue economy.",
+        "R2.1": "Key species are not yet sufficiently conserved and sustainably managed.",
+        "R2.2": "Rewilding of key species is not yet sufficiently advanced.",
+        "R2.3": "Nature crimes are not yet sufficiently prevented, controlled, or prosecuted.",
+        "R2.4": "Human-species coexistence is not yet sufficiently virtuous or stable.",
+        "R3.1": "Agroecology is not yet sufficiently widespread.",
+        "R3.2": "Responsible lifestyles, healthy diets, and low-impact consumption are not yet sufficiently adopted.",
+        "R3.3": "Circular economy models are not yet sufficiently adopted in resource-intensive sectors.",
+        "R4.1": "Climate-altering emissions are not yet sufficiently reduced.",
+        "R4.2": "Urban climate adaptation actions and good practices are not yet sufficiently in place.",
+        "R4.3": "Citizen activation for renewable energy and reduced fossil fuel use is not yet sufficiently tangible.",
+        "R5.a": "Policies harmful to the environment are not yet sufficiently countered.",
+        "R5.b": "The constitutional reform is not yet fully translated into stronger norms for nature, biodiversity, and transition.",
+        "R5.c": "Alliances and activations for communication, awareness, and advocacy are not yet sufficiently consolidated.",
+        "R6.a": "Educational and formative tools for strategic target groups are not yet sufficiently available.",
+        "R6.b": "Citizens are not yet sufficiently acting as agents of environmental integrity.",
+        "R6.c": "Information on the interconnection between nature and people is not yet sufficiently widespread.",
+      };
+
       let data, simulation, selectedNode = null;
+      let currentView = "toc";
       const svg = d3.select("#graph");
       const nodePopup = document.getElementById("nodePopup");
       const popupType = document.getElementById("popupType");
@@ -556,16 +699,59 @@
         return label.length > max ? label.slice(0, max - 1) + "…" : label;
       }
 
+      function perceptionLabel(d) {
+        if (perceptionLabels[d.id]) return perceptionLabels[d.id];
+        if (d.type === "toc_element") return `Not yet sufficiently in place at level 4: ${d.label}`;
+        if (d.type === "toc_level5") return `Not yet sufficiently in place at level 5: ${d.label}`;
+        return d.label;
+      }
+
+      function activeLabel(d) {
+        return currentView === "perception" ? perceptionLabel(d) : d.label;
+      }
+
+      function activeTypeLabel(type) {
+        return currentView === "perception"
+          ? (perceptionTypeLabel[type] || type)
+          : (typeLabel[type] || type);
+      }
+
+      function updateTerminology() {
+        const definitions = currentView === "perception" ? perceptionDefinitions : tocDefinitions;
+        const uiLabels = currentView === "perception" ? perceptionUiLabels : tocUiLabels;
+        ["goal", "objective", "result", "toc_element", "toc_level5"].forEach((type) => {
+          const legend = document.querySelector(`[data-legend="${type}"]`);
+          const suffix = currentView === "perception" ? perceptionCodeSuffix[type] : tocCodeSuffix[type];
+          if (legend) legend.textContent = `${activeTypeLabel(type)}${suffix}`;
+        });
+        Object.entries(uiLabels).forEach(([key, value]) => {
+          const el = document.querySelector(`[data-ui-label="${key}"]`);
+          if (el) el.textContent = value;
+        });
+        document.getElementById("search").placeholder = currentView === "perception"
+          ? "Search system conditions, actors, behaviours, institutions..."
+          : "Search activities, actors, institutions, territories...";
+        populateFilters();
+      }
+
       function displayLabel(d) {
         const fullLabels = document.getElementById("showFullLabels")?.checked;
-        if (fullLabels && ["goal", "objective", "result"].includes(d.type)) return shortLabel(d.label, 62);
+        if (fullLabels && ["goal", "objective", "result"].includes(d.type)) return shortLabel(activeLabel(d), 62);
+        if (currentView === "perception") {
+          if (d.type === "goal") return d.id.replace("G", "SC");
+          if (d.type === "objective") return d.id.replace("O", "CF");
+          if (d.type === "result") return d.id.replace("R", "S");
+          if (d.type === "toc_element") return `VD.${d.line || ""}`;
+          if (d.type === "toc_level5") return `DD.${d.line || ""}`;
+          if (d.type === "common_connector") return (d.variable_id || "").split("_").slice(0, 2).join(" ");
+        }
         if (d.type === "goal") return d.id;
         if (d.type === "objective") return d.id;
         if (d.type === "result") return d.id;
         if (d.type === "toc_element") return `L4.${d.line || ""}`;
         if (d.type === "toc_level5") return `L5.${d.line || ""}`;
         if (d.type === "common_connector") return (d.variable_id || "").split("_").slice(0, 2).join(" ");
-        return shortLabel(d.label, 18);
+        return shortLabel(activeLabel(d), 18);
       }
 
       function nodeRadius(d) {
@@ -689,7 +875,7 @@
           .attr("stroke", nodeStroke)
           .attr("stroke-width", (d) => d.type === "goal" ? 2.2 : 1.2);
 
-        node.append("title").text((d) => d.label);
+        node.append("title").text((d) => activeLabel(d));
 
         node.append("text")
           .attr("x", (d) => d.type === "toc_element" || d.type === "toc_level5" ? 0 : nodeRadius(d) + 6)
@@ -746,11 +932,13 @@
 
       function showNodePopup(d, event) {
         const anc = getAncestry(d);
-        popupType.textContent = typeLabel[d.type] || d.type;
-        popupTitle.textContent = d.label;
+        popupType.textContent = activeTypeLabel(d.type);
+        popupTitle.textContent = activeLabel(d);
         const path = [anc.goal, anc.objective, anc.result].filter(Boolean).join(" → ");
         const sourceLine = d.map_id ? `Source map: ${d.map_id}${d.line ? ` · line ${d.line}` : ""}` : `Source: ${d.source || "Programma WWF Italia 2026"}`;
         popupMeta.innerHTML = `
+          <strong>View:</strong> ${currentView === "perception" ? "Implicit System Perception Map" : "TOC Network"}<br>
+          ${currentView === "perception" ? `<strong>Original TOC:</strong> ${escapeHtml(d.label)}<br>` : ""}
           ${path ? `<strong>Path:</strong> ${escapeHtml(path)}<br>` : ""}
           ${escapeHtml(sourceLine)}
         `;
@@ -771,10 +959,17 @@
         const goalSel = document.getElementById("goalFilter");
         const objSel = document.getElementById("objectiveFilter");
         const mapSel = document.getElementById("mapFilter");
-        goalSel.innerHTML = `<option value="">All strategic goals</option>` + data.nodes.filter((n) => n.type === "goal").map((n) => `<option value="${n.id}">${n.id} · ${escapeHtml(n.label.replace(/^Goal strategico \\d: /, ""))}</option>`).join("");
-        objSel.innerHTML = `<option value="">All objectives</option>` + data.nodes.filter((n) => n.type === "objective").map((n) => `<option value="${n.id}">${n.id} · ${escapeHtml(n.label.replace(/^O\\d: /, ""))}</option>`).join("");
+        const currentGoal = goalSel.value || "";
+        const currentObjective = objSel.value || "";
+        const currentMap = mapSel.value || "";
+        const uiLabels = currentView === "perception" ? perceptionUiLabels : tocUiLabels;
+        goalSel.innerHTML = `<option value="">${uiLabels.allGoals}</option>` + data.nodes.filter((n) => n.type === "goal").map((n) => `<option value="${n.id}">${displayLabel(n)} · ${escapeHtml(activeLabel(n).replace(/^Goal strategico \d:\s*/, "").replace(/^G\d:\s*/, ""))}</option>`).join("");
+        objSel.innerHTML = `<option value="">${uiLabels.allObjectives}</option>` + data.nodes.filter((n) => n.type === "objective").map((n) => `<option value="${n.id}">${displayLabel(n)} · ${escapeHtml(activeLabel(n).replace(/^O\d:\s*/, ""))}</option>`).join("");
         const maps = [...new Set(data.nodes.filter((n) => n.type === "toc_element" || n.type === "toc_level5").map((n) => n.map_id))].sort();
         mapSel.innerHTML = `<option value="">All source maps</option>` + maps.map((m) => `<option value="${m}">${m}</option>`).join("");
+        goalSel.value = currentGoal;
+        objSel.value = currentObjective;
+        mapSel.value = currentMap;
       }
 
       async function init() {
@@ -782,6 +977,22 @@
         data.nodesById = new Map(data.nodes.map((n) => [n.id, n]));
         populateFilters();
         document.getElementById("popupClose").addEventListener("click", () => nodePopup.classList.remove("open"));
+        document.getElementById("tocView").addEventListener("click", () => {
+          currentView = "toc";
+          document.getElementById("tocView").classList.add("active");
+          document.getElementById("perceptionView").classList.remove("active");
+          nodePopup.classList.remove("open");
+          updateTerminology();
+          render();
+        });
+        document.getElementById("perceptionView").addEventListener("click", () => {
+          currentView = "perception";
+          document.getElementById("perceptionView").classList.add("active");
+          document.getElementById("tocView").classList.remove("active");
+          nodePopup.classList.remove("open");
+          updateTerminology();
+          render();
+        });
         document.addEventListener("keydown", (event) => {
           if (event.key === "Escape") nodePopup.classList.remove("open");
         });
@@ -789,6 +1000,7 @@
           document.getElementById(id).addEventListener("input", render);
           document.getElementById(id).addEventListener("change", render);
         });
+        updateTerminology();
         render();
       }
 

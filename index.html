@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WWF Italia ToC Evidence Workspace · 5 livelli</title>
+    <meta
+      name="description"
+      content="Macro-réseau dynamique WWF Italia: goals strategici, obiettivi, risultati, attività di livello 4 e attività di livello 5."
+    />
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="./d3.min.js"></script>
+    <style>
+      :root {
+        --bg: #f7f9fb;
+        --surface: #ffffff;
+        --surface-2: #eef4f7;
+        --text: #13334a;
+        --muted: #647381;
+        --faint: #9aa7b2;
+        --border: #d8e2e8;
+        --blue-dark: #00375c;
+        --blue: #1a5d80;
+        --blue-mid: #5795b5;
+        --blue-light: #99cae4;
+        --orange: #fd9242;
+        --orange-dark: #df4c06;
+        --orange-pale: #fff5eb;
+        --green: #437a22;
+        --shadow: 0 18px 50px rgba(0, 55, 92, 0.1);
+        --radius: 18px;
+        --font: "Satoshi", "Inter", system-ui, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        background: var(--bg);
+        font-family: var(--font);
+      }
+
+      header {
+        padding: 22px 28px 14px;
+        display: grid;
+        grid-template-columns: minmax(280px, 1fr) auto;
+        gap: 18px;
+        align-items: end;
+        border-bottom: 1px solid var(--border);
+        background: rgba(247, 249, 251, 0.94);
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(12px);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 34px);
+        letter-spacing: -0.035em;
+        color: var(--blue-dark);
+      }
+
+      .subtitle {
+        margin: 6px 0 0;
+        max-width: 960px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .status {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .pill {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        border-radius: 999px;
+        padding: 8px 11px;
+        font-size: 12px;
+        color: var(--muted);
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 320px 1fr 360px;
+        gap: 16px;
+        padding: 16px;
+        height: calc(100vh - 103px);
+      }
+
+      aside,
+      main {
+        min-height: 0;
+      }
+
+      .panel {
+        height: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .panel-header {
+        padding: 16px 16px 12px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .panel-title {
+        margin: 0;
+        color: var(--blue-dark);
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .panel-note {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .controls {
+        padding: 14px 16px;
+        overflow: auto;
+        height: calc(100% - 75px);
+      }
+
+      label {
+        display: block;
+        margin: 14px 0 6px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      select,
+      input[type="search"] {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 12px;
+        background: #fbfdfe;
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 14px;
+        outline: none;
+      }
+
+      select:focus,
+      input[type="search"]:focus {
+        border-color: var(--blue-mid);
+        box-shadow: 0 0 0 3px rgba(87, 149, 181, 0.2);
+      }
+
+      .check {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-top: 12px;
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .check input {
+        margin-top: 3px;
+      }
+
+      .legend {
+        display: grid;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .legend-row {
+        display: grid;
+        grid-template-columns: 16px 1fr;
+        gap: 8px;
+        align-items: center;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+      }
+
+      #graph {
+        width: 100%;
+        height: 100%;
+        display: block;
+        cursor: grab;
+      }
+
+      #graph:active {
+        cursor: grabbing;
+      }
+
+      .node text {
+        font-family: var(--font);
+        pointer-events: none;
+        paint-order: stroke;
+        stroke: rgba(255, 255, 255, 0.92);
+        stroke-width: 4px;
+        stroke-linejoin: round;
+        font-weight: 700;
+      }
+
+      .link {
+        stroke-linecap: round;
+      }
+
+      .details {
+        padding: 16px;
+        height: calc(100% - 75px);
+        overflow: auto;
+      }
+
+      .empty {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .node-type {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: var(--surface-2);
+        color: var(--blue-dark);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .detail-title {
+        margin: 12px 0 8px;
+        font-size: 18px;
+        color: var(--blue-dark);
+        line-height: 1.2;
+      }
+
+      .source {
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .neighbors {
+        display: grid;
+        gap: 8px;
+      }
+
+      .neighbor {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 9px 10px;
+        background: #fbfdfe;
+        font-size: 12px;
+        color: var(--text);
+      }
+
+      .raw-box {
+        margin-top: 16px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: #fbfdfe;
+        padding: 12px;
+      }
+
+      .raw-box h3 {
+        margin: 0 0 8px;
+        font-size: 13px;
+        color: var(--blue-dark);
+      }
+
+      .raw-box ol {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      .footer-note {
+        margin-top: 16px;
+        color: var(--faint);
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      button {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface);
+        color: var(--text);
+        padding: 9px 12px;
+        font-family: var(--font);
+        cursor: pointer;
+      }
+
+      button:hover {
+        border-color: var(--blue-mid);
+      }
+
+      @media (max-width: 1100px) {
+        header {
+          grid-template-columns: 1fr;
+        }
+        .status {
+          justify-content: flex-start;
+        }
+        .layout {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+        .panel {
+          height: 560px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>WWF Italia ToC macro-réseau · 5 livelli</h1>
+        <p class="subtitle">
+          Représentation corrigée: livello 1 goals strategici, livello 2 obiettivi, livello 3 risultati ufficiali,
+          livello 4 attività directement placées sous l’ovale de chaque risultato, et livello 5 attività situées
+          immédiatement sous ce premier niveau. Cliquer sur un nœud ouvre son libellé complet.
+        </p>
+      </div>
+      <div class="status" aria-label="Statistiques du réseau">
+        <span class="pill" id="statNodes">Nœuds</span>
+        <span class="pill" id="statLinks">Liens</span>
+        <span class="pill">Attività L4/L5</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="panel">
+        <div class="panel-header">
+          <p class="panel-title">Filtres</p>
+          <p class="panel-note">Filtrer la structure officielle et les attività di livello 4 et 5.</p>
+        </div>
+        <div class="controls">
+          <label for="goalFilter">Goal strategico</label>
+          <select id="goalFilter"></select>
+
+          <label for="objectiveFilter">Obiettivo</label>
+          <select id="objectiveFilter"></select>
+
+          <label for="mapFilter">Carte source</label>
+          <select id="mapFilter"></select>
+
+          <label for="search">Recherche texte</label>
+          <input id="search" type="search" placeholder="ex. comuni, ONG, università, CER..." />
+
+          <label>Afficher</label>
+          <div class="check">
+            <input type="checkbox" id="showCardElements" checked />
+            <span>Attività di livello 4</span>
+          </div>
+          <div class="check">
+            <input type="checkbox" id="showLevel5" checked />
+            <span>Attività di livello 5</span>
+          </div>
+          <div class="legend" aria-label="Légende">
+            <div class="legend-row"><span class="dot" style="background: #00375c"></span><span>Goal strategico, code G</span></div>
+            <div class="legend-row"><span class="dot" style="background: #99cae4"></span><span>Obiettivo, code O</span></div>
+            <div class="legend-row"><span class="dot" style="background: #ffffff"></span><span>Risultato, code R</span></div>
+            <div class="legend-row"><span class="dot" style="background: #e9eef2"></span><span>Attività di livello 4</span></div>
+            <div class="legend-row"><span class="dot" style="background: #fff5eb"></span><span>Attività di livello 5</span></div>
+          </div>
+
+          <p class="footer-note">
+            La carte reste strictement composée à partir des éléments lisibles dans les cartes reçues. Pour Obiettivo 5 et 6,
+            les cartes reçues sont agrégées par objectif: l’allocation aux singoli risultati est donc à vérifier.
+          </p>
+        </div>
+      </aside>
+
+      <main class="panel" aria-label="Macro-réseau dynamique">
+        <svg id="graph" role="img" aria-label="Macro-réseau ToC WWF Italia"></svg>
+      </main>
+
+      <aside class="panel">
+        <div class="panel-header">
+          <p class="panel-title">Détail & traçabilité</p>
+          <p class="panel-note">Cliquer sur un nœud pour voir sa source et ses connexions.</p>
+        </div>
+        <div class="details" id="details">
+          <p class="empty">Sélectionne un nœud dans le réseau. Les attività indiquent leur risultato source.</p>
+        </div>
+      </aside>
+    </div>
+
+    <script>
+      const COLORS = {
+        goal: "#00375C",
+        objective: "#99CAE4",
+        result: "#FFFFFF",
+        toc_element: "#E9EEF2",
+        toc_level5: "#FFF5EB",
+        common_connector: "#FFF5EB",
+        text: "#13334A",
+        muted: "#647381",
+        blue: "#1A5D80",
+        orange: "#FD9242",
+        border: "#B9CBD6",
+      };
+
+      const typeLabel = {
+        goal: "Goal strategico",
+        objective: "Obiettivo",
+        result: "Risultato ufficiale",
+        toc_element: "Attività livello 4",
+        toc_level5: "Attività livello 5",
+        common_connector: "Variabile comune ricorrente",
+      };
+
+      const goalOfObjective = { O1: "G1", O2: "G1", O3: "G2", O4: "G2", O5: "G3", O6: "G3" };
+      const objectiveOfResult = {
+        "R1.1": "O1", "R1.2": "O1", "R1.3": "O1", "R1.4": "O1",
+        "R2.1": "O2", "R2.2": "O2", "R2.3": "O2", "R2.4": "O2",
+        "R3.1": "O3", "R3.2": "O3", "R3.3": "O3",
+        "R4.1": "O4", "R4.2": "O4", "R4.3": "O4",
+        "R5.a": "O5", "R5.b": "O5", "R5.c": "O5",
+        "R6.a": "O6", "R6.b": "O6", "R6.c": "O6",
+      };
+      const resultOfMap = {
+        "R1.1": "R1.1", "R1.2": "R1.2", "R1.3": "R1.3", "R1.4": "R1.4",
+        "R2.1": "R2.1", "R2.2": "R2.2", "R2.3": "R2.3", "R2.4": "R2.4",
+        "R3.1": "R3.1", "R3.2": "R3.2", "R3.3": "R3.3",
+        "R4.1": "R4.1", "R4.2": "R4.2", "R4.3": "R4.3",
+        "R5.a": "R5.a", "R5.b": "R5.b", "R5.c": "R5.c",
+        "R6.a": "R6.a", "R6.b": "R6.b", "R6.c": "R6.c",
+      };
+
+      let data, simulation, selectedNode = null;
+      const svg = d3.select("#graph");
+      const details = document.getElementById("details");
+
+      function shortLabel(label, max = 42) {
+        return label.length > max ? label.slice(0, max - 1) + "…" : label;
+      }
+
+      function displayLabel(d) {
+        if (d.type === "goal") return d.id;
+        if (d.type === "objective") return d.id;
+        if (d.type === "result") return d.id;
+        if (d.type === "toc_element") return `L4.${d.line || ""}`;
+        if (d.type === "toc_level5") return `L5.${d.line || ""}`;
+        if (d.type === "common_connector") return (d.variable_id || "").split("_").slice(0, 2).join(" ");
+        return shortLabel(d.label, 18);
+      }
+
+      function nodeRadius(d) {
+        return { goal: 18, objective: 13, result: 10, toc_element: 6, toc_level5: 5, common_connector: 8 }[d.type] || 5;
+      }
+
+      function nodeStroke(d) {
+        if (d.type === "goal") return "#00375C";
+        if (d.type === "objective") return "#1A5D80";
+        if (d.type === "result") return "#5795B5";
+        if (d.type === "toc_level5") return "#DF4C06";
+        if (d.type === "common_connector") return "#FD9242";
+        return "#B9CBD6";
+      }
+
+      function getNode(id) {
+        return data.nodesById.get(id);
+      }
+
+      function getAncestry(node) {
+        if (node.type === "goal") return { goal: node.id };
+        if (node.type === "objective") return { goal: goalOfObjective[node.id], objective: node.id };
+        if (node.type === "result") return { objective: objectiveOfResult[node.id], goal: goalOfObjective[objectiveOfResult[node.id]], result: node.id };
+        if (node.type === "toc_element" || node.type === "toc_level5") {
+          const result = resultOfMap[node.map_id] || null;
+          const objective = result ? objectiveOfResult[result] : node.map_id;
+          return { goal: goalOfObjective[objective], objective, result, map: node.map_id };
+        }
+        return {};
+      }
+
+      function passesFilters(n) {
+        const goal = document.getElementById("goalFilter").value;
+        const obj = document.getElementById("objectiveFilter").value;
+        const map = document.getElementById("mapFilter").value;
+        const q = document.getElementById("search").value.trim().toLowerCase();
+        const showCardElements = document.getElementById("showCardElements").checked;
+        const showLevel5 = document.getElementById("showLevel5").checked;
+
+        if (n.type === "common_connector") return false;
+        if (n.type === "toc_element" && !showCardElements) return false;
+        if (n.type === "toc_level5" && !showLevel5) return false;
+        if (n.type === "toc_element" && !n.visible) return false;
+
+        const anc = getAncestry(n);
+        if (goal && anc.goal !== goal && n.id !== goal) return false;
+        if (obj && anc.objective !== obj && n.id !== obj) return false;
+        if (map && n.map_id !== map && n.id !== map) return false;
+        if (q && !n.label.toLowerCase().includes(q) && !(n.source || "").toLowerCase().includes(q)) return false;
+        return true;
+      }
+
+      function connectedNeighborhood(visibleNodeIds) {
+        const keep = new Set(visibleNodeIds);
+        data.links.forEach((l) => {
+          const s = typeof l.source === "object" ? l.source.id : l.source;
+          const t = typeof l.target === "object" ? l.target.id : l.target;
+          if (keep.has(s) || keep.has(t)) {
+            const sn = getNode(s);
+            const tn = getNode(t);
+            if (sn && ["goal", "objective", "result"].includes(sn.type)) keep.add(s);
+            if (tn && ["goal", "objective", "result"].includes(tn.type)) keep.add(t);
+          }
+        });
+        return keep;
+      }
+
+      function render() {
+        const width = svg.node().clientWidth;
+        const height = svg.node().clientHeight;
+        svg.attr("viewBox", [0, 0, width, height]);
+        svg.selectAll("*").remove();
+
+        const filteredIds = data.nodes.filter(passesFilters).map((n) => n.id);
+        const keep = connectedNeighborhood(filteredIds);
+        const nodes = data.nodes.filter((n) => keep.has(n.id));
+        const nodeIds = new Set(nodes.map((n) => n.id));
+        const links = data.links.filter((l) => {
+          const s = typeof l.source === "object" ? l.source.id : l.source;
+          const t = typeof l.target === "object" ? l.target.id : l.target;
+          return nodeIds.has(s) && nodeIds.has(t);
+        });
+
+        document.getElementById("statNodes").textContent = `${nodes.length} nœuds affichés`;
+        document.getElementById("statLinks").textContent = `${links.length} liens affichés`;
+
+        const g = svg.append("g");
+        svg.call(d3.zoom().scaleExtent([0.25, 4]).on("zoom", (event) => g.attr("transform", event.transform)));
+
+        const link = g.append("g")
+          .selectAll("line")
+          .data(links)
+          .join("line")
+          .attr("class", "link")
+          .attr("stroke", (d) => d.type === "common_text_connection" || d.type === "level5_context" ? COLORS.orange : d.type === "formal" ? COLORS.blue : COLORS.border)
+          .attr("stroke-opacity", (d) => d.type === "common_text_connection" ? 0.24 : d.type === "level5_context" ? 0.28 : d.type === "formal" ? 0.55 : 0.38)
+          .attr("stroke-width", (d) => d.type === "formal" ? 1.8 : d.type === "common_text_connection" ? 1.2 : d.type === "level5_context" ? 0.8 : 0.9);
+
+        const node = g.append("g")
+          .selectAll("g")
+          .data(nodes)
+          .join("g")
+          .attr("class", "node")
+          .call(d3.drag()
+            .on("start", (event, d) => {
+              if (!event.active) simulation.alphaTarget(0.2).restart();
+              d.fx = d.x;
+              d.fy = d.y;
+            })
+            .on("drag", (event, d) => {
+              d.fx = event.x;
+              d.fy = event.y;
+            })
+            .on("end", (event, d) => {
+              if (!event.active) simulation.alphaTarget(0);
+            }));
+
+        node.append("circle")
+          .attr("r", nodeRadius)
+          .attr("fill", (d) => COLORS[d.type] || COLORS.toc_element)
+          .attr("stroke", nodeStroke)
+          .attr("stroke-width", (d) => d.type === "goal" ? 2.2 : 1.2);
+
+        node.append("title").text((d) => d.label);
+
+        node.append("text")
+          .attr("x", (d) => d.type === "toc_element" || d.type === "toc_level5" ? 0 : nodeRadius(d) + 6)
+          .attr("y", (d) => d.type === "toc_element" ? -9 : d.type === "toc_level5" ? 13 : 4)
+          .attr("font-size", (d) => d.type === "toc_element" ? 8 : d.type === "toc_level5" ? 7 : d.type === "common_connector" ? 9 : 12)
+          .attr("fill", (d) => d.type === "goal" ? COLORS.blue : COLORS.text)
+          .attr("text-anchor", (d) => d.type === "toc_element" || d.type === "toc_level5" ? "middle" : "start")
+          .text(displayLabel);
+
+        node.on("click", (_, d) => {
+          selectedNode = d;
+          showDetails(d);
+          node.selectAll("circle").attr("stroke-width", (n) => n.id === d.id ? 4 : n.type === "goal" ? 2.2 : 1.2);
+        });
+
+        simulation && simulation.stop();
+        const maxOrder = Math.max(...nodes.map((d) => Number.isFinite(d.x_order) ? d.x_order : 0), 1);
+        const xFromOrder = (d) => {
+          const order = Number.isFinite(d.x_order) ? d.x_order : 0;
+          return width * (0.05 + (order / maxOrder) * 0.86);
+        };
+
+        simulation = d3.forceSimulation(nodes)
+          .force("link", d3.forceLink(links).id((d) => d.id).distance((d) => d.type === "formal" ? 86 : d.type === "common_text_connection" ? 125 : d.type === "level5_context" ? 36 : 64).strength((d) => d.type === "formal" ? 0.88 : d.type === "common_text_connection" ? 0.10 : d.type === "level5_context" ? 0.22 : 0.36))
+          .force("charge", d3.forceManyBody().strength((d) => d.type === "toc_level5" ? -55 : d.type === "toc_element" ? -105 : d.type === "common_connector" ? -170 : -260))
+          .force("collision", d3.forceCollide().radius((d) => {
+            if (d.type === "toc_element") return 39;
+            if (d.type === "toc_level5") return 18;
+            if (d.type === "common_connector") return 56;
+            if (d.type === "result") return 46;
+            return nodeRadius(d) + 30;
+          }).iterations(2))
+          .force("x", d3.forceX((d) => {
+            return xFromOrder(d);
+          }).strength(0.6))
+          .force("y", d3.forceY((d) => {
+            if (d.type === "toc_element") return height * (0.64 + ((d.line || 1) % 3) * 0.075);
+            if (d.type === "toc_level5") return height * (0.82 + ((d.line || 1) % 2) * 0.045);
+            return { goal: height * 0.12, objective: height * 0.27, result: height * 0.45 }[d.type] || height / 2;
+          }).strength(0.55))
+          .on("tick", () => {
+            nodes.forEach((d) => {
+              d.x = Math.max(26, Math.min(width - 64, d.x));
+              d.y = Math.max(28, Math.min(height - 42, d.y));
+            });
+            link
+              .attr("x1", (d) => d.source.x)
+              .attr("y1", (d) => d.source.y)
+              .attr("x2", (d) => d.target.x)
+              .attr("y2", (d) => d.target.y);
+            node.attr("transform", (d) => `translate(${d.x},${d.y})`);
+          });
+      }
+
+      function showDetails(d) {
+        const links = data.links.filter((l) => {
+          const s = typeof l.source === "object" ? l.source.id : l.source;
+          const t = typeof l.target === "object" ? l.target.id : l.target;
+          return s === d.id || t === d.id;
+        });
+        const neighbors = links.map((l) => {
+          const s = typeof l.source === "object" ? l.source.id : l.source;
+          const t = typeof l.target === "object" ? l.target.id : l.target;
+          return getNode(s === d.id ? t : s);
+        }).filter(Boolean).slice(0, 80);
+
+        const raw = d.map_id && data.raw_maps[d.map_id] ? data.raw_maps[d.map_id] : null;
+        details.innerHTML = `
+          <span class="node-type">${typeLabel[d.type] || d.type}</span>
+          <h2 class="detail-title">${escapeHtml(d.label)}</h2>
+          <p class="source"><strong>Source:</strong> ${escapeHtml(d.source || "Programma 2026")}${d.map_id ? `<br><strong>Carte:</strong> ${escapeHtml(d.map_id)} · ligne ${d.line}` : ""}</p>
+          <div class="neighbors">
+            ${neighbors.map((n) => `<button class="neighbor" data-node="${n.id}">${escapeHtml(typeLabel[n.type] || n.type)} · ${escapeHtml(shortLabel(n.label, 96))}</button>`).join("") || `<p class="empty">Aucune connexion affichée avec les filtres actuels.</p>`}
+          </div>
+          ${raw ? `<div class="raw-box"><h3>Éléments extraits de la carte ${escapeHtml(d.map_id)}</h3><ol>${raw.lines.map((l) => `<li>${escapeHtml(l)}</li>`).join("")}</ol></div>` : ""}
+        `;
+        details.querySelectorAll("[data-node]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const n = getNode(btn.dataset.node);
+            if (n) showDetails(n);
+          });
+        });
+      }
+
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m]));
+      }
+
+      function populateFilters() {
+        const goalSel = document.getElementById("goalFilter");
+        const objSel = document.getElementById("objectiveFilter");
+        const mapSel = document.getElementById("mapFilter");
+        goalSel.innerHTML = `<option value="">Tous les goals</option>` + data.nodes.filter((n) => n.type === "goal").map((n) => `<option value="${n.id}">${n.id} · ${escapeHtml(n.label.replace(/^Goal strategico \\d: /, ""))}</option>`).join("");
+        objSel.innerHTML = `<option value="">Tous les objectifs</option>` + data.nodes.filter((n) => n.type === "objective").map((n) => `<option value="${n.id}">${n.id} · ${escapeHtml(n.label.replace(/^O\\d: /, ""))}</option>`).join("");
+        const maps = [...new Set(data.nodes.filter((n) => n.type === "toc_element" || n.type === "toc_level5").map((n) => n.map_id))].sort();
+        mapSel.innerHTML = `<option value="">Toutes les cartes</option>` + maps.map((m) => `<option value="${m}">${m}</option>`).join("");
+      }
+
+      async function init() {
+        data = await fetch("./network-data.json").then((r) => r.json());
+        data.nodesById = new Map(data.nodes.map((n) => [n.id, n]));
+        populateFilters();
+        ["goalFilter", "objectiveFilter", "mapFilter", "search", "showCardElements", "showLevel5"].forEach((id) => {
+          document.getElementById(id).addEventListener("input", render);
+          document.getElementById(id).addEventListener("change", render);
+        });
+        render();
+      }
+
+      init();
+    </script>
+  </body>
+</html>

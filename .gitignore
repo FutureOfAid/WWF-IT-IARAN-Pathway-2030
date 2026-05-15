@@ -1,0 +1,17 @@
+node_modules/
+__pycache__/
+.DS_Store
+*.log
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.docx
+*.xlsx
+*.pptx
+*.zip
+*.mp4
+*.mov
+*.webm
+*.wav
+*.mp3

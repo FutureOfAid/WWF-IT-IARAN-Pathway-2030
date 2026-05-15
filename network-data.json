@@ -1,0 +1,3909 @@
+{
+  "metadata": {
+    "title": "WWF Italia ToC macro-réseau 5 livelli",
+    "scope": "Livello 1 Goal strategici; livello 2 Obiettivi; livello 3 Risultati ufficiali; livello 4 attività direttamente sotto l’ovale del risultato; livello 5 attività immediatamente sotto il primo livello.",
+    "excluded": "Elementi illeggibili e livelli più profondi non rappresentati. Le relazioni precise L4→L5 richiedono verifica visiva carta per carta."
+  },
+  "nodes": [
+    {
+      "id": "G1",
+      "label": "G1: Zero perdita di habitat naturali e specie",
+      "type": "goal",
+      "source": "Programma WWF Italia 2026, p. 14",
+      "x_order": 3.5,
+      "level": 1
+    },
+    {
+      "id": "G2",
+      "label": "G2: Dimezzare l’impronta umana sulla natura",
+      "type": "goal",
+      "source": "Programma WWF Italia 2026, p. 14",
+      "x_order": 10.5,
+      "level": 1
+    },
+    {
+      "id": "G3",
+      "label": "G3: Riportare la natura al centro dei valori",
+      "type": "goal",
+      "source": "Programma WWF Italia 2026, p. 14",
+      "x_order": 16.5,
+      "level": 1
+    },
+    {
+      "id": "O1",
+      "label": "O1: Potenziare la protezione e il restauro di habitat",
+      "type": "objective",
+      "source": "Programma WWF Italia 2026, p. 14",
+      "x_order": 1.5,
+      "level": 2
+    },
+    {
+      "id": "O2",
+      "label": "O2: Rafforzare la protezione e il ripristino di specie chiave",
+      "type": "objective",
+      "source": "Programma WWF Italia 2026, p. 14",
+      "x_order": 5.5,
+      "level": 2
+    },
+    {
+      "id": "O3",
+      "label": "O3: Trasformare i modelli di produzione e consumo",
+      "type": "objective",
+      "source": "Programma WWF Italia 2026, p. 14",
+      "x_order": 9.0,
+      "level": 2
+    },
+    {
+      "id": "O4",
+      "label": "O4: Promuovere la transizione per contrastare il cambiamento climatico",
+      "type": "objective",
+      "source": "Programma WWF Italia 2026, p. 14",
+      "x_order": 12.0,
+      "level": 2
+    },
+    {
+      "id": "O5",
+      "label": "O5: Impegnare il sistema istituzionale nella tutela della natura",
+      "type": "objective",
+      "source": "Programma WWF Italia 2026, p. 14",
+      "x_order": 15.0,
+      "level": 2
+    },
+    {
+      "id": "O6",
+      "label": "O6: Integrare la natura in tutti gli ambiti educativi e formativi",
+      "type": "objective",
+      "source": "Programma WWF Italia 2026, p. 14",
+      "x_order": 18.0,
+      "level": 2
+    },
+    {
+      "id": "R1.1",
+      "label": "R1.1: Incrementata l’estensione delle aree protette terrestri e marine",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 0,
+      "level": 3
+    },
+    {
+      "id": "R1.1_L4_1",
+      "label": "MIT adotta un piano MSP che include le aree per il 30x30",
+      "type": "toc_element",
+      "source": "R1.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.1",
+      "line": 1,
+      "x_order": -0.11,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L4_2",
+      "label": "Comuni accettano di entrare nel sistema",
+      "type": "toc_element",
+      "source": "R1.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.1",
+      "line": 2,
+      "x_order": -0.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L4_3",
+      "label": "AMP ricevono più fondi per gestire e conservare le aree",
+      "type": "toc_element",
+      "source": "R1.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.1",
+      "line": 3,
+      "x_order": 0.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L4_4",
+      "label": "Proprietari privati aderiscono al nuovo sistema (OECM)",
+      "type": "toc_element",
+      "source": "R1.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.1",
+      "line": 4,
+      "x_order": 0.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L4_5",
+      "label": "Fondazioni inseriscono il sistema nelle loro strategie",
+      "type": "toc_element",
+      "source": "R1.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.1",
+      "line": 5,
+      "x_order": 0.11,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L5_1",
+      "label": "MASE riconosce e istituisce nuove aree AAPP/AMP",
+      "type": "toc_level5",
+      "source": "R1.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.1",
+      "line": 1,
+      "x_order": -0.11900000000000001,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L5_2",
+      "label": "Stato e Regioni raggiungono l’accordo per l’istituzione delle nuove aree protette",
+      "type": "toc_level5",
+      "source": "R1.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.1",
+      "line": 2,
+      "x_order": -0.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L5_3",
+      "label": "Parlamento rafforza la governance delle AAPP",
+      "type": "toc_level5",
+      "source": "R1.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.1",
+      "line": 3,
+      "x_order": -0.051000000000000004,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L5_4",
+      "label": "Stato e Regioni adottano misure fiscali di vantaggio per le aree protette",
+      "type": "toc_level5",
+      "source": "R1.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.1",
+      "line": 4,
+      "x_order": -0.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L5_5",
+      "label": "ONG fanno pressione sulle associazioni di categoria con benefici NBS",
+      "type": "toc_level5",
+      "source": "R1.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.1",
+      "line": 5,
+      "x_order": 0.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L5_6",
+      "label": "Fondazioni e banche investono su PES, microcrediti e investimenti green",
+      "type": "toc_level5",
+      "source": "R1.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.1",
+      "line": 6,
+      "x_order": 0.051000000000000004,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L5_7",
+      "label": "PAC incentiva le misure green su aree protette",
+      "type": "toc_level5",
+      "source": "R1.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.1",
+      "line": 7,
+      "x_order": 0.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.1_L5_8",
+      "label": "ONG assicurano l’implementazione dei criteri OECM per entrare nel sistema",
+      "type": "toc_level5",
+      "source": "R1.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.1",
+      "line": 8,
+      "x_order": 0.11900000000000001,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.2",
+      "label": "R1.2: Restaurati habitat degradati",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 1,
+      "level": 3
+    },
+    {
+      "id": "R1.2_L4_1",
+      "label": "Gestori e proprietari attuano piani di ripristino del territorio",
+      "type": "toc_element",
+      "source": "R1.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.2",
+      "line": 1,
+      "x_order": 0.9725,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.2_L4_2",
+      "label": "Soggetti attuatori aumentano attività di restoration",
+      "type": "toc_element",
+      "source": "R1.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.2",
+      "line": 2,
+      "x_order": 1.0275,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.2_L5_1",
+      "label": "MASE definisce il piano nazionale di ripristino entro il 2026",
+      "type": "toc_level5",
+      "source": "R1.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.2",
+      "line": 1,
+      "x_order": 0.881,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.2_L5_2",
+      "label": "Ministeri finanziano interventi del piano nazionale",
+      "type": "toc_level5",
+      "source": "R1.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.2",
+      "line": 2,
+      "x_order": 0.915,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.2_L5_3",
+      "label": "Regioni finanziano interventi",
+      "type": "toc_level5",
+      "source": "R1.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.2",
+      "line": 3,
+      "x_order": 0.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.2_L5_4",
+      "label": "Aziende e fondazioni destinano fondi a restoration",
+      "type": "toc_level5",
+      "source": "R1.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.2",
+      "line": 4,
+      "x_order": 0.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.2_L5_5",
+      "label": "ONG e agenzie forestali definiscono programmi di intervento locali",
+      "type": "toc_level5",
+      "source": "R1.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.2",
+      "line": 5,
+      "x_order": 1.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.2_L5_6",
+      "label": "Università/ISPRA supporta identificazione ecosistemi prioritari",
+      "type": "toc_level5",
+      "source": "R1.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.2",
+      "line": 6,
+      "x_order": 1.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.2_L5_7",
+      "label": "ONG fanno lobby e sensibilizzazione su importanza nature restoration",
+      "type": "toc_level5",
+      "source": "R1.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.2",
+      "line": 7,
+      "x_order": 1.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.2_L5_8",
+      "label": "Investitori riconoscono il valore di ecosistemi restaurati",
+      "type": "toc_level5",
+      "source": "R1.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.2",
+      "line": 8,
+      "x_order": 1.119,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.3",
+      "label": "R1.3: Diffusa adozione modelli di gestione condivisa e sostenibile del territorio",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 2,
+      "level": 3
+    },
+    {
+      "id": "R1.3_L4_1",
+      "label": "Enti gestori coinvolgono operatori del territorio e comunità locale",
+      "type": "toc_element",
+      "source": "R1.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.3",
+      "line": 1,
+      "x_order": 1.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L4_2",
+      "label": "Attori economici del territorio adottano pratiche sostenibili nei rispettivi ambienti",
+      "type": "toc_element",
+      "source": "R1.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.3",
+      "line": 2,
+      "x_order": 2.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L4_3",
+      "label": "Istituzioni nazionali e regionali formalizzano modelli di co-gestione",
+      "type": "toc_element",
+      "source": "R1.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.3",
+      "line": 3,
+      "x_order": 2.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L5_1",
+      "label": "Istituzioni stanziano risorse per implementazione modelli",
+      "type": "toc_level5",
+      "source": "R1.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.3",
+      "line": 1,
+      "x_order": 1.847,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L5_2",
+      "label": "ONG e enti si attivano per sviluppare competenze sui modelli",
+      "type": "toc_level5",
+      "source": "R1.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.3",
+      "line": 2,
+      "x_order": 1.881,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L5_3",
+      "label": "Attori economici partecipano a livelli aggregata",
+      "type": "toc_level5",
+      "source": "R1.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.3",
+      "line": 3,
+      "x_order": 1.915,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L5_4",
+      "label": "Istituzioni promuovono incentivi per operatori che adottano pratiche sostenibili",
+      "type": "toc_level5",
+      "source": "R1.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.3",
+      "line": 4,
+      "x_order": 1.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L5_5",
+      "label": "Istituzioni recepiscono direttive e linee guida europee",
+      "type": "toc_level5",
+      "source": "R1.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.3",
+      "line": 5,
+      "x_order": 1.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L5_6",
+      "label": "Istituzioni regionali favoriscono la creazione di reti",
+      "type": "toc_level5",
+      "source": "R1.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.3",
+      "line": 6,
+      "x_order": 2.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L5_7",
+      "label": "Comunità locali fanno pressione per richiedere gestione sostenibile",
+      "type": "toc_level5",
+      "source": "R1.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.3",
+      "line": 7,
+      "x_order": 2.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L5_8",
+      "label": "ONG informano su importanza certificazione/modelli di cogestione",
+      "type": "toc_level5",
+      "source": "R1.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.3",
+      "line": 8,
+      "x_order": 2.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L5_9",
+      "label": "Enti di ricerca condividono dati su benefici cogestione",
+      "type": "toc_level5",
+      "source": "R1.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.3",
+      "line": 9,
+      "x_order": 2.119,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.3_L5_10",
+      "label": "Banche e fondazioni investono sul territorio",
+      "type": "toc_level5",
+      "source": "R1.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.3",
+      "line": 10,
+      "x_order": 2.153,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.4",
+      "label": "R1.4: Facilitata transizione a blue economy sostenibile dello spazio marittimo",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 3,
+      "level": 3
+    },
+    {
+      "id": "R1.4_L4_1",
+      "label": "Ministeri adottano un piano di gestione dello spazio marittimo con approccio ecosistemico",
+      "type": "toc_element",
+      "source": "R1.4 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.4",
+      "line": 1,
+      "x_order": 2.89,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L4_2",
+      "label": "Regioni definiscono normative locali a supporto della blue economy sostenibile",
+      "type": "toc_element",
+      "source": "R1.4 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.4",
+      "line": 2,
+      "x_order": 2.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L4_3",
+      "label": "Settore produttivo adotta processo di trasformazione volontaria dei modelli produttivi",
+      "type": "toc_element",
+      "source": "R1.4 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.4",
+      "line": 3,
+      "x_order": 3.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L4_4",
+      "label": "Banche finanziano progetti in linea con la blue economy sostenibile",
+      "type": "toc_element",
+      "source": "R1.4 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.4",
+      "line": 4,
+      "x_order": 3.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L4_5",
+      "label": "Fondazioni finanziano progetti in linea con la blue economy sostenibile",
+      "type": "toc_element",
+      "source": "R1.4 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R1.4",
+      "line": 5,
+      "x_order": 3.11,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L5_1",
+      "label": "NNR/ISPRA/UNI/Centri fanno ricerca e raccolta dati per analisi modelli ecosistemici",
+      "type": "toc_level5",
+      "source": "R1.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.4",
+      "line": 1,
+      "x_order": 2.881,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L5_2",
+      "label": "ONG organizza tavoli di discussione con pubblica amministrazione, centri di ricerca e attività produttive",
+      "type": "toc_level5",
+      "source": "R1.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.4",
+      "line": 2,
+      "x_order": 2.915,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L5_3",
+      "label": "Settore energetico segue linee guida della pianificazione dello spazio marittimo",
+      "type": "toc_level5",
+      "source": "R1.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.4",
+      "line": 3,
+      "x_order": 2.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L5_4",
+      "label": "Associazioni di categoria coordinano e promuovono pratiche di transizione sostenibile",
+      "type": "toc_level5",
+      "source": "R1.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.4",
+      "line": 4,
+      "x_order": 2.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L5_5",
+      "label": "Filiera mercato è consapevole degli impatti ambientali e dei benefici della blue economy sostenibile",
+      "type": "toc_level5",
+      "source": "R1.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.4",
+      "line": 5,
+      "x_order": 3.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L5_6",
+      "label": "ONG implementano progetti pilota di blue economy sostenibile con le comunità locali",
+      "type": "toc_level5",
+      "source": "R1.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.4",
+      "line": 6,
+      "x_order": 3.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L5_7",
+      "label": "ONG promuovono campagne di sensibilizzazione",
+      "type": "toc_level5",
+      "source": "R1.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.4",
+      "line": 7,
+      "x_order": 3.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R1.4_L5_8",
+      "label": "Università danno borse di studio per finanziare ricerca, raccolta dati e promuovere capacity",
+      "type": "toc_level5",
+      "source": "R1.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R1.4",
+      "line": 8,
+      "x_order": 3.119,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.1",
+      "label": "R2.1: Favorita conservazione e gestione sostenibile di specie chiave",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 4,
+      "level": 3
+    },
+    {
+      "id": "R2.1_L4_1",
+      "label": "Ministero, Regioni e Parlamento definiscono strategie efficaci per la gestione di specie chiave",
+      "type": "toc_element",
+      "source": "R2.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.1",
+      "line": 1,
+      "x_order": 3.89,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L4_2",
+      "label": "Agenzie autorizzate incrementano l’offerta di supporto tecnico e operativo alle specie chiave",
+      "type": "toc_element",
+      "source": "R2.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.1",
+      "line": 2,
+      "x_order": 3.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L4_3",
+      "label": "Pubblica Amministrazione aumenta la gestione e conservazione della specie",
+      "type": "toc_element",
+      "source": "R2.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.1",
+      "line": 3,
+      "x_order": 4.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L4_4",
+      "label": "Pubblica Amministrazione investe nella gestione e conservazione della specie",
+      "type": "toc_element",
+      "source": "R2.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.1",
+      "line": 4,
+      "x_order": 4.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L4_5",
+      "label": "Parchi e normative migliorano il supporto alla gestione di specie chiave",
+      "type": "toc_element",
+      "source": "R2.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.1",
+      "line": 5,
+      "x_order": 4.11,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L5_1",
+      "label": "EU aumenta passing per green deal",
+      "type": "toc_level5",
+      "source": "R2.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.1",
+      "line": 1,
+      "x_order": 3.898,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L5_2",
+      "label": "SNAM immette servizi ecosistemici nella manutenzione e valorizzazione conservazione",
+      "type": "toc_level5",
+      "source": "R2.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.1",
+      "line": 2,
+      "x_order": 3.932,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L5_3",
+      "label": "Enti di formazione e associazioni sensibilizzano sull’importanza della gestione sostenibile",
+      "type": "toc_level5",
+      "source": "R2.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.1",
+      "line": 3,
+      "x_order": 3.966,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L5_4",
+      "label": "Aziende sviluppano linee sostenibili",
+      "type": "toc_level5",
+      "source": "R2.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.1",
+      "line": 4,
+      "x_order": 4.0,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L5_5",
+      "label": "Consumatori richiedono prodotti e servizi sostenibili e tracciabili",
+      "type": "toc_level5",
+      "source": "R2.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.1",
+      "line": 5,
+      "x_order": 4.034,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L5_6",
+      "label": "Media aumentano sensibilizzazione e consapevolezza",
+      "type": "toc_level5",
+      "source": "R2.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.1",
+      "line": 6,
+      "x_order": 4.068,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.1_L5_7",
+      "label": "Forze dell’ordine aumentano controllo e vigilanza",
+      "type": "toc_level5",
+      "source": "R2.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.1",
+      "line": 7,
+      "x_order": 4.102,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.2",
+      "label": "R2.2: Proseguito il rewilding di specie chiave",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 5,
+      "level": 3
+    },
+    {
+      "id": "R2.2_L4_1",
+      "label": "Enti e istituzioni competenti finanziano i progetti di rewilding",
+      "type": "toc_element",
+      "source": "R2.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.2",
+      "line": 1,
+      "x_order": 4.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.2_L4_2",
+      "label": "Comunità locali accettano le azioni di rewilding",
+      "type": "toc_element",
+      "source": "R2.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.2",
+      "line": 2,
+      "x_order": 5.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.2_L4_3",
+      "label": "ONG accedono a maggiori finanziamenti",
+      "type": "toc_element",
+      "source": "R2.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.2",
+      "line": 3,
+      "x_order": 5.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.2_L5_1",
+      "label": "Università/ISPRA supportano tecnicamente gli enti competenti",
+      "type": "toc_level5",
+      "source": "R2.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.2",
+      "line": 1,
+      "x_order": 4.915,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.2_L5_2",
+      "label": "ISPRA/Università, Comunità locali e Regioni co-progettano con ONG",
+      "type": "toc_level5",
+      "source": "R2.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.2",
+      "line": 2,
+      "x_order": 4.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.2_L5_3",
+      "label": "ONG fanno lobby sull’importanza del rewilding",
+      "type": "toc_level5",
+      "source": "R2.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.2",
+      "line": 3,
+      "x_order": 4.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.2_L5_4",
+      "label": "ONG sensibilizzano sull’importanza del rewilding",
+      "type": "toc_level5",
+      "source": "R2.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.2",
+      "line": 4,
+      "x_order": 5.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.2_L5_5",
+      "label": "Aziende e fondazioni destinano maggiori fondi per azioni ambientali",
+      "type": "toc_level5",
+      "source": "R2.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.2",
+      "line": 5,
+      "x_order": 5.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.2_L5_6",
+      "label": "Cittadini fanno pressione sulla politica",
+      "type": "toc_level5",
+      "source": "R2.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.2",
+      "line": 6,
+      "x_order": 5.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.3",
+      "label": "R2.3: Potenziato il contrasto ai crimini di natura",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 6,
+      "level": 3
+    },
+    {
+      "id": "R2.3_L4_1",
+      "label": "Forze dell’ordine effettuano più controlli",
+      "type": "toc_element",
+      "source": "R2.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.3",
+      "line": 1,
+      "x_order": 5.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.3_L4_2",
+      "label": "Magistratura applica in maniera più rigorosa le leggi in materia di crimini di natura",
+      "type": "toc_element",
+      "source": "R2.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.3",
+      "line": 2,
+      "x_order": 6.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.3_L4_3",
+      "label": "Comunità locali contribuiscono al contrasto dei crimini",
+      "type": "toc_element",
+      "source": "R2.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.3",
+      "line": 3,
+      "x_order": 6.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.3_L5_1",
+      "label": "Enti preposti formano formazione ai magistrati sulla legislazione e tutela biodiversità",
+      "type": "toc_level5",
+      "source": "R2.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.3",
+      "line": 1,
+      "x_order": 5.881,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.3_L5_2",
+      "label": "Sistema legislativo nazionale e regionale migliora la legislazione in materia di crimini di natura",
+      "type": "toc_level5",
+      "source": "R2.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.3",
+      "line": 2,
+      "x_order": 5.915,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.3_L5_3",
+      "label": "Scuole formano i giovani sul rispetto della natura",
+      "type": "toc_level5",
+      "source": "R2.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.3",
+      "line": 3,
+      "x_order": 5.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.3_L5_4",
+      "label": "ONG sensibilizzano le comunità locali sul rispetto della natura",
+      "type": "toc_level5",
+      "source": "R2.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.3",
+      "line": 4,
+      "x_order": 5.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.3_L5_5",
+      "label": "ONG avviano percorsi di coinvolgimento delle comunità locali",
+      "type": "toc_level5",
+      "source": "R2.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.3",
+      "line": 5,
+      "x_order": 6.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.3_L5_6",
+      "label": "Media diffondono la tematica al grande pubblico",
+      "type": "toc_level5",
+      "source": "R2.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.3",
+      "line": 6,
+      "x_order": 6.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.3_L5_7",
+      "label": "Consumatori prediligono prodotti legali",
+      "type": "toc_level5",
+      "source": "R2.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.3",
+      "line": 7,
+      "x_order": 6.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.3_L5_8",
+      "label": "ONG promuovono azioni giudiziarie",
+      "type": "toc_level5",
+      "source": "R2.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.3",
+      "line": 8,
+      "x_order": 6.119,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.4",
+      "label": "R2.4: Promossa coesistenza virtuosa tra uomo e specie",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 7,
+      "level": 3
+    },
+    {
+      "id": "R2.4_L4_1",
+      "label": "Associazioni di categoria adottano strumenti e pratiche funzionali alla coesistenza virtuosa",
+      "type": "toc_element",
+      "source": "R2.4 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.4",
+      "line": 1,
+      "x_order": 6.9175,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L4_2",
+      "label": "Ministeri implementano piani di azione per la convivenza e allocano le necessarie risorse",
+      "type": "toc_element",
+      "source": "R2.4 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.4",
+      "line": 2,
+      "x_order": 6.9725,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L4_3",
+      "label": "Regioni attivano strumenti finanziari e normativi funzionali alla coesistenza e alla mitigazione dei conflitti",
+      "type": "toc_element",
+      "source": "R2.4 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.4",
+      "line": 3,
+      "x_order": 7.0275,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L4_4",
+      "label": "Comunità locali adottano comportamenti preventivi al conflitto con specie",
+      "type": "toc_element",
+      "source": "R2.4 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R2.4",
+      "line": 4,
+      "x_order": 7.0825,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L5_1",
+      "label": "ONG ingaggiano portatori di interesse per formazione ed attività pilota",
+      "type": "toc_level5",
+      "source": "R2.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.4",
+      "line": 1,
+      "x_order": 6.881,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L5_2",
+      "label": "Enti di ricerca e ONG definiscono e sviluppano piani di azione",
+      "type": "toc_level5",
+      "source": "R2.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.4",
+      "line": 2,
+      "x_order": 6.915,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L5_3",
+      "label": "ONG ambientaliste fanno lobby sull’importanza del tema della coesistenza",
+      "type": "toc_level5",
+      "source": "R2.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.4",
+      "line": 3,
+      "x_order": 6.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L5_4",
+      "label": "Media migliorano comunicazione science-based",
+      "type": "toc_level5",
+      "source": "R2.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.4",
+      "line": 4,
+      "x_order": 6.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L5_5",
+      "label": "Istituzioni regionali erogano formazione e training",
+      "type": "toc_level5",
+      "source": "R2.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.4",
+      "line": 5,
+      "x_order": 7.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L5_6",
+      "label": "ONG ed enti di ricerca collaborano e condividono informazioni sul tema della coesistenza",
+      "type": "toc_level5",
+      "source": "R2.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.4",
+      "line": 6,
+      "x_order": 7.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L5_7",
+      "label": "Scuola",
+      "type": "toc_level5",
+      "source": "R2.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.4",
+      "line": 7,
+      "x_order": 7.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R2.4_L5_8",
+      "label": "ONG",
+      "type": "toc_level5",
+      "source": "R2.4 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R2.4",
+      "line": 8,
+      "x_order": 7.119,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.1",
+      "label": "R3.1: Intensificata la diffusione dell’agroecologia",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 8,
+      "level": 3
+    },
+    {
+      "id": "R3.1_L4_1",
+      "label": "EU attua il Green Deal per l’agricoltura, riforma PAC e regolamenti tematici",
+      "type": "toc_element",
+      "source": "R3.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.1",
+      "line": 1,
+      "x_order": 7.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.1_L4_2",
+      "label": "Agricoltori applicano metodi agroecologici",
+      "type": "toc_element",
+      "source": "R3.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.1",
+      "line": 2,
+      "x_order": 8.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.1_L4_3",
+      "label": "Consumatori incrementano consumi di agricoltura biologica",
+      "type": "toc_element",
+      "source": "R3.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.1",
+      "line": 3,
+      "x_order": 8.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.1_L5_1",
+      "label": "Associazioni consumatori e sindacati fanno lobby e advocacy sulla corretta attuazione della direttiva UE sul PAC",
+      "type": "toc_level5",
+      "source": "R3.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.1",
+      "line": 1,
+      "x_order": 7.915,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.1_L5_2",
+      "label": "Associazioni ambientaliste fanno lobby e advocacy per promuovere riforma PAC",
+      "type": "toc_level5",
+      "source": "R3.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.1",
+      "line": 2,
+      "x_order": 7.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.1_L5_3",
+      "label": "Associazioni ambientaliste e salute promuovono i benefici agroecologia",
+      "type": "toc_level5",
+      "source": "R3.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.1",
+      "line": 3,
+      "x_order": 7.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.1_L5_4",
+      "label": "Agenzie tecniche forniscono metodologie e buone pratiche",
+      "type": "toc_level5",
+      "source": "R3.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.1",
+      "line": 4,
+      "x_order": 8.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.1_L5_5",
+      "label": "UNI e AIDA definiscono norme e linee guida per agroecologia",
+      "type": "toc_level5",
+      "source": "R3.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.1",
+      "line": 5,
+      "x_order": 8.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.1_L5_6",
+      "label": "Enti di ricerca e università sperimentano nuove metodologie formando",
+      "type": "toc_level5",
+      "source": "R3.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.1",
+      "line": 6,
+      "x_order": 8.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.2",
+      "label": "R3.2: Aumentata l’adozione di stili di vita responsabili, con focus su dieta sana e sostenibile",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 9,
+      "level": 3
+    },
+    {
+      "id": "R3.2_L4_1",
+      "label": "Scuole educano le generazioni sui benefici di uno stile di vita sano e sull’impatto ambientale",
+      "type": "toc_element",
+      "source": "R3.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.2",
+      "line": 1,
+      "x_order": 8.89,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L4_2",
+      "label": "Aziende rivenditori selezionano prodotti sani e a basso impatto ambientale",
+      "type": "toc_element",
+      "source": "R3.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.2",
+      "line": 2,
+      "x_order": 8.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L4_3",
+      "label": "Consumatori scelgono alimenti sani e a basso impatto ambientale",
+      "type": "toc_element",
+      "source": "R3.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.2",
+      "line": 3,
+      "x_order": 9.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L4_4",
+      "label": "Consumatori scelgono prodotti a basso impatto ambientale",
+      "type": "toc_element",
+      "source": "R3.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.2",
+      "line": 4,
+      "x_order": 9.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L4_5",
+      "label": "Organi legislativi ed esecutivi adottano i principi di riduzione dell’impatto ambientale",
+      "type": "toc_element",
+      "source": "R3.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.2",
+      "line": 5,
+      "x_order": 9.11,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L5_1",
+      "label": "Ministero Salute adotta nuove linee guida",
+      "type": "toc_level5",
+      "source": "R3.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.2",
+      "line": 1,
+      "x_order": 8.847,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L5_2",
+      "label": "Ministero Salute fa una campagna di comunicazione sui benefici dieta sana",
+      "type": "toc_level5",
+      "source": "R3.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.2",
+      "line": 2,
+      "x_order": 8.881,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L5_3",
+      "label": "Centri di ricerca e università forniscono dati e metodi",
+      "type": "toc_level5",
+      "source": "R3.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.2",
+      "line": 3,
+      "x_order": 8.915,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L5_4",
+      "label": "Associazioni di categoria influenzano assistiti sui benefici della produzione a basso impatto",
+      "type": "toc_level5",
+      "source": "R3.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.2",
+      "line": 4,
+      "x_order": 8.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L5_5",
+      "label": "Medici informano pazienti e cittadini",
+      "type": "toc_level5",
+      "source": "R3.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.2",
+      "line": 5,
+      "x_order": 8.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L5_6",
+      "label": "Ambassador sensibilizzano su dieta sana e priva di carne",
+      "type": "toc_level5",
+      "source": "R3.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.2",
+      "line": 6,
+      "x_order": 9.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L5_7",
+      "label": "ONG avviano percorso con la GDO",
+      "type": "toc_level5",
+      "source": "R3.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.2",
+      "line": 7,
+      "x_order": 9.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L5_8",
+      "label": "ONG promuovono meat free week",
+      "type": "toc_level5",
+      "source": "R3.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.2",
+      "line": 8,
+      "x_order": 9.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L5_9",
+      "label": "ONG promuovono criteri di sostenibilità per beni, prodotti e servizi",
+      "type": "toc_level5",
+      "source": "R3.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.2",
+      "line": 9,
+      "x_order": 9.119,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.2_L5_10",
+      "label": "ONG fanno pressione su policy maker anche a livello UE",
+      "type": "toc_level5",
+      "source": "R3.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.2",
+      "line": 10,
+      "x_order": 9.153,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.3",
+      "label": "R3.3: Favorita la transizione verso l’economia circolare in settori ad alta intensità di risorse",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 10,
+      "level": 3
+    },
+    {
+      "id": "R3.3_L4_1",
+      "label": "Parlamento e governo introducono nuove norme per incentivare economia circolare e implementare norme",
+      "type": "toc_element",
+      "source": "R3.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.3",
+      "line": 1,
+      "x_order": 9.89,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L4_2",
+      "label": "Comuni e associazioni incentivano e partecipano all’adozione di politiche di economia circolare",
+      "type": "toc_element",
+      "source": "R3.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.3",
+      "line": 2,
+      "x_order": 9.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L4_3",
+      "label": "Aziende aumentano la circolarità dei processi produttivi",
+      "type": "toc_element",
+      "source": "R3.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.3",
+      "line": 3,
+      "x_order": 10.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L4_4",
+      "label": "Consumatori incrementano la quota di acquisto di prodotti sostenibili e modificano stile di vita",
+      "type": "toc_element",
+      "source": "R3.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.3",
+      "line": 4,
+      "x_order": 10.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L4_5",
+      "label": "Corti UE condannano green washing",
+      "type": "toc_element",
+      "source": "R3.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R3.3",
+      "line": 5,
+      "x_order": 10.11,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L5_1",
+      "label": "ONG/aziende fanno pressione perché economia circolare diventi uno dei pilastri dei programmi di pianificazione e sviluppo",
+      "type": "toc_level5",
+      "source": "R3.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.3",
+      "line": 1,
+      "x_order": 9.898,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L5_2",
+      "label": "ONG fanno informazione su true e fake sustainability",
+      "type": "toc_level5",
+      "source": "R3.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.3",
+      "line": 2,
+      "x_order": 9.932,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L5_3",
+      "label": "Scuola potenzia settori professionali che promuovono economia circolare",
+      "type": "toc_level5",
+      "source": "R3.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.3",
+      "line": 3,
+      "x_order": 9.966,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L5_4",
+      "label": "Enti di ricerca studiano e propongono soluzioni tecniche innovative",
+      "type": "toc_level5",
+      "source": "R3.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.3",
+      "line": 4,
+      "x_order": 10.0,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L5_5",
+      "label": "ONG sviluppano progetti congiuntamente con altri portatori di interesse",
+      "type": "toc_level5",
+      "source": "R3.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.3",
+      "line": 5,
+      "x_order": 10.034,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L5_6",
+      "label": "Aziende adottano soluzioni innovative, certificazioni ed etichette volontarie sulla sostenibilità",
+      "type": "toc_level5",
+      "source": "R3.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.3",
+      "line": 6,
+      "x_order": 10.068,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R3.3_L5_7",
+      "label": "Media informano su soluzioni e benefici",
+      "type": "toc_level5",
+      "source": "R3.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R3.3",
+      "line": 7,
+      "x_order": 10.102,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.1",
+      "label": "R4.1: Ridotte emissioni climalteranti",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 11,
+      "level": 3
+    },
+    {
+      "id": "R4.1_L4_1",
+      "label": "Parlamento adotta legge sul clima",
+      "type": "toc_element",
+      "source": "R4.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.1",
+      "line": 1,
+      "x_order": 10.9175,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L4_2",
+      "label": "Aziende produttrici di energia diventano 100% rinnovabili",
+      "type": "toc_element",
+      "source": "R4.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.1",
+      "line": 2,
+      "x_order": 10.9725,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L4_3",
+      "label": "Governo destina fondi social climate fund ad attività coerenti con la giusta transizione",
+      "type": "toc_element",
+      "source": "R4.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.1",
+      "line": 3,
+      "x_order": 11.0275,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L4_4",
+      "label": "Agricoltura e zootecnia riducono produzione da allevamenti intensivi",
+      "type": "toc_element",
+      "source": "R4.1 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.1",
+      "line": 4,
+      "x_order": 11.0825,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L5_1",
+      "label": "Associazioni e sindacati premono per sistema trasporti decarbonizzato",
+      "type": "toc_level5",
+      "source": "R4.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.1",
+      "line": 1,
+      "x_order": 10.864,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L5_2",
+      "label": "Regioni scelgono aree di accelerazione per le rinnovabili",
+      "type": "toc_level5",
+      "source": "R4.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.1",
+      "line": 2,
+      "x_order": 10.898,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L5_3",
+      "label": "Enti di ricerca forniscono info scientifiche",
+      "type": "toc_level5",
+      "source": "R4.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.1",
+      "line": 3,
+      "x_order": 10.932,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L5_4",
+      "label": "Ministero Economia finanzia la transizione",
+      "type": "toc_level5",
+      "source": "R4.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.1",
+      "line": 4,
+      "x_order": 10.966,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L5_5",
+      "label": "Banche e fondi prediligono investimenti green",
+      "type": "toc_level5",
+      "source": "R4.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.1",
+      "line": 5,
+      "x_order": 11.0,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L5_6",
+      "label": "Associazioni ambientaliste fanno formazione",
+      "type": "toc_level5",
+      "source": "R4.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.1",
+      "line": 6,
+      "x_order": 11.034,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L5_7",
+      "label": "Retailer e rappresentanze bio promuovono best practices",
+      "type": "toc_level5",
+      "source": "R4.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.1",
+      "line": 7,
+      "x_order": 11.068,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L5_8",
+      "label": "Media divulgano informazione e indagini",
+      "type": "toc_level5",
+      "source": "R4.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.1",
+      "line": 8,
+      "x_order": 11.102,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.1_L5_9",
+      "label": "Associazioni ambientaliste e associazioni di categoria fanno lobby",
+      "type": "toc_level5",
+      "source": "R4.1 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.1",
+      "line": 9,
+      "x_order": 11.136,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.2",
+      "label": "R4.2: Messe in campo azioni e buone pratiche per l’adattamento in ambito urbano",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 12,
+      "level": 3
+    },
+    {
+      "id": "R4.2_L4_1",
+      "label": "Ministero della Salute promuove adeguate linee guida di prevenzione degli effetti del cambiamento climatico",
+      "type": "toc_element",
+      "source": "R4.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.2",
+      "line": 1,
+      "x_order": 11.9175,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L4_2",
+      "label": "Ministero Ambiente obbliga a inserire nella pianificazione urbana criteri di adattamento al cambiamento climatico",
+      "type": "toc_element",
+      "source": "R4.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.2",
+      "line": 2,
+      "x_order": 11.9725,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L4_3",
+      "label": "Ministero Ambiente istituisce l’osservatorio su adattamento al cambiamento climatico",
+      "type": "toc_element",
+      "source": "R4.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.2",
+      "line": 3,
+      "x_order": 12.0275,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L4_4",
+      "label": "Comuni e Regioni adottano e attuano il piano di adattamento al cambiamento climatico",
+      "type": "toc_element",
+      "source": "R4.2 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.2",
+      "line": 4,
+      "x_order": 12.0825,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L5_1",
+      "label": "Sindacati inseriscono il tema delle misure di adattamento nella contrattazione collettiva",
+      "type": "toc_level5",
+      "source": "R4.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.2",
+      "line": 1,
+      "x_order": 11.881,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L5_2",
+      "label": "Settore turistico, medici e ONG comitati cittadini chiedono piani di prevenzione degli effetti del cambiamento climatico",
+      "type": "toc_level5",
+      "source": "R4.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.2",
+      "line": 2,
+      "x_order": 11.915,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L5_3",
+      "label": "Associazioni ambientaliste e cittadini attivi ottengono percorsi partecipativi ai piani e alle azioni di adattamento",
+      "type": "toc_level5",
+      "source": "R4.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.2",
+      "line": 3,
+      "x_order": 11.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L5_4",
+      "label": "Aziende sviluppano tecnologie e servizi",
+      "type": "toc_level5",
+      "source": "R4.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.2",
+      "line": 4,
+      "x_order": 11.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L5_5",
+      "label": "Associazioni ambientaliste sviluppano progetti di nature-based solution",
+      "type": "toc_level5",
+      "source": "R4.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.2",
+      "line": 5,
+      "x_order": 12.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L5_6",
+      "label": "Enti di ricerca forniscono nature-based solution in ambito urbano",
+      "type": "toc_level5",
+      "source": "R4.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.2",
+      "line": 6,
+      "x_order": 12.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L5_7",
+      "label": "Media producono contenuti di valore su importanza adattamento",
+      "type": "toc_level5",
+      "source": "R4.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.2",
+      "line": 7,
+      "x_order": 12.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.2_L5_8",
+      "label": "Banche finanziano progetti di adattamento",
+      "type": "toc_level5",
+      "source": "R4.2 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.2",
+      "line": 8,
+      "x_order": 12.119,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.3",
+      "label": "R4.3: Promossa l’attivazione tangibile dei cittadini per la riduzione dell’uso dei combustibili fossili in favore di fonti rinnovabili",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta ToC risultato specifico",
+      "x_order": 13,
+      "level": 3
+    },
+    {
+      "id": "R4.3_L4_1",
+      "label": "Comunità di cittadini adotta e promuove uso di energie rinnovabili e azzeramento combustibili fossili",
+      "type": "toc_element",
+      "source": "R4.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.3",
+      "line": 1,
+      "x_order": 12.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.3_L4_2",
+      "label": "Istituti scolastici sensibilizzano i cittadini a comportamenti responsabili",
+      "type": "toc_element",
+      "source": "R4.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.3",
+      "line": 2,
+      "x_order": 13.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.3_L4_3",
+      "label": "UE rafforza gli strumenti partecipativi rendendoli più vincolanti e promuove meccanismi incentivanti",
+      "type": "toc_element",
+      "source": "R4.3 · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R4.3",
+      "line": 3,
+      "x_order": 13.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R4.3_L5_1",
+      "label": "Operatori energetici aumentano offerta rinnovabili",
+      "type": "toc_level5",
+      "source": "R4.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.3",
+      "line": 1,
+      "x_order": 12.881,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.3_L5_2",
+      "label": "Start-up crea un sistema di misurazione impegni",
+      "type": "toc_level5",
+      "source": "R4.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.3",
+      "line": 2,
+      "x_order": 12.915,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.3_L5_3",
+      "label": "CER facilita la creazione di comunità di cittadini",
+      "type": "toc_level5",
+      "source": "R4.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.3",
+      "line": 3,
+      "x_order": 12.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.3_L5_4",
+      "label": "CER aumenta offerta energie rinnovabili",
+      "type": "toc_level5",
+      "source": "R4.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.3",
+      "line": 4,
+      "x_order": 12.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.3_L5_5",
+      "label": "ONG sensibilizzano i cittadini sugli strumenti di attivazione/partecipativi",
+      "type": "toc_level5",
+      "source": "R4.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.3",
+      "line": 5,
+      "x_order": 13.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.3_L5_6",
+      "label": "ONG diffondono competenze e fanno pressione su istituzioni",
+      "type": "toc_level5",
+      "source": "R4.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.3",
+      "line": 6,
+      "x_order": 13.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.3_L5_7",
+      "label": "Ambassador e influencer influenzano tramite esempio e promuovono challenges",
+      "type": "toc_level5",
+      "source": "R4.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.3",
+      "line": 7,
+      "x_order": 13.085,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R4.3_L5_8",
+      "label": "Ministero e Parlamento definiscono misure per favorire le rinnovabili",
+      "type": "toc_level5",
+      "source": "R4.3 · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R4.3",
+      "line": 8,
+      "x_order": 13.119,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R5.a",
+      "label": "R5.a: Potenziato il contrasto alle politiche dannose per l’ambiente",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta aggregata Obiettivo 5/6: allocazione prudenziale da verificare",
+      "x_order": 14,
+      "level": 3
+    },
+    {
+      "id": "R5.a_L4_1",
+      "label": "Istituzioni attuano politiche ambientali efficaci",
+      "type": "toc_element",
+      "source": "R5.a · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R5.a",
+      "line": 1,
+      "x_order": 13.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R5.a_L4_2",
+      "label": "Istituzioni e partiti politici agiscono in coerenza con gli obiettivi di Our Values",
+      "type": "toc_element",
+      "source": "R5.a · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R5.a",
+      "line": 2,
+      "x_order": 14.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R5.a_L4_3",
+      "label": "Associazioni ambientaliste, ETS, aziende e mondo cattolico fanno lobby",
+      "type": "toc_element",
+      "source": "R5.a · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R5.a",
+      "line": 3,
+      "x_order": 14.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R5.a_L5_1",
+      "label": "Associazioni ambientaliste ed ETS formano gli attori chiave del sistema istituzionale su risposte scientifiche/efficaci",
+      "type": "toc_level5",
+      "source": "R5.a · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R5.a",
+      "line": 1,
+      "x_order": 13.966,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R5.a_L5_2",
+      "label": "WWF ed ETS valorizzano il ruolo dei volontari e delle comunità locali nei territori",
+      "type": "toc_level5",
+      "source": "R5.a · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R5.a",
+      "line": 2,
+      "x_order": 14.0,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R5.a_L5_3",
+      "label": "Associazioni, ETS e Università/Ricerca scientifica orientano la lettura dei fenomeni in senso scientifico/sostenibile",
+      "type": "toc_level5",
+      "source": "R5.a · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R5.a",
+      "line": 3,
+      "x_order": 14.034,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R5.b",
+      "label": "R5.b: Attuata la riforma costituzionale, rafforzando la normativa a favore di natura, biodiversità e transizione",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta aggregata Obiettivo 5/6: allocazione prudenziale da verificare",
+      "x_order": 15,
+      "level": 3
+    },
+    {
+      "id": "R5.b_L4_1",
+      "label": "La commissione conferma il Green Deal negli aspetti essenziali",
+      "type": "toc_element",
+      "source": "R5.b · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R5.b",
+      "line": 1,
+      "x_order": 14.9725,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R5.b_L4_2",
+      "label": "Fondi EU e fondi strutturali e coesione sociale maggiormente orientati alla sostenibilità",
+      "type": "toc_element",
+      "source": "R5.b · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R5.b",
+      "line": 2,
+      "x_order": 15.0275,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R5.b_L5_1",
+      "label": "Istituzioni attuano politiche ambientali efficaci",
+      "type": "toc_level5",
+      "source": "R5.b · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R5.b",
+      "line": 1,
+      "x_order": 14.966,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R5.b_L5_2",
+      "label": "Le istituzioni e i partiti politici agiscono in coerenza con gli obiettivi di Our Values",
+      "type": "toc_level5",
+      "source": "R5.b · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R5.b",
+      "line": 2,
+      "x_order": 15.0,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R5.b_L5_3",
+      "label": "Fondi UE e fondi strutturali e coesione sociale maggiormente orientati alla sostenibilità",
+      "type": "toc_level5",
+      "source": "R5.b · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R5.b",
+      "line": 3,
+      "x_order": 15.034,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R5.c",
+      "label": "R5.c: Consolidate alleanze e attivazioni per promuovere comunicazione, sensibilizzazione e advocacy",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta aggregata Obiettivo 5/6: allocazione prudenziale da verificare",
+      "x_order": 16,
+      "level": 3
+    },
+    {
+      "id": "R5.c_L4_1",
+      "label": "Cittadini aderiscono e promuovono un modello di sviluppo sostenibile",
+      "type": "toc_element",
+      "source": "R5.c · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R5.c",
+      "line": 1,
+      "x_order": 15.9175,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R5.c_L4_2",
+      "label": "Aziende agiscono sostenibilmente e in coerenza con gli obiettivi di Our Values",
+      "type": "toc_element",
+      "source": "R5.c · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R5.c",
+      "line": 2,
+      "x_order": 15.9725,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R5.c_L4_3",
+      "label": "Media generalisti contribuiscono a rendere mainstream il pensiero ambientalista sostenibile",
+      "type": "toc_element",
+      "source": "R5.c · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R5.c",
+      "line": 3,
+      "x_order": 16.0275,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R5.c_L4_4",
+      "label": "Associazioni Ambientaliste ed ETS sviluppano partnership di corporate engagement sulla sostenibilità",
+      "type": "toc_element",
+      "source": "R5.c · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R5.c",
+      "line": 4,
+      "x_order": 16.0825,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R5.c_L5_1",
+      "label": "Associazioni Ambientaliste ed ETS sensibilizzano il consumatore",
+      "type": "toc_level5",
+      "source": "R5.c · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R5.c",
+      "line": 1,
+      "x_order": 15.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R5.c_L5_2",
+      "label": "Associazioni Ambientaliste ed ETS sviluppano partnership di corporate engagement sulla sostenibilità",
+      "type": "toc_level5",
+      "source": "R5.c · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R5.c",
+      "line": 2,
+      "x_order": 15.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R5.c_L5_3",
+      "label": "Le associazioni di categoria promuovono il modello virtuoso presso gli associati e le istituzioni",
+      "type": "toc_level5",
+      "source": "R5.c · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R5.c",
+      "line": 3,
+      "x_order": 16.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R5.c_L5_4",
+      "label": "Istituti finanziari privati investono in attività economiche sostenibili",
+      "type": "toc_level5",
+      "source": "R5.c · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R5.c",
+      "line": 4,
+      "x_order": 16.051,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R6.a",
+      "label": "R6.a: Offerti strumenti e percorsi educativi e formativi per gruppi target strategici",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta aggregata Obiettivo 5/6: allocazione prudenziale da verificare",
+      "x_order": 17,
+      "level": 3
+    },
+    {
+      "id": "R6.a_L4_1",
+      "label": "Istituti scolastici offrono sempre più percorsi educativi coerenti con Our Values",
+      "type": "toc_element",
+      "source": "R6.a · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R6.a",
+      "line": 1,
+      "x_order": 16.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R6.a_L4_2",
+      "label": "Università e centri di ricerca aumentano qualità e quantità dei corsi Our Values in corsi e master",
+      "type": "toc_element",
+      "source": "R6.a · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R6.a",
+      "line": 2,
+      "x_order": 17.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R6.a_L4_3",
+      "label": "Ordini professionali organizzano corsi di aggiornamento coerenti con Our Values",
+      "type": "toc_element",
+      "source": "R6.a · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R6.a",
+      "line": 3,
+      "x_order": 17.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R6.a_L5_1",
+      "label": "WWF diffonde i contenuti di Our Values tramite accordi quadro con MIM e MUR",
+      "type": "toc_level5",
+      "source": "R6.a · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R6.a",
+      "line": 1,
+      "x_order": 16.966,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R6.a_L5_2",
+      "label": "Società di certificazione integrano criteri di valutazione sostenibili nei processi di certificazione",
+      "type": "toc_level5",
+      "source": "R6.a · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R6.a",
+      "line": 2,
+      "x_order": 17.0,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R6.a_L5_3",
+      "label": "Istituzioni e aziende migliorano la disponibilità di spazi e servizi green",
+      "type": "toc_level5",
+      "source": "R6.a · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R6.a",
+      "line": 3,
+      "x_order": 17.034,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R6.b",
+      "label": "R6.b: Resi i cittadini agenti di cambiamento e autori di azioni di integrità ambientale",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta aggregata Obiettivo 5/6: allocazione prudenziale da verificare",
+      "x_order": 18,
+      "level": 3
+    },
+    {
+      "id": "R6.b_L4_1",
+      "label": "Cittadini contribuiscono a migliorare il rapporto fra uomo e natura con accresciuta conoscenza e consapevolezza",
+      "type": "toc_element",
+      "source": "R6.b · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R6.b",
+      "line": 1,
+      "x_order": 17.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R6.b_L4_2",
+      "label": "Comunità e amministrazioni locali richiedono spazi e servizi green",
+      "type": "toc_element",
+      "source": "R6.b · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R6.b",
+      "line": 2,
+      "x_order": 18.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R6.b_L4_3",
+      "label": "Associazioni ambientaliste valorizzano e incrementano l’offerta di natura alla cittadinanza",
+      "type": "toc_element",
+      "source": "R6.b · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R6.b",
+      "line": 3,
+      "x_order": 18.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R6.b_L5_1",
+      "label": "Associazioni ambientaliste promuovono e incrementano l’offerta di natura alla cittadinanza",
+      "type": "toc_level5",
+      "source": "R6.b · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R6.b",
+      "line": 1,
+      "x_order": 17.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R6.b_L5_2",
+      "label": "Comunità e amministrazioni locali richiedono spazi e servizi green",
+      "type": "toc_level5",
+      "source": "R6.b · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R6.b",
+      "line": 2,
+      "x_order": 18.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R6.c",
+      "label": "R6.c: Diffusa informazione sulla interconnessione tra natura e persone",
+      "type": "result",
+      "source": "Programma WWF Italia 2026, p. 14; Carta aggregata Obiettivo 5/6: allocazione prudenziale da verificare",
+      "x_order": 19,
+      "level": 3
+    },
+    {
+      "id": "R6.c_L4_1",
+      "label": "Piattaforme e altri canali diffondono contenuti coerenti con Our Values",
+      "type": "toc_element",
+      "source": "R6.c · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R6.c",
+      "line": 1,
+      "x_order": 18.945,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R6.c_L4_2",
+      "label": "Società di produzione e fondi di finanziamento pubblici e privati orientano contenuti coerenti con Our Values",
+      "type": "toc_element",
+      "source": "R6.c · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R6.c",
+      "line": 2,
+      "x_order": 19.0,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R6.c_L4_3",
+      "label": "Opinion leader veicolano contenuti coerenti con Our Values",
+      "type": "toc_element",
+      "source": "R6.c · livello 4: primo livello di quadrati sotto l’ovale del risultato",
+      "map_id": "R6.c",
+      "line": 3,
+      "x_order": 19.055,
+      "level": 4,
+      "visible": true
+    },
+    {
+      "id": "R6.c_L5_1",
+      "label": "Comissioni tematiche presidiano il rispetto dei contenuti Our Values",
+      "type": "toc_level5",
+      "source": "R6.c · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R6.c",
+      "line": 1,
+      "x_order": 18.949,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R6.c_L5_2",
+      "label": "Società di produzione e fondi di finanziamento orientano contenuti coerenti con Our Values",
+      "type": "toc_level5",
+      "source": "R6.c · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R6.c",
+      "line": 2,
+      "x_order": 18.983,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R6.c_L5_3",
+      "label": "Pubblico fruisce maggiormente contenuti in linea con Our Values",
+      "type": "toc_level5",
+      "source": "R6.c · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R6.c",
+      "line": 3,
+      "x_order": 19.017,
+      "level": 5,
+      "visible": true
+    },
+    {
+      "id": "R6.c_L5_4",
+      "label": "Opinion leader veicolano contenuti coerenti con Our Values",
+      "type": "toc_level5",
+      "source": "R6.c · livello 5: secondo livello leggibile sotto l’ovale del risultato; relazione precisa L4→L5 da verificare sulla mappa",
+      "map_id": "R6.c",
+      "line": 4,
+      "x_order": 19.051,
+      "level": 5,
+      "visible": true
+    }
+  ],
+  "links": [
+    {
+      "source": "G1",
+      "target": "O1",
+      "type": "formal"
+    },
+    {
+      "source": "G1",
+      "target": "O2",
+      "type": "formal"
+    },
+    {
+      "source": "G2",
+      "target": "O3",
+      "type": "formal"
+    },
+    {
+      "source": "G2",
+      "target": "O4",
+      "type": "formal"
+    },
+    {
+      "source": "G3",
+      "target": "O5",
+      "type": "formal"
+    },
+    {
+      "source": "G3",
+      "target": "O6",
+      "type": "formal"
+    },
+    {
+      "source": "O1",
+      "target": "R1.1",
+      "type": "formal"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L4_4",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L4_5",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.1",
+      "target": "R1.1_L5_8",
+      "type": "level5_context"
+    },
+    {
+      "source": "O1",
+      "target": "R1.2",
+      "type": "formal"
+    },
+    {
+      "source": "R1.2",
+      "target": "R1.2_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.2",
+      "target": "R1.2_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.2",
+      "target": "R1.2_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.2",
+      "target": "R1.2_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.2",
+      "target": "R1.2_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.2",
+      "target": "R1.2_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.2",
+      "target": "R1.2_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.2",
+      "target": "R1.2_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.2",
+      "target": "R1.2_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.2",
+      "target": "R1.2_L5_8",
+      "type": "level5_context"
+    },
+    {
+      "source": "O1",
+      "target": "R1.3",
+      "type": "formal"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L5_8",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L5_9",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.3",
+      "target": "R1.3_L5_10",
+      "type": "level5_context"
+    },
+    {
+      "source": "O1",
+      "target": "R1.4",
+      "type": "formal"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L4_4",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L4_5",
+      "type": "map_membership"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "R1.4",
+      "target": "R1.4_L5_8",
+      "type": "level5_context"
+    },
+    {
+      "source": "O2",
+      "target": "R2.1",
+      "type": "formal"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L4_4",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L4_5",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.1",
+      "target": "R2.1_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "O2",
+      "target": "R2.2",
+      "type": "formal"
+    },
+    {
+      "source": "R2.2",
+      "target": "R2.2_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.2",
+      "target": "R2.2_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.2",
+      "target": "R2.2_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.2",
+      "target": "R2.2_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.2",
+      "target": "R2.2_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.2",
+      "target": "R2.2_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.2",
+      "target": "R2.2_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.2",
+      "target": "R2.2_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.2",
+      "target": "R2.2_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "O2",
+      "target": "R2.3",
+      "type": "formal"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.3",
+      "target": "R2.3_L5_8",
+      "type": "level5_context"
+    },
+    {
+      "source": "O2",
+      "target": "R2.4",
+      "type": "formal"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L4_4",
+      "type": "map_membership"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "R2.4",
+      "target": "R2.4_L5_8",
+      "type": "level5_context"
+    },
+    {
+      "source": "O3",
+      "target": "R3.1",
+      "type": "formal"
+    },
+    {
+      "source": "R3.1",
+      "target": "R3.1_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.1",
+      "target": "R3.1_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.1",
+      "target": "R3.1_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.1",
+      "target": "R3.1_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.1",
+      "target": "R3.1_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.1",
+      "target": "R3.1_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.1",
+      "target": "R3.1_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.1",
+      "target": "R3.1_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.1",
+      "target": "R3.1_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "O3",
+      "target": "R3.2",
+      "type": "formal"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L4_4",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L4_5",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L5_8",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L5_9",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.2",
+      "target": "R3.2_L5_10",
+      "type": "level5_context"
+    },
+    {
+      "source": "O3",
+      "target": "R3.3",
+      "type": "formal"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L4_4",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L4_5",
+      "type": "map_membership"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R3.3",
+      "target": "R3.3_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "O4",
+      "target": "R4.1",
+      "type": "formal"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L4_4",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L5_8",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.1",
+      "target": "R4.1_L5_9",
+      "type": "level5_context"
+    },
+    {
+      "source": "O4",
+      "target": "R4.2",
+      "type": "formal"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L4_4",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.2",
+      "target": "R4.2_L5_8",
+      "type": "level5_context"
+    },
+    {
+      "source": "O4",
+      "target": "R4.3",
+      "type": "formal"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L5_5",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L5_6",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L5_7",
+      "type": "level5_context"
+    },
+    {
+      "source": "R4.3",
+      "target": "R4.3_L5_8",
+      "type": "level5_context"
+    },
+    {
+      "source": "O5",
+      "target": "R5.a",
+      "type": "formal"
+    },
+    {
+      "source": "R5.a",
+      "target": "R5.a_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R5.a",
+      "target": "R5.a_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R5.a",
+      "target": "R5.a_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R5.a",
+      "target": "R5.a_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R5.a",
+      "target": "R5.a_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R5.a",
+      "target": "R5.a_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "O5",
+      "target": "R5.b",
+      "type": "formal"
+    },
+    {
+      "source": "R5.b",
+      "target": "R5.b_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R5.b",
+      "target": "R5.b_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R5.b",
+      "target": "R5.b_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R5.b",
+      "target": "R5.b_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R5.b",
+      "target": "R5.b_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "O5",
+      "target": "R5.c",
+      "type": "formal"
+    },
+    {
+      "source": "R5.c",
+      "target": "R5.c_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R5.c",
+      "target": "R5.c_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R5.c",
+      "target": "R5.c_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R5.c",
+      "target": "R5.c_L4_4",
+      "type": "map_membership"
+    },
+    {
+      "source": "R5.c",
+      "target": "R5.c_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R5.c",
+      "target": "R5.c_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R5.c",
+      "target": "R5.c_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R5.c",
+      "target": "R5.c_L5_4",
+      "type": "level5_context"
+    },
+    {
+      "source": "O6",
+      "target": "R6.a",
+      "type": "formal"
+    },
+    {
+      "source": "R6.a",
+      "target": "R6.a_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R6.a",
+      "target": "R6.a_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R6.a",
+      "target": "R6.a_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R6.a",
+      "target": "R6.a_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R6.a",
+      "target": "R6.a_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R6.a",
+      "target": "R6.a_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "O6",
+      "target": "R6.b",
+      "type": "formal"
+    },
+    {
+      "source": "R6.b",
+      "target": "R6.b_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R6.b",
+      "target": "R6.b_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R6.b",
+      "target": "R6.b_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R6.b",
+      "target": "R6.b_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R6.b",
+      "target": "R6.b_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "O6",
+      "target": "R6.c",
+      "type": "formal"
+    },
+    {
+      "source": "R6.c",
+      "target": "R6.c_L4_1",
+      "type": "map_membership"
+    },
+    {
+      "source": "R6.c",
+      "target": "R6.c_L4_2",
+      "type": "map_membership"
+    },
+    {
+      "source": "R6.c",
+      "target": "R6.c_L4_3",
+      "type": "map_membership"
+    },
+    {
+      "source": "R6.c",
+      "target": "R6.c_L5_1",
+      "type": "level5_context"
+    },
+    {
+      "source": "R6.c",
+      "target": "R6.c_L5_2",
+      "type": "level5_context"
+    },
+    {
+      "source": "R6.c",
+      "target": "R6.c_L5_3",
+      "type": "level5_context"
+    },
+    {
+      "source": "R6.c",
+      "target": "R6.c_L5_4",
+      "type": "level5_context"
+    }
+  ],
+  "raw_maps": {
+    "R1.1": {
+      "lines": [
+        "MIT adotta un piano MSP che include le aree per il 30x30",
+        "Comuni accettano di entrare nel sistema",
+        "AMP ricevono più fondi per gestire e conservare le aree",
+        "Proprietari privati aderiscono al nuovo sistema (OECM)",
+        "Fondazioni inseriscono il sistema nelle loro strategie",
+        "[L5] MASE riconosce e istituisce nuove aree AAPP/AMP",
+        "[L5] Stato e Regioni raggiungono l’accordo per l’istituzione delle nuove aree protette",
+        "[L5] Parlamento rafforza la governance delle AAPP",
+        "[L5] Stato e Regioni adottano misure fiscali di vantaggio per le aree protette",
+        "[L5] ONG fanno pressione sulle associazioni di categoria con benefici NBS",
+        "[L5] Fondazioni e banche investono su PES, microcrediti e investimenti green",
+        "[L5] PAC incentiva le misure green su aree protette",
+        "[L5] ONG assicurano l’implementazione dei criteri OECM per entrare nel sistema"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R1.2": {
+      "lines": [
+        "Gestori e proprietari attuano piani di ripristino del territorio",
+        "Soggetti attuatori aumentano attività di restoration",
+        "[L5] MASE definisce il piano nazionale di ripristino entro il 2026",
+        "[L5] Ministeri finanziano interventi del piano nazionale",
+        "[L5] Regioni finanziano interventi",
+        "[L5] Aziende e fondazioni destinano fondi a restoration",
+        "[L5] ONG e agenzie forestali definiscono programmi di intervento locali",
+        "[L5] Università/ISPRA supporta identificazione ecosistemi prioritari",
+        "[L5] ONG fanno lobby e sensibilizzazione su importanza nature restoration",
+        "[L5] Investitori riconoscono il valore di ecosistemi restaurati"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R1.3": {
+      "lines": [
+        "Enti gestori coinvolgono operatori del territorio e comunità locale",
+        "Attori economici del territorio adottano pratiche sostenibili nei rispettivi ambienti",
+        "Istituzioni nazionali e regionali formalizzano modelli di co-gestione",
+        "[L5] Istituzioni stanziano risorse per implementazione modelli",
+        "[L5] ONG e enti si attivano per sviluppare competenze sui modelli",
+        "[L5] Attori economici partecipano a livelli aggregata",
+        "[L5] Istituzioni promuovono incentivi per operatori che adottano pratiche sostenibili",
+        "[L5] Istituzioni recepiscono direttive e linee guida europee",
+        "[L5] Istituzioni regionali favoriscono la creazione di reti",
+        "[L5] Comunità locali fanno pressione per richiedere gestione sostenibile",
+        "[L5] ONG informano su importanza certificazione/modelli di cogestione",
+        "[L5] Enti di ricerca condividono dati su benefici cogestione",
+        "[L5] Banche e fondazioni investono sul territorio"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R1.4": {
+      "lines": [
+        "Ministeri adottano un piano di gestione dello spazio marittimo con approccio ecosistemico",
+        "Regioni definiscono normative locali a supporto della blue economy sostenibile",
+        "Settore produttivo adotta processo di trasformazione volontaria dei modelli produttivi",
+        "Banche finanziano progetti in linea con la blue economy sostenibile",
+        "Fondazioni finanziano progetti in linea con la blue economy sostenibile",
+        "[L5] NNR/ISPRA/UNI/Centri fanno ricerca e raccolta dati per analisi modelli ecosistemici",
+        "[L5] ONG organizza tavoli di discussione con pubblica amministrazione, centri di ricerca e attività produttive",
+        "[L5] Settore energetico segue linee guida della pianificazione dello spazio marittimo",
+        "[L5] Associazioni di categoria coordinano e promuovono pratiche di transizione sostenibile",
+        "[L5] Filiera mercato è consapevole degli impatti ambientali e dei benefici della blue economy sostenibile",
+        "[L5] ONG implementano progetti pilota di blue economy sostenibile con le comunità locali",
+        "[L5] ONG promuovono campagne di sensibilizzazione",
+        "[L5] Università danno borse di studio per finanziare ricerca, raccolta dati e promuovere capacity"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R2.1": {
+      "lines": [
+        "Ministero, Regioni e Parlamento definiscono strategie efficaci per la gestione di specie chiave",
+        "Agenzie autorizzate incrementano l’offerta di supporto tecnico e operativo alle specie chiave",
+        "Pubblica Amministrazione aumenta la gestione e conservazione della specie",
+        "Pubblica Amministrazione investe nella gestione e conservazione della specie",
+        "Parchi e normative migliorano il supporto alla gestione di specie chiave",
+        "[L5] EU aumenta passing per green deal",
+        "[L5] SNAM immette servizi ecosistemici nella manutenzione e valorizzazione conservazione",
+        "[L5] Enti di formazione e associazioni sensibilizzano sull’importanza della gestione sostenibile",
+        "[L5] Aziende sviluppano linee sostenibili",
+        "[L5] Consumatori richiedono prodotti e servizi sostenibili e tracciabili",
+        "[L5] Media aumentano sensibilizzazione e consapevolezza",
+        "[L5] Forze dell’ordine aumentano controllo e vigilanza"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R2.2": {
+      "lines": [
+        "Enti e istituzioni competenti finanziano i progetti di rewilding",
+        "Comunità locali accettano le azioni di rewilding",
+        "ONG accedono a maggiori finanziamenti",
+        "[L5] Università/ISPRA supportano tecnicamente gli enti competenti",
+        "[L5] ISPRA/Università, Comunità locali e Regioni co-progettano con ONG",
+        "[L5] ONG fanno lobby sull’importanza del rewilding",
+        "[L5] ONG sensibilizzano sull’importanza del rewilding",
+        "[L5] Aziende e fondazioni destinano maggiori fondi per azioni ambientali",
+        "[L5] Cittadini fanno pressione sulla politica"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R2.3": {
+      "lines": [
+        "Forze dell’ordine effettuano più controlli",
+        "Magistratura applica in maniera più rigorosa le leggi in materia di crimini di natura",
+        "Comunità locali contribuiscono al contrasto dei crimini",
+        "[L5] Enti preposti formano formazione ai magistrati sulla legislazione e tutela biodiversità",
+        "[L5] Sistema legislativo nazionale e regionale migliora la legislazione in materia di crimini di natura",
+        "[L5] Scuole formano i giovani sul rispetto della natura",
+        "[L5] ONG sensibilizzano le comunità locali sul rispetto della natura",
+        "[L5] ONG avviano percorsi di coinvolgimento delle comunità locali",
+        "[L5] Media diffondono la tematica al grande pubblico",
+        "[L5] Consumatori prediligono prodotti legali",
+        "[L5] ONG promuovono azioni giudiziarie"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R2.4": {
+      "lines": [
+        "Associazioni di categoria adottano strumenti e pratiche funzionali alla coesistenza virtuosa",
+        "Ministeri implementano piani di azione per la convivenza e allocano le necessarie risorse",
+        "Regioni attivano strumenti finanziari e normativi funzionali alla coesistenza e alla mitigazione dei conflitti",
+        "Comunità locali adottano comportamenti preventivi al conflitto con specie",
+        "[L5] ONG ingaggiano portatori di interesse per formazione ed attività pilota",
+        "[L5] Enti di ricerca e ONG definiscono e sviluppano piani di azione",
+        "[L5] ONG ambientaliste fanno lobby sull’importanza del tema della coesistenza",
+        "[L5] Media migliorano comunicazione science-based",
+        "[L5] Istituzioni regionali erogano formazione e training",
+        "[L5] ONG ed enti di ricerca collaborano e condividono informazioni sul tema della coesistenza",
+        "[L5] Scuola",
+        "[L5] ONG"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R3.1": {
+      "lines": [
+        "EU attua il Green Deal per l’agricoltura, riforma PAC e regolamenti tematici",
+        "Agricoltori applicano metodi agroecologici",
+        "Consumatori incrementano consumi di agricoltura biologica",
+        "[L5] Associazioni consumatori e sindacati fanno lobby e advocacy sulla corretta attuazione della direttiva UE sul PAC",
+        "[L5] Associazioni ambientaliste fanno lobby e advocacy per promuovere riforma PAC",
+        "[L5] Associazioni ambientaliste e salute promuovono i benefici agroecologia",
+        "[L5] Agenzie tecniche forniscono metodologie e buone pratiche",
+        "[L5] UNI e AIDA definiscono norme e linee guida per agroecologia",
+        "[L5] Enti di ricerca e università sperimentano nuove metodologie formando"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R3.2": {
+      "lines": [
+        "Scuole educano le generazioni sui benefici di uno stile di vita sano e sull’impatto ambientale",
+        "Aziende rivenditori selezionano prodotti sani e a basso impatto ambientale",
+        "Consumatori scelgono alimenti sani e a basso impatto ambientale",
+        "Consumatori scelgono prodotti a basso impatto ambientale",
+        "Organi legislativi ed esecutivi adottano i principi di riduzione dell’impatto ambientale",
+        "[L5] Ministero Salute adotta nuove linee guida",
+        "[L5] Ministero Salute fa una campagna di comunicazione sui benefici dieta sana",
+        "[L5] Centri di ricerca e università forniscono dati e metodi",
+        "[L5] Associazioni di categoria influenzano assistiti sui benefici della produzione a basso impatto",
+        "[L5] Medici informano pazienti e cittadini",
+        "[L5] Ambassador sensibilizzano su dieta sana e priva di carne",
+        "[L5] ONG avviano percorso con la GDO",
+        "[L5] ONG promuovono meat free week",
+        "[L5] ONG promuovono criteri di sostenibilità per beni, prodotti e servizi",
+        "[L5] ONG fanno pressione su policy maker anche a livello UE"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R3.3": {
+      "lines": [
+        "Parlamento e governo introducono nuove norme per incentivare economia circolare e implementare norme",
+        "Comuni e associazioni incentivano e partecipano all’adozione di politiche di economia circolare",
+        "Aziende aumentano la circolarità dei processi produttivi",
+        "Consumatori incrementano la quota di acquisto di prodotti sostenibili e modificano stile di vita",
+        "Corti UE condannano green washing",
+        "[L5] ONG/aziende fanno pressione perché economia circolare diventi uno dei pilastri dei programmi di pianificazione e sviluppo",
+        "[L5] ONG fanno informazione su true e fake sustainability",
+        "[L5] Scuola potenzia settori professionali che promuovono economia circolare",
+        "[L5] Enti di ricerca studiano e propongono soluzioni tecniche innovative",
+        "[L5] ONG sviluppano progetti congiuntamente con altri portatori di interesse",
+        "[L5] Aziende adottano soluzioni innovative, certificazioni ed etichette volontarie sulla sostenibilità",
+        "[L5] Media informano su soluzioni e benefici"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R4.1": {
+      "lines": [
+        "Parlamento adotta legge sul clima",
+        "Aziende produttrici di energia diventano 100% rinnovabili",
+        "Governo destina fondi social climate fund ad attività coerenti con la giusta transizione",
+        "Agricoltura e zootecnia riducono produzione da allevamenti intensivi",
+        "[L5] Associazioni e sindacati premono per sistema trasporti decarbonizzato",
+        "[L5] Regioni scelgono aree di accelerazione per le rinnovabili",
+        "[L5] Enti di ricerca forniscono info scientifiche",
+        "[L5] Ministero Economia finanzia la transizione",
+        "[L5] Banche e fondi prediligono investimenti green",
+        "[L5] Associazioni ambientaliste fanno formazione",
+        "[L5] Retailer e rappresentanze bio promuovono best practices",
+        "[L5] Media divulgano informazione e indagini",
+        "[L5] Associazioni ambientaliste e associazioni di categoria fanno lobby"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R4.2": {
+      "lines": [
+        "Ministero della Salute promuove adeguate linee guida di prevenzione degli effetti del cambiamento climatico",
+        "Ministero Ambiente obbliga a inserire nella pianificazione urbana criteri di adattamento al cambiamento climatico",
+        "Ministero Ambiente istituisce l’osservatorio su adattamento al cambiamento climatico",
+        "Comuni e Regioni adottano e attuano il piano di adattamento al cambiamento climatico",
+        "[L5] Sindacati inseriscono il tema delle misure di adattamento nella contrattazione collettiva",
+        "[L5] Settore turistico, medici e ONG comitati cittadini chiedono piani di prevenzione degli effetti del cambiamento climatico",
+        "[L5] Associazioni ambientaliste e cittadini attivi ottengono percorsi partecipativi ai piani e alle azioni di adattamento",
+        "[L5] Aziende sviluppano tecnologie e servizi",
+        "[L5] Associazioni ambientaliste sviluppano progetti di nature-based solution",
+        "[L5] Enti di ricerca forniscono nature-based solution in ambito urbano",
+        "[L5] Media producono contenuti di valore su importanza adattamento",
+        "[L5] Banche finanziano progetti di adattamento"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R4.3": {
+      "lines": [
+        "Comunità di cittadini adotta e promuove uso di energie rinnovabili e azzeramento combustibili fossili",
+        "Istituti scolastici sensibilizzano i cittadini a comportamenti responsabili",
+        "UE rafforza gli strumenti partecipativi rendendoli più vincolanti e promuove meccanismi incentivanti",
+        "[L5] Operatori energetici aumentano offerta rinnovabili",
+        "[L5] Start-up crea un sistema di misurazione impegni",
+        "[L5] CER facilita la creazione di comunità di cittadini",
+        "[L5] CER aumenta offerta energie rinnovabili",
+        "[L5] ONG sensibilizzano i cittadini sugli strumenti di attivazione/partecipativi",
+        "[L5] ONG diffondono competenze e fanno pressione su istituzioni",
+        "[L5] Ambassador e influencer influenzano tramite esempio e promuovono challenges",
+        "[L5] Ministero e Parlamento definiscono misure per favorire le rinnovabili"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta."
+    },
+    "R5.a": {
+      "lines": [
+        "Istituzioni attuano politiche ambientali efficaci",
+        "Istituzioni e partiti politici agiscono in coerenza con gli obiettivi di Our Values",
+        "Associazioni ambientaliste, ETS, aziende e mondo cattolico fanno lobby",
+        "[L5] Associazioni ambientaliste ed ETS formano gli attori chiave del sistema istituzionale su risposte scientifiche/efficaci",
+        "[L5] WWF ed ETS valorizzano il ruolo dei volontari e delle comunità locali nei territori",
+        "[L5] Associazioni, ETS e Università/Ricerca scientifica orientano la lettura dei fenomeni in senso scientifico/sostenibile"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta. Allocation prudenziale: carte source agrégée par objectif."
+    },
+    "R5.b": {
+      "lines": [
+        "La commissione conferma il Green Deal negli aspetti essenziali",
+        "Fondi EU e fondi strutturali e coesione sociale maggiormente orientati alla sostenibilità",
+        "[L5] Istituzioni attuano politiche ambientali efficaci",
+        "[L5] Le istituzioni e i partiti politici agiscono in coerenza con gli obiettivi di Our Values",
+        "[L5] Fondi UE e fondi strutturali e coesione sociale maggiormente orientati alla sostenibilità"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta. Allocation prudenziale: carte source agrégée par objectif."
+    },
+    "R5.c": {
+      "lines": [
+        "Cittadini aderiscono e promuovono un modello di sviluppo sostenibile",
+        "Aziende agiscono sostenibilmente e in coerenza con gli obiettivi di Our Values",
+        "Media generalisti contribuiscono a rendere mainstream il pensiero ambientalista sostenibile",
+        "Associazioni Ambientaliste ed ETS sviluppano partnership di corporate engagement sulla sostenibilità",
+        "[L5] Associazioni Ambientaliste ed ETS sensibilizzano il consumatore",
+        "[L5] Associazioni Ambientaliste ed ETS sviluppano partnership di corporate engagement sulla sostenibilità",
+        "[L5] Le associazioni di categoria promuovono il modello virtuoso presso gli associati e le istituzioni",
+        "[L5] Istituti finanziari privati investono in attività economiche sostenibili"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta. Allocation prudenziale: carte source agrégée par objectif."
+    },
+    "R6.a": {
+      "lines": [
+        "Istituti scolastici offrono sempre più percorsi educativi coerenti con Our Values",
+        "Università e centri di ricerca aumentano qualità e quantità dei corsi Our Values in corsi e master",
+        "Ordini professionali organizzano corsi di aggiornamento coerenti con Our Values",
+        "[L5] WWF diffonde i contenuti di Our Values tramite accordi quadro con MIM e MUR",
+        "[L5] Società di certificazione integrano criteri di valutazione sostenibili nei processi di certificazione",
+        "[L5] Istituzioni e aziende migliorano la disponibilità di spazi e servizi green"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta. Allocation prudenziale: carte source agrégée par objectif."
+    },
+    "R6.b": {
+      "lines": [
+        "Cittadini contribuiscono a migliorare il rapporto fra uomo e natura con accresciuta conoscenza e consapevolezza",
+        "Comunità e amministrazioni locali richiedono spazi e servizi green",
+        "Associazioni ambientaliste valorizzano e incrementano l’offerta di natura alla cittadinanza",
+        "[L5] Associazioni ambientaliste promuovono e incrementano l’offerta di natura alla cittadinanza",
+        "[L5] Comunità e amministrazioni locali richiedono spazi e servizi green"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta. Allocation prudenziale: carte source agrégée par objectif."
+    },
+    "R6.c": {
+      "lines": [
+        "Piattaforme e altri canali diffondono contenuti coerenti con Our Values",
+        "Società di produzione e fondi di finanziamento pubblici e privati orientano contenuti coerenti con Our Values",
+        "Opinion leader veicolano contenuti coerenti con Our Values",
+        "[L5] Comissioni tematiche presidiano il rispetto dei contenuti Our Values",
+        "[L5] Società di produzione e fondi di finanziamento orientano contenuti coerenti con Our Values",
+        "[L5] Pubblico fruisce maggiormente contenuti in linea con Our Values",
+        "[L5] Opinion leader veicolano contenuti coerenti con Our Values"
+      ],
+      "note": "Livelli 4 e 5 rappresentati; livelli 6+ non représentés dans cette vue. Le relazioni precise L4→L5 richiedono una verifica visiva carta per carta. Allocation prudenziale: carte source agrégée par objectif."
+    }
+  }
+}

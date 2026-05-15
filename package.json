@@ -1,0 +1,25 @@
+{
+  "name": "wwf-it-iaran-pathway-2030",
+  "version": "1.0.0",
+  "description": "Dynamic macro-network for the WWF Italia Pathway 2030 Theory of Change workstream.",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve . -l ${PORT:-3000} --single"
+  },
+  "keywords": [
+    "wwf",
+    "iaran",
+    "pathway-2030",
+    "theory-of-change",
+    "network"
+  ],
+  "author": "IARAN",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "serve": "^14.2.4"
+  }
+}

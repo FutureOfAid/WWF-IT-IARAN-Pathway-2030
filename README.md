@@ -31,3 +31,10 @@ npm start
 ```
 
 No custom domain is required for the first deployment; Railway can provide a generated URL.
+
+## Survey app (`WWF-IT-Pathway-2030`)
+
+The driver-prioritisation survey for *WWF Italia: Sistema Natura 2030* lives in
+[`survey/`](./survey). It is a separate Express + Postgres/SQLite service with
+its own README covering local run instructions, the data model, and Railway
+deployment notes (including how to update drivers without losing responses).

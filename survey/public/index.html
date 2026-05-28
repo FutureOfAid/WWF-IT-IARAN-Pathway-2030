@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WWF Italia: Sistema Natura 2030 — Survey driver</title>
+<style>
+  :root {
+    --bg: #f5f6f3;
+    --ink: #14281d;
+    --ink-soft: #46524c;
+    --panel: #ffffff;
+    --line: #d8ded7;
+    --accent: #166d3b;
+    --accent-soft: #e2efe7;
+    --warn: #b35900;
+    --danger: #a02020;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  header {
+    background: var(--accent);
+    color: white;
+    padding: 16px 20px;
+  }
+  header h1 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+  header .subtitle { font-size: 0.85rem; opacity: 0.9; margin-top: 2px; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  h2 { margin: 0 0 10px; font-size: 1.05rem; }
+  p { margin: 0 0 10px; color: var(--ink-soft); font-size: 0.95rem; }
+  .note {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  label.block { display: block; font-size: 0.85rem; font-weight: 600; margin: 10px 0 4px; }
+  input[type="text"], select, textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font: inherit;
+    background: white;
+  }
+  textarea { resize: vertical; min-height: 60px; }
+  .progress-bar {
+    height: 6px;
+    background: var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 12px 0 8px;
+  }
+  .progress-bar > div {
+    height: 100%;
+    background: var(--accent);
+    transition: width .25s ease;
+  }
+  .progress-label { font-size: 0.8rem; color: var(--ink-soft); }
+  .driver-card { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 14px; }
+  .driver-card:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+  .driver-title {
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .driver-id { color: var(--ink-soft); font-weight: 500; }
+  .driver-meta { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 8px; }
+  .scale-block { margin-top: 10px; }
+  .scale-block h4 {
+    font-size: 0.85rem;
+    margin: 0 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+  .scale-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .scale-row label {
+    flex: 1 1 calc(20% - 6px);
+    min-width: 60px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 6px 4px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    background: white;
+    transition: background .15s, border-color .15s;
+  }
+  .scale-row label.selected {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .scale-row input { display: none; }
+  .scale-row .num { display: block; font-weight: 700; font-size: 1rem; }
+  .button-row { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+  button {
+    font: inherit;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  button.secondary { background: white; color: var(--accent); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .review-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .review-table th, .review-table td {
+    border-bottom: 1px solid var(--line);
+    padding: 6px 4px;
+    text-align: left;
+  }
+  .review-table td.num { text-align: center; width: 60px; }
+  .step { display: none; }
+  .step.active { display: block; }
+  .pill {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .warn { color: var(--warn); font-size: 0.85rem; }
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    padding: 16px;
+  }
+  footer a { color: var(--ink-soft); }
+  @media (max-width: 540px) {
+    .scale-row label { flex: 1 1 calc(33.333% - 6px); }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>WWF Italia: Sistema Natura 2030</h1>
+  <div class="subtitle">Survey di prioritizzazione dei driver — versione <span id="driver-version">…</span></div>
+</header>
+
+<main>
+  <!-- INTRO -->
+  <section class="step active" id="step-intro">
+    <div class="panel">
+      <h2>Introduzione</h2>
+      <p>Questo questionario fa parte del processo di foresight <strong>WWF Italia: Sistema Natura 2030</strong>.
+      L'obiettivo è raccogliere le vostre valutazioni su un insieme di <strong>driver esterni</strong>
+      (fattori di contesto) che incideranno sul sistema natura italiano, considerato in modo integrato
+      (terra e mare insieme) con l'Europa come contesto normativo, politico e finanziario.</p>
+
+      <div class="note">
+        <strong>Non è una scelta di strategie.</strong> Il survey serve a identificare quali driver siano
+        più <em>critici</em> e più <em>incerti</em>, per costruire gli scenari di riferimento.
+        Nessuna risposta verrà interpretata come adesione o rifiuto di una specifica strategia.
+      </div>
+
+      <label class="block" for="resp-group">Tipo di rispondente</label>
+      <select id="resp-group">
+        <option value="">— seleziona —</option>
+        <option>WWF Italia – staff</option>
+        <option>WWF Italia – volontari/attivisti</option>
+        <option>Partner / rete</option>
+        <option>Esperti esterni</option>
+        <option>Altro</option>
+      </select>
+
+      <label class="block" for="resp-role">Ruolo / funzione (facoltativo)</label>
+      <input id="resp-role" type="text" maxlength="120" placeholder="es. policy, conservazione marina, comunicazione…" />
+
+      <label class="block">
+        <input type="checkbox" id="consent" /> Confermo di voler partecipare e acconsento al trattamento
+        anonimo aggregato delle risposte ai soli fini del processo Sistema Natura 2030.
+      </label>
+
+      <div class="button-row">
+        <button id="btn-start">Inizia il survey</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RATING -->
+  <section class="step" id="step-rating">
+    <div class="panel">
+      <div class="progress-bar"><div id="progress-fill" style="width:0%"></div></div>
+      <div class="progress-label"><span id="progress-text">0 / 0</span> driver valutati</div>
+    </div>
+
+    <div class="panel" id="drivers-container"><!-- populated --></div>
+
+    <div class="panel">
+      <label class="block" for="open-comment">Commento aperto (facoltativo)</label>
+      <textarea id="open-comment" maxlength="3500" placeholder="Driver mancanti, dubbi sull'inquadramento, suggerimenti…"></textarea>
+      <div class="button-row">
+        <button class="secondary" id="btn-back-intro">← Indietro</button>
+        <button id="btn-review">Vai alla revisione →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEW -->
+  <section class="step" id="step-review">
+    <div class="panel">
+      <h2>Revisione</h2>
+      <p>Verifica le valutazioni prima dell'invio. I driver senza valutazione vengono comunque inviati come "non valutati".</p>
+      <table class="review-table" id="review-table"></table>
+      <div class="button-row">
+        <button class="secondary" id="btn-back-rating">← Modifica</button>
+        <button id="btn-submit">Invia risposte</button>
+      </div>
+      <p class="warn" id="submit-error" style="display:none"></p>
+    </div>
+  </section>
+
+  <!-- DONE -->
+  <section class="step" id="step-done">
+    <div class="panel">
+      <h2>Grazie 🌿</h2>
+      <p>Le tue risposte sono state registrate. Codice risposta:
+        <code id="response-code"></code></p>
+      <p>Puoi chiudere questa finestra. Le valutazioni aggregate saranno discusse
+        nei prossimi passaggi del processo Sistema Natura 2030.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  WWF-IT-Pathway-2030 · Driver set v<span id="footer-version">…</span> ·
+  <a href="/admin.html">Admin / risultati</a>
+</footer>
+
+<script>
+const SCALES = {
+  importance: [
+    'Poco rilevante', 'Rilevanza limitata', 'Rilevante', 'Molto rilevante', 'Critico',
+  ],
+  uncertainty: [
+    'Molto prevedibile', 'Abbastanza prevedibile', 'Moderatamente incerto',
+    'Molto incerto', 'Profondamente incerto',
+  ],
+};
+
+const state = { drivers: [], driverVersion: null, ratings: {} };
+
+async function loadDrivers() {
+  const r = await fetch('/api/drivers');
+  const data = await r.json();
+  state.drivers = data.drivers;
+  state.driverVersion = data.driver_version;
+  document.getElementById('driver-version').textContent = data.driver_version;
+  document.getElementById('footer-version').textContent = data.driver_version;
+  renderDrivers();
+}
+
+function renderDrivers() {
+  const c = document.getElementById('drivers-container');
+  c.innerHTML = '';
+  state.drivers.forEach((d, i) => {
+    const card = document.createElement('div');
+    card.className = 'driver-card';
+    const cat = d.category ? `<span class="pill">${d.category}</span>` : '';
+    const geo = d.geography_lens ? `<span class="pill">${d.geography_lens}</span>` : '';
+    card.innerHTML = `
+      <div class="driver-title"><span class="driver-id">${d.driver_id}</span> — ${escapeHtml(d.title)}</div>
+      <div class="driver-meta">${cat}${geo}</div>
+      ${d.short_definition ? `<p>${escapeHtml(d.short_definition)}</p>` : ''}
+      <div class="scale-block">
+        <h4>Importanza</h4>
+        <div class="scale-row" data-driver="${d.driver_id}" data-axis="importance"></div>
+      </div>
+      <div class="scale-block">
+        <h4>Incertezza</h4>
+        <div class="scale-row" data-driver="${d.driver_id}" data-axis="uncertainty"></div>
+      </div>
+      <label class="block">Commento sul driver (facoltativo)</label>
+      <textarea data-driver="${d.driver_id}" data-field="comment" maxlength="1800"></textarea>
+    `;
+    c.appendChild(card);
+  });
+  document.querySelectorAll('.scale-row').forEach(buildScaleRow);
+  document.querySelectorAll('textarea[data-field="comment"]').forEach((ta) => {
+    ta.addEventListener('input', (e) => {
+      const did = e.target.dataset.driver;
+      state.ratings[did] = state.ratings[did] || {};
+      state.ratings[did].comment = e.target.value;
+    });
+  });
+  updateProgress();
+}
+
+function buildScaleRow(row) {
+  const axis = row.dataset.axis;
+  const did = row.dataset.driver;
+  SCALES[axis].forEach((lbl, idx) => {
+    const n = idx + 1;
+    const id = `${did}-${axis}-${n}`;
+    const wrap = document.createElement('label');
+    wrap.htmlFor = id;
+    wrap.title = lbl;
+    wrap.innerHTML = `<input type="radio" name="${did}-${axis}" id="${id}" value="${n}">
+      <span class="num">${n}</span><span>${lbl}</span>`;
+    wrap.addEventListener('click', () => {
+      state.ratings[did] = state.ratings[did] || {};
+      state.ratings[did][axis] = n;
+      row.querySelectorAll('label').forEach((l) => l.classList.remove('selected'));
+      wrap.classList.add('selected');
+      updateProgress();
+    });
+    row.appendChild(wrap);
+  });
+}
+
+function updateProgress() {
+  const total = state.drivers.length;
+  let done = 0;
+  for (const d of state.drivers) {
+    const r = state.ratings[d.driver_id];
+    if (r && r.importance && r.uncertainty) done += 1;
+  }
+  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `${done} / ${total}`;
+}
+
+function show(stepId) {
+  document.querySelectorAll('.step').forEach((s) => s.classList.remove('active'));
+  document.getElementById(stepId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function renderReview() {
+  const t = document.getElementById('review-table');
+  let rows = '<tr><th>Driver</th><th class="num">Imp.</th><th class="num">Inc.</th></tr>';
+  for (const d of state.drivers) {
+    const r = state.ratings[d.driver_id] || {};
+    rows += `<tr>
+      <td><strong>${d.driver_id}</strong> — ${escapeHtml(d.title)}</td>
+      <td class="num">${r.importance ?? '—'}</td>
+      <td class="num">${r.uncertainty ?? '—'}</td>
+    </tr>`;
+  }
+  t.innerHTML = rows;
+}
+
+async function submitSurvey() {
+  const items = state.drivers.map((d) => {
+    const r = state.ratings[d.driver_id] || {};
+    return {
+      driver_id: d.driver_id,
+      importance_score: r.importance ?? null,
+      uncertainty_score: r.uncertainty ?? null,
+      driver_comment: r.comment ?? '',
+    };
+  });
+  const payload = {
+    respondent_group: document.getElementById('resp-group').value,
+    role_or_function: document.getElementById('resp-role').value,
+    consent: document.getElementById('consent').checked,
+    open_comment: document.getElementById('open-comment').value,
+    items,
+  };
+  const r = await fetch('/api/responses', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!r.ok) {
+    document.getElementById('submit-error').style.display = '';
+    document.getElementById('submit-error').textContent = 'Errore durante l\'invio. Riprova.';
+    return;
+  }
+  const data = await r.json();
+  document.getElementById('response-code').textContent = data.response_id;
+  show('step-done');
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
+document.getElementById('btn-start').addEventListener('click', () => {
+  if (!document.getElementById('consent').checked) {
+    alert('Per procedere è necessario confermare il consenso.');
+    return;
+  }
+  show('step-rating');
+});
+document.getElementById('btn-back-intro').addEventListener('click', () => show('step-intro'));
+document.getElementById('btn-review').addEventListener('click', () => { renderReview(); show('step-review'); });
+document.getElementById('btn-back-rating').addEventListener('click', () => show('step-rating'));
+document.getElementById('btn-submit').addEventListener('click', submitSurvey);
+
+loadDrivers();
+</script>
+</body>
+</html>

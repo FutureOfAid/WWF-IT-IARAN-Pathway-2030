@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WWF-IT-Pathway-2030 — Admin / risultati</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         margin: 0; background: #f5f6f3; color: #14281d; }
+  header { background: #166d3b; color: white; padding: 14px 20px; }
+  header h1 { margin: 0; font-size: 1rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 16px; }
+  .panel { background: white; border: 1px solid #d8ded7; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th, td { border-bottom: 1px solid #d8ded7; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #f0f3ef; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  a.button {
+    display: inline-block; background: #166d3b; color: white; padding: 8px 12px;
+    border-radius: 6px; text-decoration: none; font-size: 0.9rem; margin-right: 6px;
+  }
+  input { font: inherit; padding: 6px 8px; border: 1px solid #d8ded7; border-radius: 6px; }
+  #matrix { width: 100%; height: 360px; }
+  .grid line { stroke: #d8ded7; }
+  .axis-label { font-size: 11px; fill: #46524c; }
+  .point { fill: #166d3b; opacity: 0.6; }
+</style>
+</head>
+<body>
+<header><h1>WWF-IT-Pathway-2030 — Admin / risultati</h1></header>
+<main>
+  <div class="panel">
+    <label>Admin token (se configurato): <input id="tok" type="text" placeholder="ADMIN_TOKEN" /></label>
+    <div style="margin-top:10px">
+      <a class="button" id="csv-link" href="#">Scarica CSV</a>
+      <a class="button" id="json-link" href="#" download="responses.json">Scarica JSON</a>
+      <button class="button" id="refresh" style="border:0; cursor:pointer">Aggiorna</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Driver summary (aggregato)</h3>
+    <table id="summary-table"><thead><tr>
+      <th>Driver</th><th class="num">N</th>
+      <th class="num">Imp. media</th><th class="num">Imp. σ</th>
+      <th class="num">Inc. media</th><th class="num">Inc. σ</th>
+      <th class="num">Imp × Inc</th>
+    </tr></thead><tbody></tbody></table>
+  </div>
+
+  <div class="panel">
+    <h3>Mappa importanza × incertezza</h3>
+    <svg id="matrix" viewBox="0 0 500 360"></svg>
+    <p style="font-size:0.85rem;color:#46524c">
+      Asse X: importanza (1 → 5). Asse Y: incertezza (1 → 5). Ogni punto è una valutazione singola.
+      I punti coincidenti vengono leggermente offsettati per visibilità.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h3>Risposte grezze</h3>
+    <p style="font-size:0.85rem;color:#46524c" id="status">—</p>
+    <table id="responses-table"><thead><tr>
+      <th>response_id</th><th>submitted_at</th><th>group</th><th>role</th>
+      <th class="num">items</th><th>driver_version</th>
+    </tr></thead><tbody></tbody></table>
+  </div>
+</main>
+<script>
+function tok() {
+  return document.getElementById('tok').value.trim();
+}
+function withTok(url) {
+  const t = tok();
+  return t ? url + (url.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(t) : url;
+}
+
+async function refresh() {
+  document.getElementById('csv-link').href = withTok('/api/admin/export.csv');
+
+  const sum = await fetch('/api/driver-summary').then((r) => r.json());
+  const tb = document.querySelector('#summary-table tbody');
+  tb.innerHTML = '';
+  for (const r of sum.summary) {
+    const fmt = (v, p=2) => v == null ? '—' : Number(v).toFixed(p);
+    tb.insertAdjacentHTML('beforeend', `<tr>
+      <td><strong>${r.driver_id}</strong> — ${escapeHtml(r.title)}</td>
+      <td class="num">${r.n_responses}</td>
+      <td class="num">${fmt(r.importance_average)}</td>
+      <td class="num">${fmt(r.importance_stddev)}</td>
+      <td class="num">${fmt(r.uncertainty_average)}</td>
+      <td class="num">${fmt(r.uncertainty_stddev)}</td>
+      <td class="num">${fmt(r.critical_uncertainty_score)}</td>
+    </tr>`);
+  }
+
+  const m = await fetch('/api/matrix').then((r) => r.json());
+  drawMatrix(m.points);
+
+  try {
+    const resp = await fetch(withTok('/api/admin/responses'));
+    if (!resp.ok) {
+      document.getElementById('status').textContent =
+        resp.status === 401 ? 'Token mancante o errato.' : 'Errore caricamento risposte.';
+      return;
+    }
+    const data = await resp.json();
+    document.getElementById('status').textContent =
+      `${data.responses.length} risposte · ${data.items.length} valutazioni totali`;
+    const rt = document.querySelector('#responses-table tbody');
+    rt.innerHTML = '';
+    const itemsByResp = new Map();
+    for (const it of data.items) {
+      itemsByResp.set(it.response_id, (itemsByResp.get(it.response_id) || 0) + 1);
+    }
+    for (const r of data.responses) {
+      rt.insertAdjacentHTML('beforeend', `<tr>
+        <td><code>${r.response_id.slice(0, 8)}…</code></td>
+        <td>${escapeHtml(r.submitted_at)}</td>
+        <td>${escapeHtml(r.respondent_group || '')}</td>
+        <td>${escapeHtml(r.role_or_function || '')}</td>
+        <td class="num">${itemsByResp.get(r.response_id) || 0}</td>
+        <td>${escapeHtml(r.driver_version)}</td>
+      </tr>`);
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    document.getElementById('json-link').href = URL.createObjectURL(blob);
+  } catch (e) {
+    document.getElementById('status').textContent = 'Errore: ' + e.message;
+  }
+}
+
+function drawMatrix(points) {
+  const svg = document.getElementById('matrix');
+  svg.innerHTML = '';
+  const w = 500, h = 360, pad = 40;
+  const xScale = (v) => pad + (v - 1) / 4 * (w - 2 * pad);
+  const yScale = (v) => (h - pad) - (v - 1) / 4 * (h - 2 * pad);
+  const ns = 'http://www.w3.org/2000/svg';
+
+  for (let i = 1; i <= 5; i++) {
+    const xl = document.createElementNS(ns, 'line');
+    xl.setAttribute('x1', xScale(i)); xl.setAttribute('x2', xScale(i));
+    xl.setAttribute('y1', pad);       xl.setAttribute('y2', h - pad);
+    xl.setAttribute('stroke', '#d8ded7');
+    svg.appendChild(xl);
+    const yl = document.createElementNS(ns, 'line');
+    yl.setAttribute('x1', pad);     yl.setAttribute('x2', w - pad);
+    yl.setAttribute('y1', yScale(i)); yl.setAttribute('y2', yScale(i));
+    yl.setAttribute('stroke', '#d8ded7');
+    svg.appendChild(yl);
+
+    const xt = document.createElementNS(ns, 'text');
+    xt.setAttribute('x', xScale(i)); xt.setAttribute('y', h - pad + 14);
+    xt.setAttribute('text-anchor', 'middle'); xt.setAttribute('class', 'axis-label');
+    xt.textContent = i;
+    svg.appendChild(xt);
+    const yt = document.createElementNS(ns, 'text');
+    yt.setAttribute('x', pad - 6); yt.setAttribute('y', yScale(i) + 4);
+    yt.setAttribute('text-anchor', 'end'); yt.setAttribute('class', 'axis-label');
+    yt.textContent = i;
+    svg.appendChild(yt);
+  }
+  const xlab = document.createElementNS(ns, 'text');
+  xlab.setAttribute('x', w / 2); xlab.setAttribute('y', h - 6);
+  xlab.setAttribute('text-anchor', 'middle'); xlab.setAttribute('class', 'axis-label');
+  xlab.textContent = 'Importanza →';
+  svg.appendChild(xlab);
+  const ylab = document.createElementNS(ns, 'text');
+  ylab.setAttribute('transform', `rotate(-90 14 ${h / 2})`);
+  ylab.setAttribute('x', 14); ylab.setAttribute('y', h / 2);
+  ylab.setAttribute('text-anchor', 'middle'); ylab.setAttribute('class', 'axis-label');
+  ylab.textContent = 'Incertezza →';
+  svg.appendChild(ylab);
+
+  for (const p of points) {
+    const c = document.createElementNS(ns, 'circle');
+    const jitter = () => (Math.random() - 0.5) * 14;
+    c.setAttribute('cx', xScale(p.x) + jitter());
+    c.setAttribute('cy', yScale(p.y) + jitter());
+    c.setAttribute('r', 5);
+    c.setAttribute('class', 'point');
+    const title = document.createElementNS(ns, 'title');
+    title.textContent = `${p.driver_id} (imp ${p.x}, inc ${p.y})`;
+    c.appendChild(title);
+    svg.appendChild(c);
+  }
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
+document.getElementById('refresh').addEventListener('click', refresh);
+refresh();
+</script>
+</body>
+</html>

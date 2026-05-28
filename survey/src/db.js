@@ -23,7 +23,19 @@ if (USE_PG) {
     close: () => pool.end(),
   };
 } else {
-  const Database = require('better-sqlite3');
+  let Database;
+  try {
+    Database = require('better-sqlite3');
+  } catch (e) {
+    console.error(
+      '\nNo DATABASE_URL is set, and the SQLite fallback (better-sqlite3) is\n' +
+      'unavailable. On Railway you must attach a PostgreSQL plugin and expose\n' +
+      'its DATABASE_URL to this service. For local development, install build\n' +
+      'tools (python3, make, g++) and run `npm install` again to compile\n' +
+      'better-sqlite3.\n',
+    );
+    throw e;
+  }
   const dataDir = process.env.SQLITE_DIR || path.join(__dirname, '..', 'db');
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
   const dbPath = path.join(dataDir, 'survey.sqlite');

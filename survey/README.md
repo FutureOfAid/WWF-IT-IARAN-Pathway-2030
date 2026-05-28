@@ -129,12 +129,21 @@ rating grids). Use them for transparency / archival only.
 | GET  | `/api/admin/responses` | Admin: all responses + items (JSON). Token-protected if `ADMIN_TOKEN` set. |
 | GET  | `/api/admin/export.csv` | Admin: flat CSV (one row per response × item). |
 
+## Driver-version history
+
+| Version | Change |
+| --- | --- |
+| `0.3` | Initial 25-driver set with empty `short_definition`. |
+| `0.3.1` (current) | Adds Italian respondent-facing `short_definition` for every driver. |
+
+Both versions remain present in the `drivers` table after the bump — only the
+current `DRIVER_VERSION` is served to new respondents, and any responses
+collected against `0.3` keep their original `driver_version` and remain
+joinable to the v0.3 wording.
+
 ## Limitations / known gaps
 
 - No respondent authentication (yet). The brief allows this for now; add
   `ADMIN_TOKEN` at minimum before sharing the admin link.
-- Driver `short_definition` is blank in the seed — fill in via the Google Sheet
-  or a follow-up edit to `src/drivers.js` (will require a `DRIVER_VERSION` bump
-  if the change is substantive).
 - Stddev is computed in JS so the SQL stays portable across Postgres / SQLite;
   on very large datasets, swap to native `STDDEV_POP` in Postgres.

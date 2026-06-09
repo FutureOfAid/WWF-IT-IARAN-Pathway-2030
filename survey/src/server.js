@@ -11,10 +11,23 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
 
+function tokensMatch(provided) {
+  // Constant-time compare so we never leak length/contents via timing.
+  const a = Buffer.from(String(provided));
+  const b = Buffer.from(ADMIN_TOKEN);
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
+
+// Gate every admin view and results/export API. Fails closed: if ADMIN_TOKEN
+// is not configured the endpoints are unavailable rather than world-readable,
+// so survey results can never be exposed by a misconfigured deploy.
 function requireAdmin(req, res, next) {
-  if (!ADMIN_TOKEN) return next(); // open mode for first deploy; see README
-  const provided = req.query.token || req.get('x-admin-token');
-  if (provided !== ADMIN_TOKEN) return res.status(401).json({ error: 'unauthorized' });
+  if (!ADMIN_TOKEN) {
+    return res.status(503).json({ error: 'admin_token_not_configured' });
+  }
+  const provided = req.query.token || req.get('x-admin-token') || '';
+  if (!tokensMatch(provided)) return res.status(401).json({ error: 'unauthorized' });
   return next();
 }
 
@@ -89,7 +102,7 @@ app.post('/api/responses', async (req, res) => {
 
 // Aggregate summary per driver. driver_summary is computed dynamically so it
 // always reflects current data; materialising is a future option.
-app.get('/api/driver-summary', async (req, res) => {
+app.get('/api/driver-summary', requireAdmin, async (req, res) => {
   const { rows } = await db.query(
     `SELECT d.driver_id, d.title, d.category,
             COUNT(ri.id) AS n_responses,
@@ -182,7 +195,7 @@ app.get('/api/admin/export.csv', requireAdmin, async (req, res) => {
 });
 
 // Importance × uncertainty matrix points: one (x, y, count) per (importance, uncertainty) pair.
-app.get('/api/matrix', async (req, res) => {
+app.get('/api/matrix', requireAdmin, async (req, res) => {
   const { rows } = await db.query(
     `SELECT driver_id, importance_score AS x, uncertainty_score AS y
      FROM response_items

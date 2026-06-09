@@ -1,237 +1,272 @@
-// Preselected drivers v0.3.1 — WWF Italia: Sistema Natura 2030.
-// driver_id values are stable. Wording updates bump driver_version rather
-// than mutating existing rows, so historical responses stay joinable.
+// Preselected drivers v0.4.0 — WWF Italia: Sistema Natura 2030.
 //
-// v0.3.1 (this version): adds Italian respondent-facing short_definition for
-//   each driver. English title kept as the canonical reference label.
+// driver_id values are stable across versions. Wording updates bump
+// DRIVER_VERSION and seed NEW (driver_id, version) rows rather than mutating
+// existing ones, so historical responses stay joinable to the wording they
+// were collected under.
+//
+// v0.4.0 (this version): survey-ready edition from the v0.4 Driver Register
+//   ("Updated Survey List v0.4"). Respondent-facing `title` and
+//   `short_definition` are Italian: `title` is the survey formulation and
+//   `short_definition` is the extended pedagogical definition aimed at a broad
+//   audience. `title_en` keeps the original English formulation as a canonical
+//   reference label (not persisted; the drivers table is unchanged).
+//   Active set: 25 drivers. Versus v0.3.1: removed D14, D35, D41; added
+//   D15, D20, D38; the 22 retained drivers were re-worded.
+// v0.3.1: 25-driver set with English titles + Italian short_definition.
 // v0.3:   initial 25-driver set with empty short_definition.
-const DRIVER_VERSION = '0.3.1';
+const DRIVER_VERSION = '0.4.0';
 
 const DRIVERS = [
   {
     driver_id: 'D01',
-    title: 'Mediterranean climate hotspot amplification',
+    title: 'Mediterraneo come hotspot climatico',
+    title_en: 'Mediterranean climate hotspot amplification',
     category: 'Climate',
-    geography_lens: 'Italy/Mediterranean',
+    geography_lens: 'Italy primary + Mediterranean/global pressure layer',
     order_index: 1,
     short_definition:
-      'Il Mediterraneo si riscalda a un ritmo circa 20% più rapido della media globale. Conseguenze: ondate di calore terrestri e marine più intense, alterazione di precipitazioni e stagionalità, pressione cumulativa su ecosistemi e specie già al limite climatico.',
+      'L’Italia si trova in una regione mediterranea dove caldo, siccità, incendi, riscaldamento del mare e rischi costieri crescono più rapidamente della media globale. Questo può amplificare molte pressioni su biodiversità, acqua, agricoltura, salute degli ecosistemi, coste e territori, rendendo il clima una condizione trasversale per quasi tutte le scelte future su natura e sviluppo.',
   },
   {
     driver_id: 'D02',
-    title: 'Water scarcity, drought and hydrological stress',
-    category: 'Climate',
-    geography_lens: 'Italy',
+    title: 'Scarsità d’acqua e stress idrologico',
+    title_en: 'Water scarcity, drought and hydrological stress',
+    category: 'Water',
+    geography_lens: 'Italy primary',
     order_index: 2,
     short_definition:
-      'Riduzione strutturale della disponibilità idrica in Italia: siccità prolungate, abbassamento delle falde, riduzione delle portate fluviali, conflitti d\'uso fra agricoltura, ecosistemi, energia e usi civili.',
+      'Piogge più irregolari, periodi secchi più lunghi, maggiore evaporazione e maggiore competizione tra usi rendono l’acqua meno disponibile e più contesa. Questo può trasformare ecosistemi d’acqua dolce, agricoltura, foreste, energia, zone umide e gestione del territorio, aumentando i conflitti tra bisogni ecologici, economici e sociali.',
   },
   {
     driver_id: 'D04',
-    title: 'Wildfire risk and forest vulnerability',
-    category: 'Climate',
-    geography_lens: 'Italy',
+    title: 'Rischio incendi e vulnerabilità delle foreste',
+    title_en: 'Wildfire risk and forest vulnerability',
+    category: 'Land use',
+    geography_lens: 'Italy primary',
     order_index: 3,
     short_definition:
-      'Aumento di frequenza, intensità e durata degli incendi boschivi in un patrimonio forestale reso più vulnerabile da clima, abbandono colturale e accumulo di biomassa secca, con impatti su biodiversità, carbonio e popolazioni locali.',
+      'Temperature più alte, siccità prolungata e territori più fragili aumentano il rischio di incendi e riducono la resilienza delle foreste. Questo può minacciare biodiversità, aree protette, suoli, capacità di assorbire carbonio, sicurezza delle comunità locali e continuità degli ecosistemi forestali.',
   },
   {
     driver_id: 'D06',
-    title: 'Sea-level rise and coastal exposure',
-    category: 'Climate',
-    geography_lens: 'Italy/Coast',
+    title: 'Vulnerabilità delle coste e degli habitat costieri',
+    title_en: 'Sea-level rise, coastal exposure and coastal habitat vulnerability',
+    category: 'Marine',
+    geography_lens: 'Italy primary + Mediterranean/global pressure layer',
     order_index: 4,
     short_definition:
-      'Innalzamento del livello del mare e maggiore frequenza di eventi estremi costieri: erosione, ingressione salina, perdita di habitat di transizione (lagune, zone umide, dune) e crescente esposizione di infrastrutture e insediamenti.',
+      'Innalzamento del mare, erosione, sviluppo costiero, turismo, nautica, ancoraggi e inquinamento aumentano la pressione su coste, dune, zone umide e praterie marine. La qualità degli habitat costieri dipenderà dalla capacità di gestire insieme rischi climatici, usi del territorio, usi del mare e tutela degli ecosistemi più sensibili.',
   },
   {
     driver_id: 'D07',
-    title: 'Marine warming and species redistribution',
-    category: 'Climate',
-    geography_lens: 'Mediterranean',
+    title: 'Riscaldamento del mare e cambiamento delle specie marine',
+    title_en: 'Marine warming, tropicalisation and species redistribution',
+    category: 'Marine',
+    geography_lens: 'Italy primary + Mediterranean/global pressure layer',
     order_index: 5,
     short_definition:
-      'Riscaldamento delle acque mediterranee, mortalità di massa di specie sessili (es. gorgonie, posidonia) e tropicalizzazione: ingresso e affermazione di specie aliene termofile che riconfigurano comunità e reti trofiche.',
+      'Il riscaldamento del mare e le ondate di calore marine stanno modificando distribuzione delle specie, aree di nidificazione, catene alimentari e presenza di specie tropicali nel Mediterraneo. Questo può cambiare rapidamente le priorità di conservazione marina, il monitoraggio delle specie e la gestione degli habitat più vulnerabili.',
   },
   {
     driver_id: 'D09',
-    title: '30x30 protected area implementation gap',
-    category: 'Policy',
-    geography_lens: 'Italy/EU',
+    title: 'Distanza tra obiettivo 30x30 e protezione effettiva',
+    title_en: '30x30, OECM and strict-protection implementation gap',
+    category: 'Governance',
+    geography_lens: 'Italy primary + EU policy dependency',
     order_index: 6,
     short_definition:
-      'Distanza fra l\'impegno UE-globale a proteggere il 30% di terra e mare entro il 2030 (di cui 10% in protezione rigorosa) e la copertura, qualità e rappresentatività effettive in Italia.',
+      'L’Italia dovrà avanzare verso l’obiettivo di proteggere efficacemente il 30% di terra e mare. La sfida non sarà solo aumentare le aree designate, ma garantire protezione reale, qualità ecologica, OECM credibili, protezione stretta dove necessaria, gestione effettiva e monitoraggio degli effetti.',
   },
   {
     driver_id: 'D10',
-    title: 'Protected area management effectiveness deficit',
-    category: 'Policy',
-    geography_lens: 'Italy',
+    title: 'Qualità reale delle aree protette',
+    title_en: 'Protected-area quality, management effectiveness and ecological integrity deficit',
+    category: 'Governance',
+    geography_lens: 'Italy primary + EU/transboundary context',
     order_index: 7,
     short_definition:
-      'Aree protette esistenti ma con piani di gestione assenti, obsoleti o sottofinanziati, sorveglianza limitata e indicatori di efficacia non monitorati: "parchi sulla carta" che non garantiscono conservazione reale.',
+      'Un’area protetta non produce automaticamente benefici per la natura se mancano gestione, risorse, controlli, connettività, qualità degli habitat e capacità di adattarsi ai cambiamenti climatici. La distanza tra protezione formale e protezione effettiva può diventare decisiva per la biodiversità italiana.',
   },
   {
     driver_id: 'D11',
-    title: 'Nature Restoration Plan ambition gap',
-    category: 'Policy',
-    geography_lens: 'Italy/EU',
+    title: 'Ambizione e attuazione del Piano di Ripristino della Natura',
+    title_en: 'Nature Restoration Plan ambition gap',
+    category: 'Governance',
+    geography_lens: 'Italy primary + EU policy dependency',
     order_index: 8,
     short_definition:
-      'Rischio che il Piano nazionale di ripristino della natura previsto dal Regolamento UE sia poco ambizioso, scarsamente finanziato o lento nell\'attuazione rispetto agli obiettivi vincolanti su habitat, fiumi, suoli e impollinatori.',
+      'L’Italia dovrà tradurre il quadro europeo sul ripristino della natura in un piano nazionale concreto. Il risultato dipenderà da ambizione politica, risorse, capacità amministrativa, coordinamento tra livelli istituzionali e volontà di trasformare il piano in azioni reali sul territorio.',
   },
   {
     driver_id: 'D12',
-    title: 'Unfavourable habitat and ecosystem conservation status',
-    category: 'Biodiversity',
-    geography_lens: 'Italy',
+    title: 'Stato critico di habitat, specie ed ecosistemi',
+    title_en: 'Unfavourable habitat, species and ecosystem conservation status',
+    category: 'Land use',
+    geography_lens: 'Italy primary + EU policy dependency',
     order_index: 9,
     short_definition:
-      'Stato di conservazione sfavorevole o in peggioramento per una quota elevata di habitat e specie italiane di interesse comunitario (Direttive Habitat e Uccelli), con trend negativi consolidati nei reporting nazionali.',
+      'Molti habitat, specie ed ecosistemi italiani restano in condizioni sfavorevoli o vulnerabili. Questa situazione di partenza aumenta l’urgenza di scegliere bene dove concentrare protezione, ripristino, monitoraggio e gestione ecologica, soprattutto quando risorse e capacità operative sono limitate.',
   },
   {
     driver_id: 'D13',
-    title: 'Soil sealing and land consumption',
+    title: 'Consumo di suolo e pressione infrastrutturale',
+    title_en: 'Land consumption, soil degradation and infrastructure pressure',
     category: 'Land use',
-    geography_lens: 'Italy',
+    geography_lens: 'Italy primary + EU policy dependency',
     order_index: 10,
     short_definition:
-      'Consumo di suolo e impermeabilizzazione che procedono a ritmi elevati in Italia, riducendo terreni agricoli, aree naturali, servizi ecosistemici (acqua, carbonio, raffrescamento) e amplificando il rischio idrogeologico.',
+      'Urbanizzazione, infrastrutture, impermeabilizzazione del suolo, perdita di sostanza organica e desertificazione frammentano gli habitat e riducono la resilienza dei territori. Il suolo diventa una risorsa sempre più strategica per clima, acqua, biodiversità, agricoltura e sicurezza delle comunità.',
   },
   {
-    driver_id: 'D14',
-    title: 'Habitat fragmentation and ecological connectivity deficit',
+    driver_id: 'D15',
+    title: 'Espansione delle specie aliene invasive',
+    title_en: 'Invasive alien species expansion',
     category: 'Biodiversity',
-    geography_lens: 'Italy',
+    geography_lens: 'Italy primary + European/Mediterranean spread dynamics',
     order_index: 11,
     short_definition:
-      'Frammentazione del territorio da infrastrutture, urbanizzazione e agricoltura intensiva, con perdita di corridoi ecologici terrestri e fluviali e isolamento delle popolazioni animali e vegetali.',
+      'Le specie aliene invasive possono diffondersi più facilmente con cambiamento climatico, commercio, trasporti e degrado degli habitat. Possono alterare ecosistemi, competere con specie native, modificare equilibri ecologici e aumentare i costi di prevenzione, monitoraggio, gestione e controllo.',
   },
   {
     driver_id: 'D16',
-    title: 'Water pollution and pesticide pressure',
-    category: 'Pollution',
-    geography_lens: 'Italy',
+    title: 'Inquinamento delle acque e contaminanti emergenti',
+    title_en: 'Water, chemical and emerging contaminant pollution',
+    category: 'Water',
+    geography_lens: 'Italy primary + EU policy dependency',
     order_index: 12,
     short_definition:
-      'Pressione chimica diffusa su acque superficiali e sotterranee da nutrienti, pesticidi, farmaci e contaminanti emergenti, che compromette stato ecologico, salute pubblica e obiettivi della Direttiva Acque.',
+      'Pesticidi, sostanze chimiche, eutrofizzazione e contaminanti emergenti possono compromettere acqua, suoli, ecosistemi, filiere alimentari e salute. Alcuni effetti sono diffusi, lenti da rilevare e difficili da correggere una volta accumulati, soprattutto quando monitoraggio e regolazione non tengono il passo.',
   },
   {
     driver_id: 'D17',
-    title: 'Marine litter, plastic pollution and ghost gear',
-    category: 'Pollution',
-    geography_lens: 'Mediterranean',
+    title: 'Dipendenza dalla plastica e inquinamento diffuso',
+    title_en: 'Plastic-intensive systems and diffuse plastic pollution',
+    category: 'Marine',
+    geography_lens: 'Italy primary + Mediterranean/global pressure layer',
     order_index: 13,
     short_definition:
-      'Rifiuti marini, plastiche, microplastiche e attrezzi da pesca abbandonati ("reti fantasma") che impattano fauna marina, coste e attività economiche; il Mediterraneo è fra i mari più inquinati al mondo.',
+      'Prodotti, imballaggi e filiere ad alta intensità di plastica alimentano rifiuti, microplastiche, nanoplastiche e attrezzi da pesca dispersi. Questa pressione collega mare, terra, cibo, salute e modelli di consumo, e richiede di guardare sia ai rifiuti visibili sia alle dipendenze strutturali a monte.',
   },
   {
     driver_id: 'D18',
-    title: 'Agroecology and organic transition gap',
+    title: 'Transizione agroecologica e incentivi agricoli',
+    title_en: 'Agroecology, CAP incentives and food-system transition gap',
     category: 'Food/Agriculture',
-    geography_lens: 'Italy/EU',
+    geography_lens: 'Italy primary + EU policy dependency',
     order_index: 14,
     short_definition:
-      'Lentezza nella transizione verso pratiche agroecologiche e biologiche: ritmo di conversione, sostegno PAC, filiere e mercato non sufficienti rispetto agli obiettivi Farm-to-Fork e alle pressioni su suolo, acqua e biodiversità.',
+      'La transizione verso pratiche agricole più ecologiche dipende da politiche pubbliche, PAC, mercati, filiere, costi, domanda dei consumatori e capacità degli agricoltori di cambiare. Anche dove biologico e agroecologia crescono, il cambiamento può restare limitato se gli incentivi del sistema non sono coerenti.',
+  },
+  {
+    driver_id: 'D20',
+    title: 'Domanda alimentare, diete e limiti ecologici',
+    title_en: 'Food demand, diets and ecological limits',
+    category: 'Food/Agriculture',
+    geography_lens: 'Italy primary',
+    order_index: 15,
+    short_definition:
+      'Cambiamenti nei consumi alimentari, spreco, domanda di proteine, trasformazione della dieta mediterranea e pressione sulle filiere possono aumentare l’impatto su suolo, acqua, mare e biodiversità. Il modo in cui si produce, distribuisce e consuma cibo resta una forza centrale del sistema natura.',
   },
   {
     driver_id: 'D21',
-    title: 'Mediterranean fisheries recovery, overexploitation and compliance gap',
-    category: 'Fisheries',
-    geography_lens: 'Mediterranean',
-    order_index: 15,
+    title: 'Pressione su pesca, pesca ricreativa e filiere ittiche',
+    title_en: 'Fisheries pressure, recreational fishing and seafood supply-chain demand',
+    category: 'Marine',
+    geography_lens: 'Italy primary + Mediterranean/EU governance layer',
+    order_index: 16,
     short_definition:
-      'Pesca mediterranea ancora in larga parte sovrasfruttata, con ritardi nel recupero degli stock, deroghe ricorrenti e debolezze di controllo e compliance rispetto a piani pluriennali UE e raccomandazioni CGPM.',
+      'Anche se alcuni segnali indicano miglioramenti nella pesca mediterranea, sovrasfruttamento, catture accessorie, scarti, pesca ricreativa, domanda globale di prodotti ittici e controlli insufficienti continuano a pesare sulla biodiversità marina e sulle comunità costiere. Il driver include sia pressioni ecologiche dirette sia dinamiche di domanda, mercato e governance.',
   },
   {
     driver_id: 'D23',
-    title: 'Offshore wind and marine spatial planning tension',
+    title: 'Pressioni cumulative della blue economy',
+    title_en: 'Cumulative blue-economy and marine spatial planning pressure',
     category: 'Energy',
-    geography_lens: 'Italy/Coast',
-    order_index: 16,
+    geography_lens: 'Italy primary + EU policy dependency',
+    order_index: 17,
     short_definition:
-      'Tensione fra la rapida espansione dell\'eolico offshore necessaria per la transizione energetica e gli usi e i valori ecologici dello spazio marino (rotte di cetacei e uccelli, fondali sensibili, pesca, paesaggio).',
+      'Pesca, acquacoltura, traffico marittimo, energia offshore, turismo, nautica e altri usi del mare si sovrappongono sempre di più. La sfida sarà organizzare questi usi senza compromettere ecosistemi marini, coste, habitat sensibili e capacità pubblica di pianificazione spaziale marina.',
   },
   {
     driver_id: 'D24',
-    title: 'Renewable energy deployment and fossil fuel dependence',
+    title: 'Transizione energetica e dipendenza dai combustibili fossili',
+    title_en: 'Renewable energy deployment and fossil fuel dependence',
     category: 'Energy',
-    geography_lens: 'Italy/EU',
-    order_index: 17,
+    geography_lens: 'Italy primary + EU policy dependency',
+    order_index: 18,
     short_definition:
-      'Ritmo e qualità dell\'installazione di rinnovabili rispetto agli obiettivi 2030, e velocità di uscita dai combustibili fossili: impatti potenziali su biodiversità, suolo e paesaggio se la transizione non è ben pianificata.',
+      'La transizione energetica italiana avanza, ma resta condizionata da dipendenza dal gas, ritardi autorizzativi, infrastrutture, opposizioni locali e scelte politiche. Il modo in cui verrà realizzata influenzerà clima, paesaggi, biodiversità, uso del suolo e consenso sociale.',
   },
   {
     driver_id: 'D28',
-    title: 'Environmentally harmful subsidies and fiscal misalignment',
+    title: 'Sussidi dannosi e incoerenza della finanza pubblica',
+    title_en: 'Environmentally harmful subsidies and fiscal misalignment',
     category: 'Finance',
-    geography_lens: 'Italy/EU',
-    order_index: 18,
+    geography_lens: 'Italy primary + EU policy dependency',
+    order_index: 19,
     short_definition:
-      'Sussidi ambientalmente dannosi (energia fossile, alcuni usi agricoli, pesca) e fiscalità non allineata agli obiettivi di natura e clima, che continuano a finanziare pressioni invece di rimuoverle.',
+      'Una parte della finanza pubblica continua a sostenere attività dannose per ambiente, clima o biodiversità. Se tasse, incentivi e sussidi non sono coerenti con gli obiettivi ecologici, la transizione rischia di essere rallentata, contraddetta o resa meno credibile.',
   },
   {
     driver_id: 'D30',
-    title: 'Administrative and institutional inertia',
+    title: 'Attuazione debole, controlli insufficienti e interessi consolidati',
+    title_en: 'Institutional inertia, enforcement gap and vested interests',
     category: 'Governance',
-    geography_lens: 'Italy',
-    order_index: 19,
+    geography_lens: 'Italy primary',
+    order_index: 20,
     short_definition:
-      'Lentezza amministrativa, frammentazione delle competenze fra livelli (Stato, Regioni, enti locali), capacità tecnica limitata e turnover, che ritardano attuazione di norme e progetti ambientali.',
+      'Anche quando gli obiettivi ambientali sono chiari, frammentazione istituzionale, controlli deboli, illegalità ambientale, lentezza amministrativa e interessi consolidati possono ridurre l’efficacia delle politiche. Il problema è la distanza tra decisioni formali, capacità di esecuzione e risultati reali.',
   },
   {
     driver_id: 'D33',
-    title: 'Public concern-action gap',
+    title: 'Distanza tra preoccupazione pubblica e cambiamento reale',
+    title_en: 'Public concern-action gap and lifestyle lock-in',
     category: 'Society',
-    geography_lens: 'Italy',
-    order_index: 20,
-    short_definition:
-      'Distanza fra la preoccupazione dichiarata dei cittadini su clima e natura e i comportamenti, le scelte di consumo e le pressioni politiche effettivamente esercitate per il cambiamento sistemico.',
-  },
-  {
-    driver_id: 'D35',
-    title: 'Community co-management and local livelihood alignment',
-    category: 'Governance',
-    geography_lens: 'Italy',
+    geography_lens: 'Italy primary',
     order_index: 21,
     short_definition:
-      'Capacità di coinvolgere comunità locali, pescatori, agricoltori e operatori nella co-gestione delle aree e nell\'allineamento fra conservazione e mezzi di sussistenza, anziché percepire la natura come vincolo esterno.',
+      'Molte persone dichiarano preoccupazione per clima e natura, ma questo non si traduce automaticamente in comportamenti, comprensione delle politiche o pressione politica. Abitudini, costi, comodità, modelli di consumo e mancanza di alternative accessibili possono bloccare il cambiamento.',
   },
   {
     driver_id: 'D37',
-    title: 'Political polarisation and backlash against environmental transition',
-    category: 'Society',
-    geography_lens: 'Italy/EU',
+    title: 'Contestazione politica della transizione ecologica',
+    title_en: 'Deregulation, political backlash and transition contestation',
+    category: 'Governance',
+    geography_lens: 'Italy primary + EU political/regulatory layer',
     order_index: 22,
     short_definition:
-      'Polarizzazione politica e reazione contro le politiche ambientali (Green Deal, ripristino natura, agricoltura, energia), con rischio di rallentamento, smantellamento o svuotamento normativo.',
+      'Le politiche ambientali possono diventare più contestate, indebolite o semplificate sotto la pressione di interessi economici, costi sociali percepiti, cicli elettorali e narrative anti-regolazione. Questo può cambiare lo spazio politico disponibile per protezione della natura e transizione ecologica.',
   },
   {
-    driver_id: 'D41',
-    title: 'Sea-floor integrity and benthic habitat disturbance',
-    category: 'Biodiversity',
-    geography_lens: 'Mediterranean',
+    driver_id: 'D38',
+    title: 'Educazione, competenze verdi e cambiamento culturale',
+    title_en: 'Education, green competences and cultural transformation',
+    category: 'Society',
+    geography_lens: 'Italy primary',
     order_index: 23,
     short_definition:
-      'Disturbo fisico ai fondali marini da pesca a strascico, ancoraggi, dragaggi e infrastrutture, con perdita di habitat strutturanti (coralligeno, praterie di posidonia, fondi a maerl) e dei servizi associati.',
+      'Scuola, università, formazione professionale, competenze verdi e aspettative culturali possono cambiare il modo in cui cittadini, studenti, insegnanti e professionisti comprendono natura, rischio e transizione. Questo può influenzare il sostegno sociale alla protezione della natura e la capacità collettiva di immaginare scelte diverse.',
   },
   {
     driver_id: 'D42',
-    title: 'Public trust and legitimacy of environmental action',
+    title: 'Fiducia pubblica, legittimità e disuguaglianze ambientali',
+    title_en: 'Public trust, legitimacy and environmental health inequalities',
     category: 'Society',
-    geography_lens: 'Italy',
+    geography_lens: 'Italy primary + European public-debate layer',
     order_index: 24,
     short_definition:
-      'Livello di fiducia dei cittadini nelle istituzioni ambientali, nella scienza e nelle ONG, e percezione di legittimità delle decisioni di conservazione: precondizione per consenso sociale alle misure necessarie.',
+      'Il sostegno alle politiche ambientali può indebolirsi se clima e natura sono percepiti come temi elitari, punitivi o lontani dai bisogni locali. Fiducia nelle istituzioni, salute ambientale, disuguaglianze e distribuzione dei costi influenzeranno la legittimità della transizione.',
   },
   {
     driver_id: 'D43',
-    title: 'Volatility and competition in nature funding',
+    title: 'Stabilità e accessibilità dei finanziamenti per la natura',
+    title_en: 'Volatility and competition in nature funding',
     category: 'Finance',
-    geography_lens: 'Italy/EU',
+    geography_lens: 'Italy primary + EU finance/policy layer',
     order_index: 25,
     short_definition:
-      'Volatilità e competizione crescente sui finanziamenti per la natura: priorità di bilancio in mutamento (difesa, energia, sociale), incertezza sui fondi UE post-2027 e dipendenza da bandi a breve termine.',
+      'I bisogni di investimento per natura, ripristino e adattamento crescono, ma i finanziamenti possono restare instabili, competitivi, burocratici, condizionati o legati a priorità politiche mutevoli. Questo può influenzare continuità, scala, qualità e accessibilità degli interventi.',
   },
 ].map((d) => ({
   ...d,

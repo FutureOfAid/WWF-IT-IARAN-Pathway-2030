@@ -10,7 +10,7 @@ selection tool; it feeds the scenario construction stage.
 - `src/server.js` — Express API + static hosting.
 - `src/db.js` — Database abstraction. PostgreSQL when `DATABASE_URL` is set
   (Railway), SQLite locally (`db/survey.sqlite`).
-- `src/drivers.js` — Preselected driver set v0.3 (25 drivers from the brief).
+- `src/drivers.js` — Preselected driver set v0.4.0 (25 drivers, survey-ready Italian wording).
 - `src/seed.js` — Idempotent driver seed. **Never deletes** drivers or responses.
 - `public/index.html` — Italian respondent interface (mobile-friendly).
 - `public/admin.html` — Aggregate results + raw response export.
@@ -43,7 +43,7 @@ Railway should run this folder as the service root.
 | --- | --- |
 | `DATABASE_URL` | PostgreSQL connection string from a Railway Postgres plugin. **Required** in production — without it the app falls back to SQLite on an ephemeral filesystem and you will lose data on every redeploy. |
 | `PORT` | Provided by Railway automatically. |
-| `ADMIN_TOKEN` | Optional. If set, `/api/admin/*` endpoints require `?token=…` or `X-Admin-Token` header. If unset, admin is open (acceptable for early closed-link pilots, otherwise set it). |
+| `ADMIN_TOKEN` | **Required for launch.** Gates every admin view and results/export API (`/api/admin/responses`, `/api/admin/export.csv`, `/api/driver-summary`, `/api/matrix`). The value is the launch password and is supplied to the backend only as the admin-entered credential (`X-Admin-Token` header or `?token=` query param). It is **never** committed to the frontend or backend code. **Fails closed:** if `ADMIN_TOKEN` is unset, these endpoints return `503` and no results are exposed. Set it on the Railway web service to the agreed launch password. |
 | `PGSSL` | Optional. Set to `disable` to turn off TLS (Railway internal networking already does TLS). |
 
 **Build command**
@@ -66,7 +66,7 @@ on every boot — both are idempotent.)
 1. Add the PostgreSQL plugin to the Railway project.
 2. Reference the plugin's `DATABASE_URL` env var from the web service.
 3. Deploy. On first boot the server creates `drivers`, `survey_responses`,
-   `response_items` if missing and inserts the v0.3 driver set.
+   `response_items` if missing and inserts the v0.4.0 driver set.
 
 ### Avoiding data resets on redeploy
 
@@ -124,26 +124,32 @@ rating grids). Use them for transparency / archival only.
 | GET  | `/api/health` | Health + current driver version. |
 | GET  | `/api/drivers` | Active drivers for current `DRIVER_VERSION`. |
 | POST | `/api/responses` | Submit a response with items `[{driver_id, importance_score, uncertainty_score, driver_comment}]`. |
-| GET  | `/api/driver-summary` | Aggregate (n, avg, stddev, importance × uncertainty) per driver. Public — aggregate only, no PII. |
-| GET  | `/api/matrix` | Raw `(driver_id, importance, uncertainty)` points for the 2D matrix. |
-| GET  | `/api/admin/responses` | Admin: all responses + items (JSON). Token-protected if `ADMIN_TOKEN` set. |
-| GET  | `/api/admin/export.csv` | Admin: flat CSV (one row per response × item). |
+| GET  | `/api/driver-summary` | Aggregate (n, avg, stddev, importance × uncertainty) per driver. **Token-protected** (results data). |
+| GET  | `/api/matrix` | Raw `(driver_id, importance, uncertainty)` points for the 2D matrix. **Token-protected** (results data). |
+| GET  | `/api/admin/responses` | Admin: all responses + items (JSON). **Token-protected.** |
+| GET  | `/api/admin/export.csv` | Admin: flat CSV (one row per response × item). **Token-protected.** |
+
+All four endpoints above require a valid `ADMIN_TOKEN` (sent as `X-Admin-Token`
+header or `?token=` query param). They fail closed: with no `ADMIN_TOKEN`
+configured they return `503` and expose nothing.
 
 ## Driver-version history
 
 | Version | Change |
 | --- | --- |
 | `0.3` | Initial 25-driver set with empty `short_definition`. |
-| `0.3.1` (current) | Adds Italian respondent-facing `short_definition` for every driver. |
+| `0.3.1` | Adds Italian respondent-facing `short_definition` for every driver. |
+| `0.4.0` (current) | Survey-ready edition from the v0.4 Driver Register. Italian `title` (survey formulation) + Italian `short_definition` (extended pedagogical definition); `title_en` keeps the English reference label. Active set still 25 drivers, but D14/D35/D41 dropped and D15/D20/D38 added; the 22 retained drivers were re-worded. |
 
-Both versions remain present in the `drivers` table after the bump — only the
+All versions remain present in the `drivers` table after each bump — only the
 current `DRIVER_VERSION` is served to new respondents, and any responses
-collected against `0.3` keep their original `driver_version` and remain
-joinable to the v0.3 wording.
+collected against an earlier version keep their original `driver_version` and
+remain joinable to the wording they were collected under.
 
 ## Limitations / known gaps
 
-- No respondent authentication (yet). The brief allows this for now; add
-  `ADMIN_TOKEN` at minimum before sharing the admin link.
+- No respondent authentication (yet) for the public survey page itself; the
+  survey is shared as a closed link. Results and admin views are gated by
+  `ADMIN_TOKEN`, which must be set before launch (the API fails closed without it).
 - Stddev is computed in JS so the SQL stays portable across Postgres / SQLite;
   on very large datasets, swap to native `STDDEV_POP` in Postgres.

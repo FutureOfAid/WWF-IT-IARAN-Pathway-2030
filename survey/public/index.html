@@ -15,6 +15,10 @@
     --accent-soft: #e2efe7;
     --warn: #b35900;
     --danger: #a02020;
+    /* IARAN graphic identity */
+    --iaran: #1a5c7f;
+    --iaran-dark: #0f2a3a;
+    --iaran-line: rgba(255, 255, 255, 0.16);
   }
   * { box-sizing: border-box; }
   body {
@@ -25,12 +29,39 @@
     line-height: 1.5;
   }
   header {
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--iaran-dark) 0%, var(--iaran) 100%);
     color: white;
-    padding: 16px 20px;
+    padding: 18px 20px;
+    border-bottom: 3px solid var(--accent);
   }
-  header h1 { margin: 0; font-size: 1.1rem; font-weight: 600; }
-  header .subtitle { font-size: 0.85rem; opacity: 0.9; margin-top: 2px; }
+  .header-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .header-text { min-width: 0; }
+  header h1 { margin: 0; font-size: 1.1rem; font-weight: 600; letter-spacing: 0.01em; }
+  header .subtitle { font-size: 0.85rem; opacity: 0.85; margin-top: 3px; }
+  header .eyebrow {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+  .header-logo { flex: 0 0 auto; }
+  .header-logo img {
+    height: 52px;
+    width: auto;
+    display: block;
+  }
+  @media (max-width: 540px) {
+    .header-logo img { height: 40px; }
+    header h1 { font-size: 1rem; }
+  }
   main { max-width: 760px; margin: 0 auto; padding: 16px; }
   .panel {
     background: var(--panel);
@@ -158,8 +189,16 @@
 </head>
 <body>
 <header>
-  <h1>WWF Italia: Sistema Natura 2030</h1>
-  <div class="subtitle">Survey di prioritizzazione dei driver — versione <span id="driver-version">…</span></div>
+  <div class="header-inner">
+    <div class="header-text">
+      <div class="eyebrow">Processo di foresight</div>
+      <h1>WWF Italia: Sistema Natura 2030</h1>
+      <div class="subtitle">Survey di prioritizzazione dei driver — versione <span id="driver-version">…</span></div>
+    </div>
+    <div class="header-logo">
+      <img src="iaran_logo_white.png" alt="IARAN" width="500" height="671" />
+    </div>
+  </div>
 </header>
 
 <main>
@@ -181,6 +220,7 @@
       <label class="block" for="resp-group">Tipo di rispondente</label>
       <select id="resp-group">
         <option value="">— seleziona —</option>
+        <option>WWF Italia – membro del Consiglio</option>
         <option>WWF Italia – staff</option>
         <option>WWF Italia – volontari/attivisti</option>
         <option>Partner / rete</option>

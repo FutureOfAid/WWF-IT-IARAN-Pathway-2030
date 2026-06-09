@@ -30,13 +30,20 @@
 <header><h1>WWF-IT-Pathway-2030 — Admin / risultati</h1></header>
 <main>
   <div class="panel">
-    <label>Admin token (se configurato): <input id="tok" type="text" placeholder="ADMIN_TOKEN" /></label>
+    <label>Password / admin token: <input id="tok" type="password" placeholder="ADMIN_TOKEN" autocomplete="current-password" /></label>
     <div style="margin-top:10px">
-      <a class="button" id="csv-link" href="#">Scarica CSV</a>
-      <a class="button" id="json-link" href="#" download="responses.json">Scarica JSON</a>
-      <button class="button" id="refresh" style="border:0; cursor:pointer">Aggiorna</button>
+      <button class="button" id="unlock" style="border:0; cursor:pointer">Accedi</button>
+      <a class="button" id="csv-link" href="#" hidden>Scarica CSV</a>
+      <a class="button" id="json-link" href="#" download="responses.json" hidden>Scarica JSON</a>
+      <button class="button" id="refresh" style="border:0; cursor:pointer" hidden>Aggiorna</button>
+      <button class="button" id="logout" style="border:0; cursor:pointer; background:#7a8b80" hidden>Esci</button>
     </div>
+    <p id="gate-msg" style="font-size:0.85rem;color:#46524c;margin:10px 0 0">
+      Inserisci la password per visualizzare i risultati.
+    </p>
   </div>
+
+  <div id="results" hidden>
 
   <div class="panel">
     <h3>Driver summary (aggregato)</h3>
@@ -65,20 +72,54 @@
       <th class="num">items</th><th>driver_version</th>
     </tr></thead><tbody></tbody></table>
   </div>
+  </div><!-- /#results -->
 </main>
 <script>
+// The token is only ever held in memory / sessionStorage from what the admin
+// types here. It is never baked into this file or any bundle, and is sent to
+// the backend only as the user-entered credential.
+const TOK_KEY = 'wwf_admin_token';
 function tok() {
-  return document.getElementById('tok').value.trim();
+  return (sessionStorage.getItem(TOK_KEY) || '').trim();
 }
-function withTok(url) {
+function authFetch(url) {
   const t = tok();
-  return t ? url + (url.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(t) : url;
+  return fetch(url, { headers: t ? { 'X-Admin-Token': t } : {} });
+}
+
+function showGate(msg) {
+  document.getElementById('results').hidden = true;
+  document.getElementById('csv-link').hidden = true;
+  document.getElementById('json-link').hidden = true;
+  document.getElementById('refresh').hidden = true;
+  document.getElementById('logout').hidden = true;
+  document.getElementById('unlock').hidden = false;
+  document.getElementById('gate-msg').textContent = msg || 'Inserisci la password per visualizzare i risultati.';
+}
+function showResults() {
+  document.getElementById('results').hidden = false;
+  document.getElementById('csv-link').hidden = false;
+  document.getElementById('json-link').hidden = false;
+  document.getElementById('refresh').hidden = false;
+  document.getElementById('logout').hidden = false;
+  document.getElementById('unlock').hidden = true;
+  document.getElementById('gate-msg').textContent = '';
+}
+function gateMessageFor(status) {
+  if (status === 401) return 'Password errata.';
+  if (status === 503) return 'ADMIN_TOKEN non configurato sul server. Contatta l’amministratore.';
+  return 'Errore di caricamento (' + status + ').';
 }
 
 async function refresh() {
-  document.getElementById('csv-link').href = withTok('/api/admin/export.csv');
+  // CSV link carries the token in the query string so the browser download works.
+  document.getElementById('csv-link').href =
+    '/api/admin/export.csv?token=' + encodeURIComponent(tok());
 
-  const sum = await fetch('/api/driver-summary').then((r) => r.json());
+  const sumResp = await authFetch('/api/driver-summary');
+  if (!sumResp.ok) { showGate(gateMessageFor(sumResp.status)); return; }
+  showResults();
+  const sum = await sumResp.json();
   const tb = document.querySelector('#summary-table tbody');
   tb.innerHTML = '';
   for (const r of sum.summary) {
@@ -94,11 +135,11 @@ async function refresh() {
     </tr>`);
   }
 
-  const m = await fetch('/api/matrix').then((r) => r.json());
-  drawMatrix(m.points);
+  const mResp = await authFetch('/api/matrix');
+  if (mResp.ok) drawMatrix((await mResp.json()).points);
 
   try {
-    const resp = await fetch(withTok('/api/admin/responses'));
+    const resp = await authFetch('/api/admin/responses');
     if (!resp.ok) {
       document.getElementById('status').textContent =
         resp.status === 401 ? 'Token mancante o errato.' : 'Errore caricamento risposte.';
@@ -193,8 +234,28 @@ function escapeHtml(s) {
   }[c]));
 }
 
+function unlock() {
+  const entered = document.getElementById('tok').value.trim();
+  if (!entered) { showGate('Inserisci la password.'); return; }
+  sessionStorage.setItem(TOK_KEY, entered);
+  refresh();
+}
+function logout() {
+  sessionStorage.removeItem(TOK_KEY);
+  document.getElementById('tok').value = '';
+  showGate('Sessione terminata. Inserisci la password per accedere di nuovo.');
+}
+
+document.getElementById('unlock').addEventListener('click', unlock);
+document.getElementById('logout').addEventListener('click', logout);
 document.getElementById('refresh').addEventListener('click', refresh);
-refresh();
+document.getElementById('tok').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') unlock();
+});
+
+// Do not auto-load results. Only attempt if a token is already in this session.
+if (tok()) { document.getElementById('tok').value = tok(); refresh(); }
+else { showGate(); }
 </script>
 </body>
 </html>

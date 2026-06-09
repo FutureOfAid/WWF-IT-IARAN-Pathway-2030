@@ -9,13 +9,28 @@ const app = express();
 app.use(express.json({ limit: '256kb' }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Trim the configured token. Railway (and most env-var UIs) silently keep a
-// trailing newline or space when a value is pasted; an untrimmed compare then
-// fails the length check and returns 401 even though the "right" password was
-// set. We trim only the *configured* secret here. The provided credential is
-// trimmed at the edge below so leading/trailing whitespace a user accidentally
-// copies does not lock them out either.
-const ADMIN_TOKEN = (process.env.ADMIN_TOKEN || '').trim();
+// Normalize the configured token. Railway (and most env-var UIs) silently keep
+// a trailing newline or space when a value is pasted, and some users wrap the
+// value in quotes; an untrimmed/unquoted compare then fails the length check
+// and returns 401 even though the "right" password was set. normalizeToken()
+// strips surrounding whitespace (incl. NBSP / zero-width chars) and one layer
+// of matching ASCII quotes. The provided credential is normalized the same way
+// at the edge below so the two sides cannot diverge on whitespace/quoting.
+function normalizeToken(raw) {
+  // Strip ASCII whitespace (\s, which in JS already covers NBSP U+00A0 and BOM
+  // U+FEFF) plus zero-width space/joiner (U+200B-U+200D), which \s does NOT
+  // cover. Escapes are used (not literal invisible chars) so the source is
+  // unambiguous and copy-safe.
+  const TRIM = /^[\s\u00A0\u200B-\u200D\uFEFF]+|[\s\u00A0\u200B-\u200D\uFEFF]+$/g;
+  let s = String(raw || '').replace(TRIM, '');
+  if (s.length >= 2 && ((s[0] === '"' && s[s.length - 1] === '"') ||
+                        (s[0] === "'" && s[s.length - 1] === "'"))) {
+    s = s.slice(1, -1).replace(TRIM, '');
+  }
+  return s;
+}
+
+const ADMIN_TOKEN = normalizeToken(process.env.ADMIN_TOKEN);
 
 function tokensMatch(provided) {
   // Compare as UTF-8 bytes. Length differences can't be hidden, so we fall
@@ -47,13 +62,33 @@ function requireAdmin(req, res, next) {
     return res.status(503).json({ error: 'admin_token_not_configured' });
   }
   const fromBody = req.body && typeof req.body.token === 'string' ? req.body.token : '';
-  const provided = String(req.query.token || req.get('x-admin-token') || fromBody || '').trim();
+  const provided = normalizeToken(req.query.token || req.get('x-admin-token') || fromBody || '');
   if (!tokensMatch(provided)) return res.status(401).json({ error: 'unauthorized' });
   return next();
 }
 
+// Secret-safe admin diagnostics. Lets an operator verify what the *running*
+// process actually holds for ADMIN_TOKEN without leaking it. Exposes only:
+//   - admin_configured: is a non-empty token present at all
+//   - admin_token_len:  byte length after normalization (catches stray quotes /
+//                       whitespace that change the length)
+//   - admin_token_sha256_prefix: first 8 hex chars of SHA-256(token). To check
+//     a candidate, compute `echo -n 'WWF&I' | sha256sum` locally and compare
+//     the first 8 chars. A full hash is never returned, so the prefix alone is
+//     not brute-forceable into the secret.
+// This is enough to distinguish "env var stale/wrong" from "value matches".
 app.get('/api/health', async (req, res) => {
-  res.json({ ok: true, db: db.kind, driver_version: DRIVER_VERSION });
+  const adminConfigured = ADMIN_TOKEN.length > 0;
+  res.json({
+    ok: true,
+    db: db.kind,
+    driver_version: DRIVER_VERSION,
+    admin_configured: adminConfigured,
+    admin_token_len: adminConfigured ? ADMIN_TOKEN.length : 0,
+    admin_token_sha256_prefix: adminConfigured
+      ? crypto.createHash('sha256').update(ADMIN_TOKEN, 'utf8').digest('hex').slice(0, 8)
+      : null,
+  });
 });
 
 app.get('/api/drivers', async (req, res) => {

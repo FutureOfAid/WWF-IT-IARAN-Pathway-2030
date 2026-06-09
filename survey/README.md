@@ -1,9 +1,22 @@
 # WWF-IT-Pathway-2030 — Survey
 
 Survey app for the **WWF Italia: Sistema Natura 2030** foresight process. Respondents
-rate a pre-selected list of external drivers on two 1–5 scales (importance and
-uncertainty) plus optional free-text comments. The app is **not** a strategy-
-selection tool; it feeds the scenario construction stage.
+rate a pre-selected list of external drivers on two pedagogical **1–4 scales**
+(importance and uncertainty), each level carrying a plain-language description tied
+to 2030 / the next four years, plus optional free-text comments. The app is **not**
+a strategy-selection tool; it feeds the scenario construction stage.
+
+The two questions shown per driver are:
+
+- **Importance** — *Quanto questo driver potrebbe influenzare il Sistema Natura 2030
+  nei prossimi quattro anni?* (1 Limitato · 2 Rilevante · 3 Molto importante · 4 Determinante)
+- **Uncertainty** — *Quanto è difficile prevedere come evolverà questo driver da qui
+  al 2030?* (1 Abbastanza prevedibile · 2 Parzialmente prevedibile · 3 Difficile da
+  prevedere · 4 Molto imprevedibile)
+
+Scores are validated server-side to the 1–4 range. Responses collected under earlier
+driver versions (which used a 1–5 scale) are never re-validated and remain in the
+database unchanged, so version history is preserved.
 
 ## What's in this folder
 
@@ -43,7 +56,7 @@ Railway should run this folder as the service root.
 | --- | --- |
 | `DATABASE_URL` | PostgreSQL connection string from a Railway Postgres plugin. **Required** in production — without it the app falls back to SQLite on an ephemeral filesystem and you will lose data on every redeploy. |
 | `PORT` | Provided by Railway automatically. |
-| `ADMIN_TOKEN` | **Required for launch.** Gates every admin view and results/export API (`/api/admin/responses`, `/api/admin/export.csv`, `/api/driver-summary`, `/api/matrix`). The value is the launch password and is supplied to the backend only as the admin-entered credential (`X-Admin-Token` header or `?token=` query param). It is **never** committed to the frontend or backend code. **Fails closed:** if `ADMIN_TOKEN` is unset, these endpoints return `503` and no results are exposed. Set it on the Railway web service to the agreed launch password. |
+| `ADMIN_TOKEN` | **Required for launch.** Gates every admin view and results/export API (`/api/admin/responses`, `/api/admin/export.csv`, `/api/driver-summary`, `/api/matrix`). The value is the launch password and is supplied to the backend only as the admin-entered credential (`X-Admin-Token` header or `?token=` query param). It is **never** committed to the frontend or backend code. **Fails closed:** if `ADMIN_TOKEN` is unset, these endpoints return `503` and no results are exposed. **Current launch password: `WWF&I`** — set `ADMIN_TOKEN=WWF&I` on the Railway web service (this secret is documented here only as configuration guidance; it is not hardcoded anywhere in the app). |
 | `PGSSL` | Optional. Set to `disable` to turn off TLS (Railway internal networking already does TLS). |
 
 **Build command**
@@ -133,6 +146,25 @@ All four endpoints above require a valid `ADMIN_TOKEN` (sent as `X-Admin-Token`
 header or `?token=` query param). They fail closed: with no `ADMIN_TOKEN`
 configured they return `503` and expose nothing.
 
+### Admin token handling (and the 401 troubleshooting note)
+
+The server **trims** the configured `ADMIN_TOKEN` and the provided credential
+before comparing them (constant-time). This matters because env-var UIs such as
+Railway frequently keep a trailing newline or space when a value is pasted; an
+untrimmed compare would then fail the length check and return `401` even though
+the correct password was set. If you ever see a `401` with the right password,
+re-check for stray whitespace in the env var — but the trim now handles it.
+
+The credential is accepted via the `X-Admin-Token` header, the `?token=` query
+param, or a `token` body field, consistently.
+
+**Ampersand caveat for the current password (`WWF&I`):** when passing the token
+in a URL query string by hand, the `&` must be percent-encoded as `%26`
+(`?token=WWF%26I`), otherwise the browser treats `&I` as a separate query
+parameter and only `WWF` reaches the server (→ `401`). The admin UI already
+`encodeURIComponent()`s the token for its CSV download link, so this only affects
+hand-built URLs. The `X-Admin-Token` header path needs no encoding.
+
 ## Driver-version history
 
 | Version | Change |
@@ -140,6 +172,14 @@ configured they return `503` and expose nothing.
 | `0.3` | Initial 25-driver set with empty `short_definition`. |
 | `0.3.1` | Adds Italian respondent-facing `short_definition` for every driver. |
 | `0.4.0` (current) | Survey-ready edition from the v0.4 Driver Register. Italian `title` (survey formulation) + Italian `short_definition` (extended pedagogical definition); `title_en` keeps the English reference label. Active set still 25 drivers, but D14/D35/D41 dropped and D15/D20/D38 added; the 22 retained drivers were re-worded. |
+
+> **Scale change (UI/validation, not a driver-set bump):** the rating scale moved
+> from academic 1–5 labels to a pedagogical **1–4** scale with plain-language
+> descriptions tied to 2030 (see the questions at the top of this README). The
+> driver set is unchanged, so `DRIVER_VERSION` stays `0.4.0`. The server now
+> validates new scores to 1–4; existing 1–5 responses are untouched and remain
+> joinable by their stored `driver_version`. The admin importance × uncertainty
+> matrix axes were updated to 1–4 accordingly.
 
 All versions remain present in the `drivers` table after each bump — only the
 current `DRIVER_VERSION` is served to new respondents, and any responses

@@ -9,24 +9,45 @@ const app = express();
 app.use(express.json({ limit: '256kb' }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
+// Trim the configured token. Railway (and most env-var UIs) silently keep a
+// trailing newline or space when a value is pasted; an untrimmed compare then
+// fails the length check and returns 401 even though the "right" password was
+// set. We trim only the *configured* secret here. The provided credential is
+// trimmed at the edge below so leading/trailing whitespace a user accidentally
+// copies does not lock them out either.
+const ADMIN_TOKEN = (process.env.ADMIN_TOKEN || '').trim();
 
 function tokensMatch(provided) {
-  // Constant-time compare so we never leak length/contents via timing.
-  const a = Buffer.from(String(provided));
-  const b = Buffer.from(ADMIN_TOKEN);
-  if (a.length !== b.length) return false;
+  // Compare as UTF-8 bytes. Length differences can't be hidden, so we fall
+  // through to a fixed-cost compare against ADMIN_TOKEN on mismatch to keep the
+  // timing roughly constant rather than returning early on length alone.
+  const a = Buffer.from(String(provided), 'utf8');
+  const b = Buffer.from(ADMIN_TOKEN, 'utf8');
+  if (a.length !== b.length) {
+    crypto.timingSafeEqual(b, b);
+    return false;
+  }
   return crypto.timingSafeEqual(a, b);
 }
 
 // Gate every admin view and results/export API. Fails closed: if ADMIN_TOKEN
 // is not configured the endpoints are unavailable rather than world-readable,
 // so survey results can never be exposed by a misconfigured deploy.
+//
+// The credential may arrive three ways, accepted consistently:
+//   - X-Admin-Token header (admin.html uses this)
+//   - ?token= query param (used for the CSV download link)
+//   - token field on a form/JSON body (defensive: some proxies drop headers)
+// Note: when passing ?token= manually, a value containing "&" (e.g. WWF&I)
+// MUST be percent-encoded as %26 or the browser treats it as a new query param.
+// The admin UI already encodeURIComponent()s the token, so this only matters
+// for hand-built URLs.
 function requireAdmin(req, res, next) {
   if (!ADMIN_TOKEN) {
     return res.status(503).json({ error: 'admin_token_not_configured' });
   }
-  const provided = req.query.token || req.get('x-admin-token') || '';
+  const fromBody = req.body && typeof req.body.token === 'string' ? req.body.token : '';
+  const provided = String(req.query.token || req.get('x-admin-token') || fromBody || '').trim();
   if (!tokensMatch(provided)) return res.status(401).json({ error: 'unauthorized' });
   return next();
 }
@@ -47,9 +68,13 @@ app.get('/api/drivers', async (req, res) => {
   res.json({ driver_version: DRIVER_VERSION, drivers: rows });
 });
 
+// Scores are on a pedagogical 4-level scale (1–4) for importance and
+// uncertainty. Older responses collected under earlier driver versions may
+// carry 1–5 values; those rows are never re-validated, so DB compatibility is
+// preserved — this only constrains newly submitted items.
 function validateScore(v) {
   const n = Number(v);
-  if (!Number.isInteger(n) || n < 1 || n > 5) return null;
+  if (!Number.isInteger(n) || n < 1 || n > 4) return null;
   return n;
 }
 

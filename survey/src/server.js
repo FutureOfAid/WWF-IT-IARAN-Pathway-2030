@@ -233,6 +233,32 @@ app.get('/api/admin/responses', requireAdmin, async (req, res) => {
   res.json({ responses: responses.rows, items: items.rows });
 });
 
+// Delete a single response (and its items) by response_id. Scoped to one
+// response so charts/lists can be cleaned of test or erroneous submissions
+// without touching any other data. Children are removed first, then the
+// parent; if the parent did not exist we report 404 so the UI can surface it.
+app.delete('/api/admin/responses/:responseId', requireAdmin, async (req, res) => {
+  try {
+    const responseId = String(req.params.responseId || '');
+    if (!responseId) return res.status(400).json({ error: 'missing_response_id' });
+
+    await db.query(`DELETE FROM response_items WHERE response_id = $1`, [responseId]);
+    const result = await db.query(
+      `DELETE FROM survey_responses WHERE response_id = $1`,
+      [responseId],
+    );
+
+    // pg reports affected rows in rowCount; the sqlite wrapper also returns
+    // rowCount (info.changes). Treat 0 as "nothing matched" -> 404.
+    if (!result.rowCount) return res.status(404).json({ error: 'not_found' });
+
+    res.json({ ok: true, response_id: responseId });
+  } catch (e) {
+    console.error('DELETE /api/admin/responses/:responseId', e);
+    res.status(500).json({ error: 'server_error' });
+  }
+});
+
 app.get('/api/admin/export.csv', requireAdmin, async (req, res) => {
   const { rows } = await db.query(
     `SELECT sr.response_id, sr.submitted_at, sr.respondent_group,

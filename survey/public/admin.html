@@ -45,6 +45,29 @@
   .matrix-legend .lab { flex: 1 1 auto; color: #14281d; }
   .matrix-legend .sc { flex: 0 0 auto; color: #46524c; font-variant-numeric: tabular-nums; font-size: 0.8rem; }
   .legend-head { font-size: 0.8rem; color: #46524c; margin: 0 0 6px; }
+
+  /* Per-row delete: subdued by default, danger colour only on hover/focus so the
+     table stays calm. The confirm step (inline) prevents accidental deletion. */
+  th.actions-col, td.actions-col { text-align: right; white-space: nowrap; }
+  .row-delete {
+    font: inherit; font-size: 0.8rem; line-height: 1; cursor: pointer;
+    color: #9a2b2b; background: transparent; border: 1px solid #e0c9c9;
+    border-radius: 6px; padding: 5px 9px;
+  }
+  .row-delete:hover, .row-delete:focus-visible { background: #fbeaea; border-color: #c98a8a; }
+  .row-delete:focus-visible { outline: 2px solid #9a2b2b; outline-offset: 1px; }
+  .row-delete[disabled] { opacity: 0.5; cursor: default; }
+  .confirm-delete { display: inline-flex; gap: 6px; align-items: center; }
+  .confirm-delete .ask { font-size: 0.8rem; color: #9a2b2b; }
+  .confirm-yes {
+    font: inherit; font-size: 0.8rem; line-height: 1; cursor: pointer; color: #fff;
+    background: #9a2b2b; border: 1px solid #9a2b2b; border-radius: 6px; padding: 5px 9px;
+  }
+  .confirm-no {
+    font: inherit; font-size: 0.8rem; line-height: 1; cursor: pointer; color: #46524c;
+    background: transparent; border: 1px solid #d8ded7; border-radius: 6px; padding: 5px 9px;
+  }
+  .confirm-yes:focus-visible, .confirm-no:focus-visible { outline: 2px solid #14281d; outline-offset: 1px; }
 </style>
 </head>
 <body>
@@ -105,7 +128,7 @@
     <p style="font-size:0.85rem;color:#46524c" id="status">—</p>
     <table id="responses-table"><thead><tr>
       <th>response_id</th><th>submitted_at</th><th>group</th><th>role</th>
-      <th class="num">items</th><th>driver_version</th>
+      <th class="num">items</th><th>driver_version</th><th class="actions-col">azioni</th>
     </tr></thead><tbody></tbody></table>
   </div>
   </div><!-- /#results -->
@@ -118,9 +141,10 @@ const TOK_KEY = 'wwf_admin_token';
 function tok() {
   return (sessionStorage.getItem(TOK_KEY) || '').trim();
 }
-function authFetch(url) {
+function authFetch(url, options = {}) {
   const t = tok();
-  return fetch(url, { headers: t ? { 'X-Admin-Token': t } : {} });
+  const headers = Object.assign({}, options.headers, t ? { 'X-Admin-Token': t } : {});
+  return fetch(url, Object.assign({}, options, { headers }));
 }
 
 function showGate(msg) {
@@ -189,13 +213,18 @@ async function refresh() {
       itemsByResp.set(it.response_id, (itemsByResp.get(it.response_id) || 0) + 1);
     }
     for (const r of data.responses) {
-      rt.insertAdjacentHTML('beforeend', `<tr>
-        <td><code>${r.response_id.slice(0, 8)}…</code></td>
+      const rid = escapeHtml(r.response_id);
+      rt.insertAdjacentHTML('beforeend', `<tr data-response-id="${rid}">
+        <td><code>${escapeHtml(r.response_id.slice(0, 8))}…</code></td>
         <td>${escapeHtml(r.submitted_at)}</td>
         <td>${escapeHtml(r.respondent_group || '')}</td>
         <td>${escapeHtml(r.role_or_function || '')}</td>
         <td class="num">${itemsByResp.get(r.response_id) || 0}</td>
         <td>${escapeHtml(r.driver_version)}</td>
+        <td class="actions-col">
+          <button type="button" class="row-delete" data-response-id="${rid}"
+                  aria-label="Elimina la risposta ${escapeHtml(r.response_id.slice(0, 8))}">Elimina</button>
+        </td>
       </tr>`);
     }
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -204,6 +233,63 @@ async function refresh() {
     document.getElementById('status').textContent = 'Errore: ' + e.message;
   }
 }
+
+// Per-response deletion. A two-step inline confirm guards against accidental
+// removal: the first click swaps the "Elimina" button for "Eliminare? Sì / No".
+// On confirm we DELETE the single response by id, then refresh() so the summary
+// table, matrix and raw list all reflect the change. All other data is left
+// untouched; the DB is never reset.
+async function deleteResponse(responseId, triggerBtn) {
+  if (triggerBtn) triggerBtn.disabled = true;
+  try {
+    const resp = await authFetch(
+      '/api/admin/responses/' + encodeURIComponent(responseId),
+      { method: 'DELETE' },
+    );
+    if (!resp.ok) {
+      if (resp.status === 401 || resp.status === 503) { showGate(gateMessageFor(resp.status)); return; }
+      const msg = resp.status === 404
+        ? 'Risposta non trovata (forse già eliminata).'
+        : 'Eliminazione non riuscita (' + resp.status + ').';
+      document.getElementById('status').textContent = msg;
+      if (triggerBtn) triggerBtn.disabled = false;
+      return;
+    }
+    await refresh();
+  } catch (e) {
+    document.getElementById('status').textContent = 'Errore eliminazione: ' + e.message;
+    if (triggerBtn) triggerBtn.disabled = false;
+  }
+}
+
+// Inline confirm rendered in place of the row's delete button.
+function showRowConfirm(cell, responseId) {
+  cell.innerHTML =
+    '<span class="confirm-delete">' +
+    '<span class="ask">Eliminare?</span>' +
+    '<button type="button" class="confirm-yes">Sì</button>' +
+    '<button type="button" class="confirm-no">No</button>' +
+    '</span>';
+  const yes = cell.querySelector('.confirm-yes');
+  const no = cell.querySelector('.confirm-no');
+  const rid8 = escapeHtml(responseId.slice(0, 8));
+  const restore = () => {
+    cell.innerHTML =
+      '<button type="button" class="row-delete" data-response-id="' + escapeHtml(responseId) + '"' +
+      ' aria-label="Elimina la risposta ' + rid8 + '">Elimina</button>';
+  };
+  yes.addEventListener('click', () => deleteResponse(responseId, yes));
+  no.addEventListener('click', restore);
+  yes.focus();
+}
+
+// Delegated handler: survives table re-renders on every refresh().
+document.querySelector('#responses-table tbody').addEventListener('click', (e) => {
+  const btn = e.target.closest('.row-delete');
+  if (!btn) return;
+  const responseId = btn.getAttribute('data-response-id');
+  if (responseId) showRowConfirm(btn.parentElement, responseId);
+});
 
 // The matrix plots one point PER DRIVER at its mean importance × mean
 // uncertainty (the same averages shown in the summary table — the calculation

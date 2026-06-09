@@ -140,9 +140,10 @@ rating grids). Use them for transparency / archival only.
 | GET  | `/api/driver-summary` | Aggregate (n, avg, stddev, importance × uncertainty) per driver. **Token-protected** (results data). |
 | GET  | `/api/matrix` | Raw `(driver_id, importance, uncertainty)` points for the 2D matrix. **Token-protected** (results data). |
 | GET  | `/api/admin/responses` | Admin: all responses + items (JSON). **Token-protected.** |
+| DELETE | `/api/admin/responses/:responseId` | Admin: delete one response and its items by `response_id` (for removing test/erroneous submissions). Returns `404` if not found. All other data is preserved. **Token-protected.** |
 | GET  | `/api/admin/export.csv` | Admin: flat CSV (one row per response × item). **Token-protected.** |
 
-All four endpoints above require a valid `ADMIN_TOKEN` (sent as `X-Admin-Token`
+All endpoints above require a valid `ADMIN_TOKEN` (sent as `X-Admin-Token`
 header or `?token=` query param). They fail closed: with no `ADMIN_TOKEN`
 configured they return `503` and expose nothing.
 

@@ -21,6 +21,7 @@ const DRIVERS = [
   {
     driver_id: 'D01',
     title: 'Mediterraneo come hotspot climatico',
+    short_label: 'Hotspot climatico Mediterraneo',
     title_en: 'Mediterranean climate hotspot amplification',
     category: 'Climate',
     geography_lens: 'Italy primary + Mediterranean/global pressure layer',
@@ -31,6 +32,7 @@ const DRIVERS = [
   {
     driver_id: 'D02',
     title: 'Scarsità d’acqua e stress idrologico',
+    short_label: 'Scarsità idrica',
     title_en: 'Water scarcity, drought and hydrological stress',
     category: 'Water',
     geography_lens: 'Italy primary',
@@ -41,6 +43,7 @@ const DRIVERS = [
   {
     driver_id: 'D04',
     title: 'Rischio incendi e vulnerabilità delle foreste',
+    short_label: 'Incendi e foreste',
     title_en: 'Wildfire risk and forest vulnerability',
     category: 'Land use',
     geography_lens: 'Italy primary',
@@ -51,6 +54,7 @@ const DRIVERS = [
   {
     driver_id: 'D06',
     title: 'Vulnerabilità delle coste e degli habitat costieri',
+    short_label: 'Coste vulnerabili',
     title_en: 'Sea-level rise, coastal exposure and coastal habitat vulnerability',
     category: 'Marine',
     geography_lens: 'Italy primary + Mediterranean/global pressure layer',
@@ -61,6 +65,7 @@ const DRIVERS = [
   {
     driver_id: 'D07',
     title: 'Riscaldamento del mare e cambiamento delle specie marine',
+    short_label: 'Mare caldo, specie in cambiamento',
     title_en: 'Marine warming, tropicalisation and species redistribution',
     category: 'Marine',
     geography_lens: 'Italy primary + Mediterranean/global pressure layer',
@@ -71,6 +76,7 @@ const DRIVERS = [
   {
     driver_id: 'D09',
     title: 'Distanza tra obiettivo 30x30 e protezione effettiva',
+    short_label: 'Gap 30x30',
     title_en: '30x30, OECM and strict-protection implementation gap',
     category: 'Governance',
     geography_lens: 'Italy primary + EU policy dependency',
@@ -81,6 +87,7 @@ const DRIVERS = [
   {
     driver_id: 'D10',
     title: 'Qualità reale delle aree protette',
+    short_label: 'Qualità aree protette',
     title_en: 'Protected-area quality, management effectiveness and ecological integrity deficit',
     category: 'Governance',
     geography_lens: 'Italy primary + EU/transboundary context',
@@ -91,6 +98,7 @@ const DRIVERS = [
   {
     driver_id: 'D11',
     title: 'Ambizione e attuazione del Piano di Ripristino della Natura',
+    short_label: 'Ripristino della natura',
     title_en: 'Nature Restoration Plan ambition gap',
     category: 'Governance',
     geography_lens: 'Italy primary + EU policy dependency',
@@ -101,6 +109,7 @@ const DRIVERS = [
   {
     driver_id: 'D12',
     title: 'Stato critico di habitat, specie ed ecosistemi',
+    short_label: 'Habitat in stato critico',
     title_en: 'Unfavourable habitat, species and ecosystem conservation status',
     category: 'Land use',
     geography_lens: 'Italy primary + EU policy dependency',
@@ -111,6 +120,7 @@ const DRIVERS = [
   {
     driver_id: 'D13',
     title: 'Consumo di suolo e pressione infrastrutturale',
+    short_label: 'Consumo di suolo',
     title_en: 'Land consumption, soil degradation and infrastructure pressure',
     category: 'Land use',
     geography_lens: 'Italy primary + EU policy dependency',
@@ -121,6 +131,7 @@ const DRIVERS = [
   {
     driver_id: 'D15',
     title: 'Espansione delle specie aliene invasive',
+    short_label: 'Specie aliene invasive',
     title_en: 'Invasive alien species expansion',
     category: 'Biodiversity',
     geography_lens: 'Italy primary + European/Mediterranean spread dynamics',
@@ -131,6 +142,7 @@ const DRIVERS = [
   {
     driver_id: 'D16',
     title: 'Inquinamento delle acque e contaminanti emergenti',
+    short_label: 'Inquinamento delle acque',
     title_en: 'Water, chemical and emerging contaminant pollution',
     category: 'Water',
     geography_lens: 'Italy primary + EU policy dependency',
@@ -141,6 +153,7 @@ const DRIVERS = [
   {
     driver_id: 'D17',
     title: 'Dipendenza dalla plastica e inquinamento diffuso',
+    short_label: 'Plastica diffusa',
     title_en: 'Plastic-intensive systems and diffuse plastic pollution',
     category: 'Marine',
     geography_lens: 'Italy primary + Mediterranean/global pressure layer',
@@ -151,6 +164,7 @@ const DRIVERS = [
   {
     driver_id: 'D18',
     title: 'Transizione agroecologica e incentivi agricoli',
+    short_label: 'Transizione agroecologica',
     title_en: 'Agroecology, CAP incentives and food-system transition gap',
     category: 'Food/Agriculture',
     geography_lens: 'Italy primary + EU policy dependency',
@@ -161,6 +175,7 @@ const DRIVERS = [
   {
     driver_id: 'D20',
     title: 'Domanda alimentare, diete e limiti ecologici',
+    short_label: 'Diete e domanda alimentare',
     title_en: 'Food demand, diets and ecological limits',
     category: 'Food/Agriculture',
     geography_lens: 'Italy primary',
@@ -171,6 +186,7 @@ const DRIVERS = [
   {
     driver_id: 'D21',
     title: 'Pressione su pesca, pesca ricreativa e filiere ittiche',
+    short_label: 'Pressione sulla pesca',
     title_en: 'Fisheries pressure, recreational fishing and seafood supply-chain demand',
     category: 'Marine',
     geography_lens: 'Italy primary + Mediterranean/EU governance layer',
@@ -181,6 +197,7 @@ const DRIVERS = [
   {
     driver_id: 'D23',
     title: 'Pressioni cumulative della blue economy',
+    short_label: 'Pressioni blue economy',
     title_en: 'Cumulative blue-economy and marine spatial planning pressure',
     category: 'Energy',
     geography_lens: 'Italy primary + EU policy dependency',
@@ -191,6 +208,7 @@ const DRIVERS = [
   {
     driver_id: 'D24',
     title: 'Transizione energetica e dipendenza dai combustibili fossili',
+    short_label: 'Transizione energetica',
     title_en: 'Renewable energy deployment and fossil fuel dependence',
     category: 'Energy',
     geography_lens: 'Italy primary + EU policy dependency',
@@ -201,6 +219,7 @@ const DRIVERS = [
   {
     driver_id: 'D28',
     title: 'Sussidi dannosi e incoerenza della finanza pubblica',
+    short_label: 'Sussidi dannosi',
     title_en: 'Environmentally harmful subsidies and fiscal misalignment',
     category: 'Finance',
     geography_lens: 'Italy primary + EU policy dependency',
@@ -211,6 +230,7 @@ const DRIVERS = [
   {
     driver_id: 'D30',
     title: 'Attuazione debole, controlli insufficienti e interessi consolidati',
+    short_label: 'Attuazione e controlli deboli',
     title_en: 'Institutional inertia, enforcement gap and vested interests',
     category: 'Governance',
     geography_lens: 'Italy primary',
@@ -221,6 +241,7 @@ const DRIVERS = [
   {
     driver_id: 'D33',
     title: 'Distanza tra preoccupazione pubblica e cambiamento reale',
+    short_label: 'Divario azione–consapevolezza',
     title_en: 'Public concern-action gap and lifestyle lock-in',
     category: 'Society',
     geography_lens: 'Italy primary',
@@ -231,6 +252,7 @@ const DRIVERS = [
   {
     driver_id: 'D37',
     title: 'Contestazione politica della transizione ecologica',
+    short_label: 'Contestazione della transizione',
     title_en: 'Deregulation, political backlash and transition contestation',
     category: 'Governance',
     geography_lens: 'Italy primary + EU political/regulatory layer',
@@ -241,6 +263,7 @@ const DRIVERS = [
   {
     driver_id: 'D38',
     title: 'Educazione, competenze verdi e cambiamento culturale',
+    short_label: 'Educazione e competenze verdi',
     title_en: 'Education, green competences and cultural transformation',
     category: 'Society',
     geography_lens: 'Italy primary',
@@ -251,6 +274,7 @@ const DRIVERS = [
   {
     driver_id: 'D42',
     title: 'Fiducia pubblica, legittimità e disuguaglianze ambientali',
+    short_label: 'Fiducia e disuguaglianze',
     title_en: 'Public trust, legitimacy and environmental health inequalities',
     category: 'Society',
     geography_lens: 'Italy primary + European public-debate layer',
@@ -261,6 +285,7 @@ const DRIVERS = [
   {
     driver_id: 'D43',
     title: 'Stabilità e accessibilità dei finanziamenti per la natura',
+    short_label: 'Finanza per la natura',
     title_en: 'Volatility and competition in nature funding',
     category: 'Finance',
     geography_lens: 'Italy primary + EU finance/policy layer',

@@ -20,10 +20,31 @@
     border-radius: 6px; text-decoration: none; font-size: 0.9rem; margin-right: 6px;
   }
   input { font: inherit; padding: 6px 8px; border: 1px solid #d8ded7; border-radius: 6px; }
-  #matrix { width: 100%; height: 360px; }
+  #matrix { width: 100%; height: auto; display: block; }
   .grid line { stroke: #d8ded7; }
   .axis-label { font-size: 11px; fill: #46524c; }
-  .point { fill: #166d3b; opacity: 0.6; }
+  .axis-title { font-size: 12px; font-weight: 600; fill: #14281d; }
+  .quad-label { font-size: 10px; fill: #7a8b80; text-transform: uppercase; letter-spacing: 0.04em; }
+  .point { fill: #166d3b; opacity: 0.9; stroke: #fff; stroke-width: 1.5; }
+  .point-label { font-size: 10px; font-weight: 700; fill: #fff; pointer-events: none; }
+
+  /* Matrix + ranked legend sit side by side on wide screens, stack on mobile. */
+  .matrix-wrap { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+  .matrix-svg-box { flex: 1 1 420px; min-width: 280px; }
+  .matrix-legend { flex: 1 1 280px; min-width: 240px; }
+  .matrix-legend ol { list-style: none; margin: 0; padding: 0; font-size: 0.85rem; }
+  .matrix-legend li {
+    display: flex; align-items: baseline; gap: 8px;
+    padding: 4px 0; border-bottom: 1px solid #eef1ed;
+  }
+  .matrix-legend .tag {
+    flex: 0 0 auto; display: inline-block; min-width: 30px; text-align: center;
+    background: #166d3b; color: #fff; font-weight: 700; font-size: 0.78rem;
+    border-radius: 4px; padding: 1px 5px; font-variant-numeric: tabular-nums;
+  }
+  .matrix-legend .lab { flex: 1 1 auto; color: #14281d; }
+  .matrix-legend .sc { flex: 0 0 auto; color: #46524c; font-variant-numeric: tabular-nums; font-size: 0.8rem; }
+  .legend-head { font-size: 0.8rem; color: #46524c; margin: 0 0 6px; }
 </style>
 </head>
 <body>
@@ -57,10 +78,25 @@
 
   <div class="panel">
     <h3>Mappa importanza × incertezza</h3>
-    <svg id="matrix" viewBox="0 0 500 360"></svg>
-    <p style="font-size:0.85rem;color:#46524c">
-      Asse X: importanza (1 → 4). Asse Y: incertezza (1 → 4). Ogni punto è una valutazione singola.
-      I punti coincidenti vengono leggermente offsettati per visibilità.
+    <div class="matrix-wrap">
+      <div class="matrix-svg-box">
+        <svg id="matrix" viewBox="0 0 520 420" role="img"
+             aria-label="Mappa dei driver per importanza media e incertezza media"></svg>
+      </div>
+      <div class="matrix-legend">
+        <p class="legend-head">
+          Driver ordinati per <strong>incertezza critica</strong> (importanza media × incertezza media).
+          I più in alto sono prioritari per lo scenario planning.
+        </p>
+        <ol id="matrix-legend-list"></ol>
+      </div>
+    </div>
+    <p style="font-size:0.85rem;color:#46524c;margin-top:12px">
+      Asse X: importanza media (1 → 4). Asse Y: incertezza media (1 → 4).
+      Ogni punto è un <strong>driver</strong>, posizionato sulla media delle valutazioni ricevute
+      ed etichettato con il suo codice <code>Dxx</code> (vedi legenda).
+      Il quadrante in alto a destra (alta importanza + alta incertezza) raccoglie le incertezze critiche.
+      Passa il mouse / tocca un punto per vedere il driver e i valori.
     </p>
   </div>
 
@@ -120,12 +156,13 @@ async function refresh() {
   if (!sumResp.ok) { showGate(gateMessageFor(sumResp.status)); return; }
   showResults();
   const sum = await sumResp.json();
+  drawMatrix(sum.summary);
   const tb = document.querySelector('#summary-table tbody');
   tb.innerHTML = '';
   for (const r of sum.summary) {
     const fmt = (v, p=2) => v == null ? '—' : Number(v).toFixed(p);
     tb.insertAdjacentHTML('beforeend', `<tr>
-      <td><strong>${r.driver_id}</strong> — ${escapeHtml(r.title)}</td>
+      <td><strong>${r.driver_id}</strong> — ${escapeHtml(r.short_label || r.title)}</td>
       <td class="num">${r.n_responses}</td>
       <td class="num">${fmt(r.importance_average)}</td>
       <td class="num">${fmt(r.importance_stddev)}</td>
@@ -134,9 +171,6 @@ async function refresh() {
       <td class="num">${fmt(r.critical_uncertainty_score)}</td>
     </tr>`);
   }
-
-  const mResp = await authFetch('/api/matrix');
-  if (mResp.ok) drawMatrix((await mResp.json()).points);
 
   try {
     const resp = await authFetch('/api/admin/responses');
@@ -171,61 +205,114 @@ async function refresh() {
   }
 }
 
-function drawMatrix(points) {
+// The matrix plots one point PER DRIVER at its mean importance × mean
+// uncertainty (the same averages shown in the summary table — the calculation
+// is unchanged). Each point carries its Dxx code; a ranked legend beside the
+// chart maps Dxx → compact Italian label, so individual drivers stay readable
+// even when points cluster. Drivers with no responses yet are skipped.
+const ns = 'http://www.w3.org/2000/svg';
+function svgEl(name, attrs) {
+  const el = document.createElementNS(ns, name);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+
+function drawMatrix(summary) {
   const svg = document.getElementById('matrix');
+  const legend = document.getElementById('matrix-legend-list');
   svg.innerHTML = '';
-  const w = 500, h = 360, pad = 40;
-  // 4-level scale (1–4): normalise over a span of 3.
+  legend.innerHTML = '';
+
+  const drivers = (summary || []).filter(
+    (d) => d.importance_average != null && d.uncertainty_average != null,
+  );
+  if (drivers.length === 0) {
+    svg.appendChild(svgEl('text', {
+      x: 260, y: 210, 'text-anchor': 'middle', class: 'axis-label',
+    })).textContent = 'Nessuna valutazione disponibile.';
+    return;
+  }
+
+  const w = 520, h = 420, pad = 46;
   const xScale = (v) => pad + (v - 1) / 3 * (w - 2 * pad);
   const yScale = (v) => (h - pad) - (v - 1) / 3 * (h - 2 * pad);
-  const ns = 'http://www.w3.org/2000/svg';
+
+  // Subtle shading of the high-importance / high-uncertainty quadrant.
+  svg.appendChild(svgEl('rect', {
+    x: xScale(2.5), y: pad, width: (w - pad) - xScale(2.5), height: yScale(2.5) - pad,
+    fill: '#166d3b', opacity: 0.05,
+  }));
 
   for (let i = 1; i <= 4; i++) {
-    const xl = document.createElementNS(ns, 'line');
-    xl.setAttribute('x1', xScale(i)); xl.setAttribute('x2', xScale(i));
-    xl.setAttribute('y1', pad);       xl.setAttribute('y2', h - pad);
-    xl.setAttribute('stroke', '#d8ded7');
-    svg.appendChild(xl);
-    const yl = document.createElementNS(ns, 'line');
-    yl.setAttribute('x1', pad);     yl.setAttribute('x2', w - pad);
-    yl.setAttribute('y1', yScale(i)); yl.setAttribute('y2', yScale(i));
-    yl.setAttribute('stroke', '#d8ded7');
-    svg.appendChild(yl);
-
-    const xt = document.createElementNS(ns, 'text');
-    xt.setAttribute('x', xScale(i)); xt.setAttribute('y', h - pad + 14);
-    xt.setAttribute('text-anchor', 'middle'); xt.setAttribute('class', 'axis-label');
-    xt.textContent = i;
-    svg.appendChild(xt);
-    const yt = document.createElementNS(ns, 'text');
-    yt.setAttribute('x', pad - 6); yt.setAttribute('y', yScale(i) + 4);
-    yt.setAttribute('text-anchor', 'end'); yt.setAttribute('class', 'axis-label');
-    yt.textContent = i;
-    svg.appendChild(yt);
+    svg.appendChild(svgEl('line', {
+      x1: xScale(i), x2: xScale(i), y1: pad, y2: h - pad, stroke: '#d8ded7',
+    }));
+    svg.appendChild(svgEl('line', {
+      x1: pad, x2: w - pad, y1: yScale(i), y2: yScale(i), stroke: '#d8ded7',
+    }));
+    const xt = svgEl('text', { x: xScale(i), y: h - pad + 16, 'text-anchor': 'middle', class: 'axis-label' });
+    xt.textContent = i; svg.appendChild(xt);
+    const yt = svgEl('text', { x: pad - 8, y: yScale(i) + 4, 'text-anchor': 'end', class: 'axis-label' });
+    yt.textContent = i; svg.appendChild(yt);
   }
-  const xlab = document.createElementNS(ns, 'text');
-  xlab.setAttribute('x', w / 2); xlab.setAttribute('y', h - 6);
-  xlab.setAttribute('text-anchor', 'middle'); xlab.setAttribute('class', 'axis-label');
-  xlab.textContent = 'Importanza →';
-  svg.appendChild(xlab);
-  const ylab = document.createElementNS(ns, 'text');
-  ylab.setAttribute('transform', `rotate(-90 14 ${h / 2})`);
-  ylab.setAttribute('x', 14); ylab.setAttribute('y', h / 2);
-  ylab.setAttribute('text-anchor', 'middle'); ylab.setAttribute('class', 'axis-label');
-  ylab.textContent = 'Incertezza →';
-  svg.appendChild(ylab);
 
-  for (const p of points) {
-    const c = document.createElementNS(ns, 'circle');
-    const jitter = () => (Math.random() - 0.5) * 14;
-    c.setAttribute('cx', xScale(p.x) + jitter());
-    c.setAttribute('cy', yScale(p.y) + jitter());
-    c.setAttribute('r', 5);
-    c.setAttribute('class', 'point');
-    const title = document.createElementNS(ns, 'title');
-    title.textContent = `${p.driver_id} (imp ${p.x}, inc ${p.y})`;
+  const xlab = svgEl('text', { x: w / 2, y: h - 8, 'text-anchor': 'middle', class: 'axis-title' });
+  xlab.textContent = 'Importanza media →'; svg.appendChild(xlab);
+  const ylab = svgEl('text', { transform: `rotate(-90 16 ${h / 2})`, x: 16, y: h / 2, 'text-anchor': 'middle', class: 'axis-title' });
+  ylab.textContent = 'Incertezza media →'; svg.appendChild(ylab);
+
+  const qHi = svgEl('text', { x: w - pad - 4, y: pad + 14, 'text-anchor': 'end', class: 'quad-label' });
+  qHi.textContent = 'Incertezze critiche'; svg.appendChild(qHi);
+
+  // Place points; nudge labels of near-coincident points to reduce overlap.
+  const placed = [];
+  // Draw highest-score drivers last so their labels sit on top.
+  const sorted = drivers.slice().sort(
+    (a, b) => (a.critical_uncertainty_score || 0) - (b.critical_uncertainty_score || 0),
+  );
+  for (const d of sorted) {
+    const cx = xScale(d.importance_average);
+    const cy = yScale(d.uncertainty_average);
+    // Offset overlapping markers slightly so coincident drivers stay distinct.
+    let n = 0;
+    for (const p of placed) {
+      if (Math.abs(p.cx - cx) < 12 && Math.abs(p.cy - cy) < 12) n += 1;
+    }
+    const ang = n * 2.39996; // golden-angle spread for overlapping points
+    const off = n === 0 ? 0 : 9 + n * 1.5;
+    const px = cx + Math.cos(ang) * off;
+    const py = cy + Math.sin(ang) * off;
+    placed.push({ cx: px, cy: py });
+
+    const g = svgEl('g', {});
+    const c = svgEl('circle', { cx: px, cy: py, r: 12, class: 'point' });
+    const title = svgEl('title', {});
+    title.textContent =
+      `${d.driver_id} — ${d.short_label || d.title}\n` +
+      `Importanza media ${Number(d.importance_average).toFixed(2)} · ` +
+      `Incertezza media ${Number(d.uncertainty_average).toFixed(2)} · ` +
+      `N ${d.n_responses}`;
     c.appendChild(title);
-    svg.appendChild(c);
+    g.appendChild(c);
+    const t = svgEl('text', { x: px, y: py + 3.5, 'text-anchor': 'middle', class: 'point-label' });
+    t.textContent = d.driver_id.replace(/^D/, '');
+    g.appendChild(t);
+    svg.appendChild(g);
+  }
+
+  // Ranked legend: highest critical-uncertainty score first.
+  const ranked = drivers.slice().sort(
+    (a, b) => (b.critical_uncertainty_score || 0) - (a.critical_uncertainty_score || 0),
+  );
+  for (const d of ranked) {
+    const li = document.createElement('li');
+    const score = d.critical_uncertainty_score == null
+      ? '—' : Number(d.critical_uncertainty_score).toFixed(1);
+    li.innerHTML =
+      `<span class="tag">${escapeHtml(d.driver_id)}</span>` +
+      `<span class="lab">${escapeHtml(d.short_label || d.title)}</span>` +
+      `<span class="sc" title="Importanza × Incertezza">${score}</span>`;
+    legend.appendChild(li);
   }
 }
 

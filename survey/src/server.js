@@ -3,7 +3,12 @@ const path = require('path');
 const crypto = require('crypto');
 const db = require('./db');
 const { seedDrivers } = require('./seed');
-const { DRIVER_VERSION } = require('./drivers');
+const { DRIVER_VERSION, DRIVERS } = require('./drivers');
+
+// short_label is a synthetic, compact Italian display label kept in drivers.js
+// (not a DB column, like title_en). Looked up by driver_id so the admin matrix
+// can render readable Dxx legends without touching the schema or stored data.
+const SHORT_LABEL_BY_ID = new Map(DRIVERS.map((d) => [d.driver_id, d.short_label]));
 
 const app = express();
 app.use(express.json({ limit: '256kb' }));
@@ -201,6 +206,7 @@ app.get('/api/driver-summary', requireAdmin, async (req, res) => {
     return {
       driver_id: r.driver_id,
       title: r.title,
+      short_label: SHORT_LABEL_BY_ID.get(r.driver_id) || r.title,
       category: r.category,
       n_responses: Number(r.n_responses) || 0,
       importance_average:  imp_avg,

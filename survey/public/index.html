@@ -117,6 +117,10 @@
     margin: 0 0 8px;
     color: var(--ink);
   }
+  .scale-block .scale-question .driver-name {
+    font-weight: 700;
+    color: var(--accent, var(--ink));
+  }
   /* Stacked, full-width options so each level can show its plain-language
      description. Reads as a vertical list on every screen size. */
   .scale-row { display: flex; flex-direction: column; gap: 6px; }
@@ -320,7 +324,9 @@
 // rather than an academic rubric.
 const SCALES = {
   importance: {
-    question: 'Quanto questo driver potrebbe influenzare il Sistema Natura 2030 nei prossimi quattro anni?',
+    // Driver name is injected per card via questionFor(); scale meaning unchanged.
+    questionFor: (driverNameHtml) =>
+      `Da qui al 2030, quanto ${driverNameHtml} potrebbe influenzare il Sistema Natura 2030 di WWF Italia?`,
     levels: [
       { label: 'Limitato', desc: 'Può avere effetti, ma circoscritti o secondari.' },
       { label: 'Rilevante', desc: 'Può influenzare alcune aree importanti del sistema.' },
@@ -329,7 +335,8 @@ const SCALES = {
     ],
   },
   uncertainty: {
-    question: 'Quanto è difficile prevedere come evolverà questo driver da qui al 2030?',
+    questionFor: (driverNameHtml) =>
+      `Da qui al 2030, quanto è difficile prevedere l’evoluzione di ${driverNameHtml}?`,
     help: 'Attenzione: un driver può essere molto importante ma poco incerto. Se pensi che il fenomeno sarà sicuramente rilevante ma seguirà una traiettoria abbastanza chiara entro il 2030, assegna alta importanza ma bassa incertezza.',
     levels: [
       { label: 'Abbastanza prevedibile', desc: 'La direzione sembra chiara.' },
@@ -360,16 +367,18 @@ function renderDrivers() {
     card.className = 'driver-card';
     const cat = d.category ? `<span class="pill">${d.category}</span>` : '';
     const geo = d.geography_lens ? `<span class="pill">${d.geography_lens}</span>` : '';
+    // Bold the (escaped) Italian driver title so the injected question stays readable.
+    const driverNameHtml = `<strong class="driver-name">${escapeHtml(d.title)}</strong>`;
     card.innerHTML = `
       <div class="driver-title"><span class="driver-id">${d.driver_id}</span> — ${escapeHtml(d.title)}</div>
       <div class="driver-meta">${cat}${geo}</div>
       ${d.short_definition ? `<p>${escapeHtml(d.short_definition)}</p>` : ''}
       <div class="scale-block">
-        <p class="scale-question">${escapeHtml(SCALES.importance.question)}</p>
+        <p class="scale-question">${SCALES.importance.questionFor(driverNameHtml)}</p>
         <div class="scale-row" data-driver="${d.driver_id}" data-axis="importance"></div>
       </div>
       <div class="scale-block">
-        <p class="scale-question">${escapeHtml(SCALES.uncertainty.question)}</p>
+        <p class="scale-question">${SCALES.uncertainty.questionFor(driverNameHtml)}</p>
         <div class="scale-row" data-driver="${d.driver_id}" data-axis="uncertainty"></div>
         <p class="scale-help">${escapeHtml(SCALES.uncertainty.help)}</p>
       </div>

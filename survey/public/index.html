@@ -80,6 +80,11 @@
     font-size: 0.9rem;
   }
   label.block { display: block; font-size: 0.85rem; font-weight: 600; margin: 10px 0 4px; }
+  .req-marker { color: var(--danger); font-weight: 600; }
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
   input[type="text"], select, textarea {
     width: 100%;
     padding: 8px 10px;
@@ -252,8 +257,8 @@
         Nessuna risposta verrà interpretata come adesione o rifiuto di una specifica strategia.
       </div>
 
-      <label class="block" for="resp-group">Tipo di rispondente <span aria-hidden="true">*</span></label>
-      <select id="resp-group">
+      <label class="block" for="resp-group">Tipo di rispondente <span class="req-marker">(obbligatorio)</span><span class="visually-hidden"> campo obbligatorio</span></label>
+      <select id="resp-group" required aria-required="true">
         <option value="">— seleziona —</option>
         <option>WWF Italia Staff</option>
         <option>Consiglieri</option>

@@ -124,9 +124,35 @@ app.post('/api/responses', async (req, res) => {
     const items = Array.isArray(body.items) ? body.items : [];
     if (items.length === 0) return res.status(400).json({ error: 'no_items' });
 
+    // Respondent type is mandatory: a response with no group is rejected so the
+    // category can be relied on downstream. The frontend also enforces this, but
+    // the server is the source of truth.
+    const respondent_group = (body.respondent_group || '').toString().slice(0, 200);
+    if (!respondent_group.trim()) {
+      return res.status(400).json({ error: 'respondent_group_required' });
+    }
+
+    // Same-device anti-duplication. The client sends a stable client_id stored
+    // in its localStorage; if we already hold a response for that id we reject
+    // with 409 so one browser cannot submit twice even if its local flag was
+    // cleared and re-acquired. client_id is optional (private mode / storage off
+    // -> null), in which case this guard is simply skipped and we fall back to
+    // the client-side flag only. Deleting a response server-side does NOT clear
+    // the client's localStorage flag, so that browser stays blocked unless its
+    // storage is cleared (documented limitation; no admin reset workflow).
+    const client_id = (body.client_id || '').toString().slice(0, 100) || null;
+    if (client_id) {
+      const existing = await db.query(
+        `SELECT 1 FROM survey_responses WHERE client_id = $1 LIMIT 1`,
+        [client_id],
+      );
+      if (existing.rows.length > 0) {
+        return res.status(409).json({ error: 'already_submitted' });
+      }
+    }
+
     const response_id = crypto.randomUUID();
     const submitted_at = new Date().toISOString();
-    const respondent_group = (body.respondent_group || '').toString().slice(0, 200);
     const role_or_function = (body.role_or_function || '').toString().slice(0, 200);
     const consent = body.consent ? 1 : 0;
     const open_comment = (body.open_comment || '').toString().slice(0, 4000);
@@ -135,10 +161,10 @@ app.post('/api/responses', async (req, res) => {
     await db.query(
       `INSERT INTO survey_responses
        (response_id, submitted_at, respondent_group, role_or_function,
-        consent, completion_status, driver_version, open_comment)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        consent, completion_status, driver_version, open_comment, client_id)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
       [response_id, submitted_at, respondent_group, role_or_function,
-       consent, completion_status, DRIVER_VERSION, open_comment],
+       consent, completion_status, DRIVER_VERSION, open_comment, client_id],
     );
 
     let stored = 0;

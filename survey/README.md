@@ -1,6 +1,6 @@
 # WWF-IT-Pathway-2030 — Survey
 
-Survey app for the **WWF Italia: Sistema Natura 2030** foresight process. Respondents
+Survey app for the **WWF Italia: Natura 2030** foresight process. Respondents
 rate a pre-selected list of external drivers on two pedagogical **1–4 scales**
 (importance and uncertainty), each level carrying a plain-language description tied
 to 2030 / the next four years, plus optional free-text comments. The app is **not**
@@ -8,7 +8,7 @@ a strategy-selection tool; it feeds the scenario construction stage.
 
 The two questions shown per driver are:
 
-- **Importance** — *Quanto questo driver potrebbe influenzare il Sistema Natura 2030
+- **Importance** — *Quanto questo driver potrebbe influenzare il sistema “WWF Italia: Natura 2030”
   nei prossimi quattro anni?* (1 Limitato · 2 Rilevante · 3 Molto importante · 4 Determinante)
 - **Uncertainty** — *Quanto è difficile prevedere come evolverà questo driver da qui
   al 2030?* (1 Abbastanza prevedibile · 2 Parzialmente prevedibile · 3 Difficile da
@@ -136,7 +136,7 @@ rating grids). Use them for transparency / archival only.
 | --- | --- | --- |
 | GET  | `/api/health` | Health + current driver version. |
 | GET  | `/api/drivers` | Active drivers for current `DRIVER_VERSION`. |
-| POST | `/api/responses` | Submit a response with items `[{driver_id, importance_score, uncertainty_score, driver_comment}]`. |
+| POST | `/api/responses` | Submit a response with `respondent_group` (**required**, `400` if missing), optional `client_id` (same-device guard, `409` if already used), and items `[{driver_id, importance_score, uncertainty_score, driver_comment}]`. |
 | GET  | `/api/driver-summary` | Aggregate (n, avg, stddev, importance × uncertainty) per driver. **Token-protected** (results data). |
 | GET  | `/api/matrix` | Raw `(driver_id, importance, uncertainty)` points for the 2D matrix. **Token-protected** (results data). |
 | GET  | `/api/admin/responses` | Admin: all responses + items (JSON). **Token-protected.** |
@@ -194,3 +194,18 @@ remain joinable to the wording they were collected under.
   `ADMIN_TOKEN`, which must be set before launch (the API fails closed without it).
 - Stddev is computed in JS so the SQL stays portable across Postgres / SQLite;
   on very large datasets, swap to native `STDDEV_POP` in Postgres.
+- **Same-device anti-duplication is pragmatic, not authentication.** After a
+  successful submission the browser stores a flag (`wwf_n2030_submitted`) and a
+  stable client id (`wwf_n2030_client_id`) in `localStorage`; the id is also
+  persisted on the response (`survey_responses.client_id`). Repeat access from
+  the same browser shows the "già inviato" screen, and the server rejects a
+  second submission carrying a known `client_id` with `409`. This blocks the
+  common same-person/same-device double submit only — it does **not** stop a
+  user who clears storage, uses private browsing, or switches device/browser.
+  When `localStorage` is unavailable (private mode) the client id is `null` and
+  the guard falls back to the local flag only.
+  **Admin deletion does not reset the client flag:** if an admin deletes a test
+  response via `DELETE /api/admin/responses/:responseId`, the browser that
+  submitted it stays blocked (its `localStorage` flag persists, and the only
+  way to let that browser re-submit is to clear its site storage). There is no
+  admin "reset client" workflow.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>WWF Italia: Sistema Natura 2030 — Survey driver</title>
+<title>WWF Italia: Natura 2030 — Survey driver</title>
 <style>
   :root {
     --bg: #f5f6f3;
@@ -217,7 +217,7 @@
   <div class="header-inner">
     <div class="header-text">
       <div class="eyebrow">Processo di foresight</div>
-      <h1>WWF Italia: Sistema Natura 2030</h1>
+      <h1>WWF Italia: Natura 2030</h1>
       <div class="subtitle">Survey di prioritizzazione dei driver — versione <span id="driver-version">…</span></div>
     </div>
     <div class="header-logo">
@@ -231,10 +231,20 @@
   <section class="step active" id="step-intro">
     <div class="panel">
       <h2>Introduzione</h2>
-      <p>Questo questionario fa parte del processo di foresight <strong>WWF Italia: Sistema Natura 2030</strong>.
+      <p>Questo questionario fa parte del processo di foresight <strong>WWF Italia: Natura 2030</strong>.
       L'obiettivo è raccogliere le vostre valutazioni su un insieme di <strong>driver esterni</strong>
       (fattori di contesto) che incideranno sul sistema natura italiano, considerato in modo integrato
       (terra e mare insieme) con l'Europa come contesto normativo, politico e finanziario.</p>
+
+      <div class="note">
+        <strong>Cosa intendiamo per sistema “WWF Italia: Natura 2030”.</strong>
+        È l'insieme delle condizioni esterne che, da qui al 2030, possono influenzare la capacità
+        dell'Italia di proteggere, rigenerare e governare la natura: dinamiche ambientali, climatiche,
+        sociali, economiche, politiche, tecnologiche e culturali che agiscono sul territorio italiano,
+        tenendo conto anche delle interdipendenze europee e globali. Non si tratta quindi della sola
+        organizzazione WWF Italia, né della sua strategia interna, ma dell'ecosistema più ampio in cui
+        WWF Italia dovrà leggere i cambiamenti, anticipare le incertezze e orientare il proprio contributo.
+      </div>
 
       <div class="note">
         <strong>Non è una scelta di strategie.</strong> Il survey serve a identificare quali driver siano
@@ -242,7 +252,7 @@
         Nessuna risposta verrà interpretata come adesione o rifiuto di una specifica strategia.
       </div>
 
-      <label class="block" for="resp-group">Tipo di rispondente</label>
+      <label class="block" for="resp-group">Tipo di rispondente <span aria-hidden="true">*</span></label>
       <select id="resp-group">
         <option value="">— seleziona —</option>
         <option>WWF Italia Staff</option>
@@ -257,7 +267,7 @@
 
       <label class="block">
         <input type="checkbox" id="consent" /> Confermo di voler partecipare e acconsento al trattamento
-        anonimo aggregato delle risposte ai soli fini del processo Sistema Natura 2030.
+        anonimo aggregato delle risposte ai soli fini del processo WWF Italia: Natura 2030.
       </label>
 
       <div class="button-row">
@@ -306,7 +316,20 @@
       <p>Le tue risposte sono state registrate. Codice risposta:
         <code id="response-code"></code></p>
       <p>Puoi chiudere questa finestra. Le valutazioni aggregate saranno discusse
-        nei prossimi passaggi del processo Sistema Natura 2030.</p>
+        nei prossimi passaggi del processo WWF Italia: Natura 2030.</p>
+    </div>
+  </section>
+
+  <!-- ALREADY SUBMITTED (same device/browser) -->
+  <section class="step" id="step-already">
+    <div class="panel">
+      <h2>Questionario già inviato</h2>
+      <p>Da questo dispositivo/browser risulta già inviata una risposta al
+        questionario <strong>WWF Italia: Natura 2030</strong>. Per garantire
+        l'integrità dei dati, non è possibile inviare una seconda risposta dallo
+        stesso supporto.</p>
+      <p>Se ritieni che si tratti di un errore, scrivi a
+        <a href="mailto:maietta@iaran.org">maietta@iaran.org</a>.</p>
     </div>
   </section>
 </main>
@@ -325,7 +348,7 @@ const SCALES = {
   importance: {
     // Driver name is injected per card via questionFor(); scale meaning unchanged.
     questionFor: (driverNameHtml) =>
-      `Da qui al 2030, quanto ${driverNameHtml} potrebbe influenzare il Sistema Natura 2030 di WWF Italia?`,
+      `Da qui al 2030, quanto ${driverNameHtml} potrebbe influenzare il sistema “WWF Italia: Natura 2030”?`,
     levels: [
       { label: 'Limitato', desc: 'Può avere effetti, ma circoscritti o secondari.' },
       { label: 'Rilevante', desc: 'Può influenzare alcune aree importanti del sistema.' },
@@ -348,7 +371,56 @@ const SCALES = {
 
 const state = { drivers: [], driverVersion: null, ratings: {} };
 
+// Same-device anti-duplication. After a successful submission we persist a flag
+// (and a stable client id) in localStorage so the same browser cannot submit a
+// second response. This is a pragmatic, client-side measure: it blocks the
+// common "same person, same device" double-submit, not a determined user who
+// clears storage or switches device/browser. Admins can still delete test
+// responses server-side; doing so does NOT reset this local flag, so a browser
+// that already submitted stays blocked unless localStorage is cleared on that
+// device. There is no admin reset workflow for the client flag.
+const SUBMITTED_KEY = 'wwf_n2030_submitted';
+const CLIENT_ID_KEY = 'wwf_n2030_client_id';
+
+function safeLocalStorage() {
+  try {
+    const t = '__wwf_test__';
+    window.localStorage.setItem(t, '1');
+    window.localStorage.removeItem(t);
+    return window.localStorage;
+  } catch (e) {
+    return null; // private mode / storage disabled: fail open, allow submission
+  }
+}
+
+function getClientId() {
+  const ls = safeLocalStorage();
+  if (!ls) return null;
+  let id = ls.getItem(CLIENT_ID_KEY);
+  if (!id) {
+    id = (window.crypto && window.crypto.randomUUID)
+      ? window.crypto.randomUUID()
+      : 'cid-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+    ls.setItem(CLIENT_ID_KEY, id);
+  }
+  return id;
+}
+
+function hasAlreadySubmitted() {
+  const ls = safeLocalStorage();
+  return !!(ls && ls.getItem(SUBMITTED_KEY));
+}
+
+function markSubmitted(responseId) {
+  const ls = safeLocalStorage();
+  if (ls) ls.setItem(SUBMITTED_KEY, responseId || '1');
+}
+
 async function loadDrivers() {
+  if (hasAlreadySubmitted()) {
+    show('step-already');
+    return;
+  }
   const r = await fetch('/api/drivers');
   const data = await r.json();
   state.drivers = data.drivers;
@@ -456,6 +528,14 @@ function renderReview() {
 }
 
 async function submitSurvey() {
+  if (!document.getElementById('resp-group').value) {
+    document.getElementById('submit-error').style.display = '';
+    document.getElementById('submit-error').textContent =
+      'Per inviare è necessario selezionare il tipo di rispondente.';
+    show('step-intro');
+    document.getElementById('resp-group').focus();
+    return;
+  }
   const items = state.drivers.map((d) => {
     const r = state.ratings[d.driver_id] || {};
     return {
@@ -470,6 +550,7 @@ async function submitSurvey() {
     role_or_function: document.getElementById('resp-role').value,
     consent: document.getElementById('consent').checked,
     open_comment: document.getElementById('open-comment').value,
+    client_id: getClientId(),
     items,
   };
   const r = await fetch('/api/responses', {
@@ -477,12 +558,19 @@ async function submitSurvey() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
+  if (r.status === 409) {
+    // Server already has a response for this client_id: treat as already done.
+    markSubmitted();
+    show('step-already');
+    return;
+  }
   if (!r.ok) {
     document.getElementById('submit-error').style.display = '';
     document.getElementById('submit-error').textContent = 'Errore durante l\'invio. Riprova.';
     return;
   }
   const data = await r.json();
+  markSubmitted(data.response_id);
   document.getElementById('response-code').textContent = data.response_id;
   show('step-done');
 }
@@ -494,6 +582,11 @@ function escapeHtml(s) {
 }
 
 document.getElementById('btn-start').addEventListener('click', () => {
+  if (!document.getElementById('resp-group').value) {
+    alert('Per procedere è necessario selezionare il tipo di rispondente.');
+    document.getElementById('resp-group').focus();
+    return;
+  }
   if (!document.getElementById('consent').checked) {
     alert('Per procedere è necessario confermare il consenso.');
     return;

@@ -1,7 +1,7 @@
 {
   "name": "wwf-it-pathway-2030",
   "version": "0.4.0",
-  "description": "WWF Italia: Sistema Natura 2030 — driver prioritisation survey (importance × uncertainty).",
+  "description": "WWF Italia: Natura 2030 — driver prioritisation survey (importance × uncertainty).",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

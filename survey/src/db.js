@@ -86,8 +86,11 @@ const SCHEMA_PG = `
     consent INTEGER DEFAULT 0,
     completion_status TEXT DEFAULT 'submitted',
     driver_version TEXT NOT NULL,
-    open_comment TEXT
+    open_comment TEXT,
+    client_id TEXT
   );
+  ALTER TABLE survey_responses ADD COLUMN IF NOT EXISTS client_id TEXT;
+  CREATE INDEX IF NOT EXISTS idx_responses_client ON survey_responses(client_id);
   CREATE TABLE IF NOT EXISTS response_items (
     id SERIAL PRIMARY KEY,
     response_id TEXT NOT NULL,
@@ -124,8 +127,10 @@ const SCHEMA_SQLITE = `
     consent INTEGER DEFAULT 0,
     completion_status TEXT DEFAULT 'submitted',
     driver_version TEXT NOT NULL,
-    open_comment TEXT
+    open_comment TEXT,
+    client_id TEXT
   );
+  CREATE INDEX IF NOT EXISTS idx_responses_client ON survey_responses(client_id);
   CREATE TABLE IF NOT EXISTS response_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     response_id TEXT NOT NULL,
@@ -142,6 +147,23 @@ const SCHEMA_SQLITE = `
 async function init() {
   const schema = impl.kind === 'pg' ? SCHEMA_PG : SCHEMA_SQLITE;
   await impl.exec(schema);
+  // SQLite (and only SQLite) lacks ADD COLUMN IF NOT EXISTS, and a DB created
+  // before client_id existed won't pick it up from CREATE TABLE IF NOT EXISTS.
+  // Add it idempotently for those pre-existing dev databases by attempting the
+  // ALTER and swallowing only the "duplicate column" error (column already
+  // present). Postgres uses ADD COLUMN IF NOT EXISTS inline in SCHEMA_PG.
+  if (impl.kind === 'sqlite') {
+    try {
+      await impl.exec(`ALTER TABLE survey_responses ADD COLUMN client_id TEXT`);
+      await impl.exec(
+        `CREATE INDEX IF NOT EXISTS idx_responses_client ON survey_responses(client_id)`,
+      );
+    } catch (e) {
+      if (!/duplicate column name/i.test(String(e && e.message))) {
+        console.error('client_id migration failed', e);
+      }
+    }
+  }
 }
 
 module.exports = { ...impl, init };

@@ -1,4 +1,4 @@
-// Preselected drivers v0.5 — WWF Italia: Natura 2030.
+// Preselected drivers v0.5 — WWF Italia: Sistema Natura 2030.
 //
 // driver_id values are stable across versions. Wording updates bump
 // DRIVER_VERSION and seed NEW (driver_id, version) rows rather than mutating

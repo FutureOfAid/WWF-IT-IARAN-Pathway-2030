@@ -1,6 +1,6 @@
 # WWF-IT-Pathway-2030 — Survey
 
-Survey app for the **WWF Italia: Natura 2030** foresight process. Respondents
+Survey app for the **WWF Italia: Sistema Natura 2030** foresight process. Respondents
 rate a pre-selected list of external drivers on two pedagogical **1–4 scales**
 (importance and uncertainty), each level carrying a plain-language description tied
 to 2030 / the next four years, plus optional free-text comments. The app is **not**

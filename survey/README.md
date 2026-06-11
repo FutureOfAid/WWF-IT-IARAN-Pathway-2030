@@ -8,10 +8,10 @@ a strategy-selection tool; it feeds the scenario construction stage.
 
 The two questions shown per driver are:
 
-- **Importance** — *Quanto questo driver potrebbe influenzare il sistema “WWF Italia: Natura 2030”
-  nei prossimi quattro anni?* (1 Limitato · 2 Rilevante · 3 Molto importante · 4 Determinante)
-- **Uncertainty** — *Quanto è difficile prevedere come evolverà questo driver da qui
-  al 2030?* (1 Abbastanza prevedibile · 2 Parzialmente prevedibile · 3 Difficile da
+- **Importance** — *Da qui al 2030, quanto questo driver potrebbe modificare il sistema
+  “WWF Italia: Natura 2030”?* (1 Limitato · 2 Rilevante · 3 Molto importante · 4 Determinante)
+- **Uncertainty** — *Da qui al 2030, quanto può variare la direzione, l'intensità o gli
+  effetti di questo driver?* (1 Abbastanza prevedibile · 2 Parzialmente prevedibile · 3 Difficile da
   prevedere · 4 Molto imprevedibile)
 
 Scores are validated server-side to the 1–4 range. Responses collected under earlier

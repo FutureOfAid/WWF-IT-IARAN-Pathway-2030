@@ -237,27 +237,20 @@
     <div class="panel">
       <h2>Introduzione</h2>
       <p>Questo questionario fa parte del processo di foresight <strong>WWF Italia: Sistema Natura 2030</strong>.
-      L'obiettivo è raccogliere le vostre valutazioni su un insieme di <strong>driver esterni</strong>
-      (fattori di contesto) che incideranno sul sistema natura italiano, considerato in modo integrato
-      (terra e mare insieme) con l'Europa come contesto normativo, politico e finanziario.</p>
+      Ti chiediamo di valutare un insieme di <strong>driver esterni</strong> — i fattori di contesto che
+      potranno orientare l'evoluzione della natura in Italia da qui al 2030 — su due dimensioni:
+      la loro <strong>importanza</strong> e la loro <strong>incertezza</strong>.</p>
 
       <div class="note">
-        <strong>Per sistema “WWF Italia: Natura 2030” intendiamo</strong>
-        l'insieme delle condizioni esterne che, da qui al 2030, possono influenzare la capacità
-        dell'Italia di proteggere, rigenerare e governare la natura: dinamiche ambientali, climatiche,
-        sociali, economiche, politiche, tecnologiche e culturali che agiscono sul territorio italiano,
-        tenendo conto anche delle interdipendenze europee e globali. Non si tratta quindi della sola
-        organizzazione WWF Italia, né della sua strategia interna, ma dell'ecosistema più ampio in cui
-        WWF Italia dovrà leggere i cambiamenti, anticipare le incertezze e orientare il proprio contributo.
+        Il sistema “WWF Italia: Natura 2030” indica il contesto esterno in cui natura, società, economia
+        e istituzioni evolveranno in Italia da qui al 2030. Comprende ecosistemi terrestri, marini e
+        d'acqua dolce, pressioni climatiche e ambientali, politiche pubbliche, comportamenti sociali,
+        modelli economici, tecnologie e influenze europee o globali. Serve come cornice comune per
+        valutare quali driver possano modificare più profondamente e in modo più incerto il contesto
+        entro cui WWF Italia agirà nei prossimi anni.
       </div>
 
-      <div class="note">
-        <strong>Non è una scelta di strategie.</strong> Il survey serve a identificare quali driver siano
-        più <em>critici</em> e più <em>incerti</em>, per costruire gli scenari di riferimento.
-        Nessuna risposta verrà interpretata come adesione o rifiuto di una specifica strategia.
-      </div>
-
-      <label class="block" for="resp-group">Tipo di rispondente <span class="req-marker">(obbligatorio)</span><span class="visually-hidden"> campo obbligatorio</span></label>
+      <label class="block" for="resp-group">Tipo di rispondente</label>
       <select id="resp-group" required aria-required="true">
         <option value="">— seleziona —</option>
         <option>WWF Italia Staff</option>
@@ -345,31 +338,28 @@
 </footer>
 
 <script>
-// Pedagogical 4-level scales tied explicitly to 2030 / the next four years.
-// Each level carries a short label plus a plain-language description so the
-// methodology (importance × uncertainty) stays intact while reading as guidance
-// rather than an academic rubric.
+// Two-axis rating (importance × uncertainty) on a 4-level scale anchored to 2030.
+// Each level pairs a short label with a plain-language description.
 const SCALES = {
   importance: {
-    // Driver name is injected per card via questionFor(); scale meaning unchanged.
     questionFor: (driverNameHtml) =>
-      `Da qui al 2030, quanto ${driverNameHtml} potrebbe influenzare il sistema “WWF Italia: Natura 2030”?`,
+      `Da qui al 2030, quanto ${driverNameHtml} potrebbe modificare il sistema “WWF Italia: Natura 2030”?`,
     levels: [
-      { label: 'Limitato', desc: 'Può avere effetti, ma circoscritti o secondari.' },
-      { label: 'Rilevante', desc: 'Può influenzare alcune aree importanti del sistema.' },
-      { label: 'Molto importante', desc: 'Può modificare priorità, rischi o opportunità per WWF Italia.' },
-      { label: 'Determinante', desc: 'Può cambiare profondamente il contesto in cui WWF Italia opera.' },
+      { label: 'Limitato', desc: 'Effetti circoscritti o secondari.' },
+      { label: 'Rilevante', desc: 'Incide su alcune aree importanti del sistema.' },
+      { label: 'Molto importante', desc: 'Può spostare priorità, rischi o opportunità.' },
+      { label: 'Determinante', desc: 'Può cambiare profondamente il contesto.' },
     ],
   },
   uncertainty: {
     questionFor: (driverNameHtml) =>
-      `Da qui al 2030, quanto è difficile prevedere l’evoluzione di ${driverNameHtml}?`,
-    help: 'Attenzione: un driver può essere molto importante ma poco incerto. Se pensi che il fenomeno sarà sicuramente rilevante ma seguirà una traiettoria abbastanza chiara entro il 2030, assegna alta importanza ma bassa incertezza.',
+      `Da qui al 2030, quanto può variare la direzione, l’intensità o gli effetti di ${driverNameHtml}?`,
+    help: 'Importanza e incertezza sono indipendenti: un driver può essere molto importante ma seguire una traiettoria già chiara, e quindi avere bassa incertezza.',
     levels: [
       { label: 'Abbastanza prevedibile', desc: 'La direzione sembra chiara.' },
-      { label: 'Parzialmente prevedibile', desc: 'La direzione generale si intravede, ma restano alcune incognite.' },
-      { label: 'Difficile da prevedere', desc: 'Il driver potrebbe evolvere in direzioni diverse.' },
-      { label: 'Molto imprevedibile', desc: 'Nei prossimi quattro anni potrebbe cambiare rapidamente, sorprendere o produrre effetti difficili da anticipare.' },
+      { label: 'Parzialmente prevedibile', desc: 'La tendenza si intravede, ma restano incognite.' },
+      { label: 'Difficile da prevedere', desc: 'Può evolvere in direzioni diverse.' },
+      { label: 'Molto imprevedibile', desc: 'Può cambiare rapidamente o produrre effetti difficili da anticipare.' },
     ],
   },
 };
@@ -536,7 +526,7 @@ async function submitSurvey() {
   if (!document.getElementById('resp-group').value) {
     document.getElementById('submit-error').style.display = '';
     document.getElementById('submit-error').textContent =
-      'Per inviare è necessario selezionare il tipo di rispondente.';
+      'Seleziona il tipo di rispondente per iniziare.';
     show('step-intro');
     document.getElementById('resp-group').focus();
     return;
@@ -588,12 +578,12 @@ function escapeHtml(s) {
 
 document.getElementById('btn-start').addEventListener('click', () => {
   if (!document.getElementById('resp-group').value) {
-    alert('Per procedere è necessario selezionare il tipo di rispondente.');
+    alert('Seleziona il tipo di rispondente per iniziare.');
     document.getElementById('resp-group').focus();
     return;
   }
   if (!document.getElementById('consent').checked) {
-    alert('Per procedere è necessario confermare il consenso.');
+    alert('Conferma il consenso per iniziare.');
     return;
   }
   show('step-rating');

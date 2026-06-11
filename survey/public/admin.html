@@ -217,7 +217,7 @@ async function refresh() {
       rt.insertAdjacentHTML('beforeend', `<tr data-response-id="${rid}">
         <td><code>${escapeHtml(r.response_id.slice(0, 8))}…</code></td>
         <td>${escapeHtml(r.submitted_at)}</td>
-        <td>${escapeHtml(r.respondent_group || '')}</td>
+        <td>${escapeHtml(displayGroup(r.respondent_group))}</td>
         <td>${escapeHtml(r.role_or_function || '')}</td>
         <td class="num">${itemsByResp.get(r.response_id) || 0}</td>
         <td>${escapeHtml(r.driver_version)}</td>
@@ -406,6 +406,21 @@ function escapeHtml(s) {
   return String(s ?? '').replace(/[&<>"']/g, (c) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   }[c]));
+}
+
+// Display-only alias map: legacy respondent-group labels stored in older
+// responses are shown under the current v0.5 category names. Raw DB values and
+// the CSV/JSON exports are left untouched; this only normalises the admin view.
+const GROUP_ALIASES = new Map([
+  ['wwf italia - volontari/attivisti', 'Delegati e volontari WWF'],
+  ['wwf italia – volontari/attivisti', 'Delegati e volontari WWF'],
+  ['partner/rete', 'Partner e stakeholder'],
+  ['partner / rete', 'Partner e stakeholder'],
+  ['esperti esterni', 'Comitato scientifico WWF e altri esperti'],
+]);
+function displayGroup(g) {
+  const key = String(g ?? '').trim().toLowerCase();
+  return GROUP_ALIASES.get(key) || g || '';
 }
 
 function unlock() {

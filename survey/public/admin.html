@@ -412,6 +412,10 @@ function escapeHtml(s) {
 // responses are shown under the current v0.5 category names. Raw DB values and
 // the CSV/JSON exports are left untouched; this only normalises the admin view.
 const GROUP_ALIASES = new Map([
+  ['wwf italia - staff', 'WWF Italia Staff'],
+  ['wwf italia – staff', 'WWF Italia Staff'],
+  ['wwf italia - membro del consiglio', 'Consiglieri'],
+  ['wwf italia – membro del consiglio', 'Consiglieri'],
   ['wwf italia - volontari/attivisti', 'Delegati e volontari WWF'],
   ['wwf italia – volontari/attivisti', 'Delegati e volontari WWF'],
   ['partner/rete', 'Partner e stakeholder'],

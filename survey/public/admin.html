@@ -100,11 +100,11 @@
   </div>
 
   <div class="panel">
-    <h3>Mappa importanza × incertezza</h3>
+    <h3>Mappa incertezza × importanza</h3>
     <div class="matrix-wrap">
       <div class="matrix-svg-box">
         <svg id="matrix" viewBox="0 0 520 420" role="img"
-             aria-label="Mappa dei driver per importanza media e incertezza media"></svg>
+             aria-label="Mappa dei driver: asse X incertezza media, asse Y importanza media"></svg>
       </div>
       <div class="matrix-legend">
         <p class="legend-head">
@@ -115,10 +115,11 @@
       </div>
     </div>
     <p style="font-size:0.85rem;color:#46524c;margin-top:12px">
-      Asse X: importanza media (1 → 4). Asse Y: incertezza media (1 → 4).
+      Asse X: incertezza media verso il 2030 (1 → 4). Asse Y: importanza media per il
+      sistema «WWF Italia: Natura 2030» (1 → 4).
       Ogni punto è un <strong>driver</strong>, posizionato sulla media delle valutazioni ricevute
       ed etichettato con il suo codice <code>Dxx</code> (vedi legenda).
-      Il quadrante in alto a destra (alta importanza + alta incertezza) raccoglie le incertezze critiche.
+      Il quadrante in alto a destra (alta incertezza + alta importanza) raccoglie le incertezze critiche.
       Passa il mouse / tocca un punto per vedere il driver e i valori.
     </p>
   </div>
@@ -291,9 +292,10 @@ document.querySelector('#responses-table tbody').addEventListener('click', (e) =
   if (responseId) showRowConfirm(btn.parentElement, responseId);
 });
 
-// The matrix plots one point PER DRIVER at its mean importance × mean
-// uncertainty (the same averages shown in the summary table — the calculation
-// is unchanged). Each point carries its Dxx code; a ranked legend beside the
+// The matrix plots one point PER DRIVER following the strategic-foresight
+// convention: x = mean uncertainty, y = mean importance (the same averages
+// shown in the summary table — the calculation is unchanged). Each point
+// carries its Dxx code; a ranked legend beside the
 // chart maps Dxx → compact Italian label, so individual drivers stay readable
 // even when points cluster. Drivers with no responses yet are skipped.
 const ns = 'http://www.w3.org/2000/svg';
@@ -343,9 +345,9 @@ function drawMatrix(summary) {
   }
 
   const xlab = svgEl('text', { x: w / 2, y: h - 8, 'text-anchor': 'middle', class: 'axis-title' });
-  xlab.textContent = 'Importanza media →'; svg.appendChild(xlab);
+  xlab.textContent = 'Incertezza media →'; svg.appendChild(xlab);
   const ylab = svgEl('text', { transform: `rotate(-90 16 ${h / 2})`, x: 16, y: h / 2, 'text-anchor': 'middle', class: 'axis-title' });
-  ylab.textContent = 'Incertezza media →'; svg.appendChild(ylab);
+  ylab.textContent = 'Importanza media →'; svg.appendChild(ylab);
 
   const qHi = svgEl('text', { x: w - pad - 4, y: pad + 14, 'text-anchor': 'end', class: 'quad-label' });
   qHi.textContent = 'Incertezze critiche'; svg.appendChild(qHi);
@@ -357,8 +359,9 @@ function drawMatrix(summary) {
     (a, b) => (a.critical_uncertainty_score || 0) - (b.critical_uncertainty_score || 0),
   );
   for (const d of sorted) {
-    const cx = xScale(d.importance_average);
-    const cy = yScale(d.uncertainty_average);
+    // Strategic-foresight convention: x = uncertainty, y = importance.
+    const cx = xScale(d.uncertainty_average);
+    const cy = yScale(d.importance_average);
     // Offset overlapping markers slightly so coincident drivers stay distinct.
     let n = 0;
     for (const p of placed) {
@@ -375,8 +378,8 @@ function drawMatrix(summary) {
     const title = svgEl('title', {});
     title.textContent =
       `${d.driver_id} — ${d.short_label || d.title}\n` +
-      `Importanza media ${Number(d.importance_average).toFixed(2)} · ` +
       `Incertezza media ${Number(d.uncertainty_average).toFixed(2)} · ` +
+      `Importanza media ${Number(d.importance_average).toFixed(2)} · ` +
       `N ${d.n_responses}`;
     c.appendChild(title);
     g.appendChild(c);

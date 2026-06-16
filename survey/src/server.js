@@ -312,10 +312,11 @@ app.get('/api/admin/export.csv', requireAdmin, async (req, res) => {
   res.send(lines.join('\n'));
 });
 
-// Importance × uncertainty matrix points: one (x, y, count) per (importance, uncertainty) pair.
+// Foresight matrix points: x = uncertainty, y = importance (strategic-foresight
+// convention), one (x, y) per scored response item.
 app.get('/api/matrix', requireAdmin, async (req, res) => {
   const { rows } = await db.query(
-    `SELECT driver_id, importance_score AS x, uncertainty_score AS y
+    `SELECT driver_id, uncertainty_score AS x, importance_score AS y
      FROM response_items
      WHERE importance_score IS NOT NULL AND uncertainty_score IS NOT NULL`,
   );

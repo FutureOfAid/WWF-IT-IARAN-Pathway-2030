@@ -37,6 +37,16 @@ function normalizeToken(raw) {
 
 const ADMIN_TOKEN = normalizeToken(process.env.ADMIN_TOKEN);
 
+// Survey lifecycle switch. Public collection is now CLOSED: the form no longer
+// accepts new submissions and the public page shows aggregated results instead.
+// Closed is the default so the live deploy is closed without any extra env var;
+// set SURVEY_OPEN=1 (or true/yes/on) to re-open collection if a new round is
+// needed. Admin functions (list/export/delete) are unaffected by this switch.
+function envTruthy(raw) {
+  return /^(1|true|yes|on)$/i.test(String(raw || '').trim());
+}
+const SURVEY_OPEN = envTruthy(process.env.SURVEY_OPEN);
+
 function tokensMatch(provided) {
   // Compare as UTF-8 bytes. Length differences can't be hidden, so we fall
   // through to a fixed-cost compare against ADMIN_TOKEN on mismatch to keep the
@@ -88,6 +98,7 @@ app.get('/api/health', async (req, res) => {
     ok: true,
     db: db.kind,
     driver_version: DRIVER_VERSION,
+    survey_open: SURVEY_OPEN,
     admin_configured: adminConfigured,
     admin_token_len: adminConfigured ? ADMIN_TOKEN.length : 0,
     admin_token_sha256_prefix: adminConfigured
@@ -120,6 +131,12 @@ function validateScore(v) {
 
 app.post('/api/responses', async (req, res) => {
   try {
+    // Collection is closed: reject new submissions server-side, not just in the
+    // UI, so a direct POST cannot bypass the closed survey. Existing data and
+    // admin functions are untouched.
+    if (!SURVEY_OPEN) {
+      return res.status(403).json({ error: 'survey_closed' });
+    }
     const body = req.body || {};
     const items = Array.isArray(body.items) ? body.items : [];
     if (items.length === 0) return res.status(400).json({ error: 'no_items' });
@@ -191,9 +208,13 @@ app.post('/api/responses', async (req, res) => {
   }
 });
 
-// Aggregate summary per driver. driver_summary is computed dynamically so it
-// always reflects current data; materialising is a future option.
-app.get('/api/driver-summary', requireAdmin, async (req, res) => {
+// Aggregate summary per active driver, computed dynamically from the live
+// response data so it always reflects current responses. The coordinates here
+// (importance_average, uncertainty_average) are the single source of truth for
+// BOTH the admin matrix and the public results chart — neither view hardcodes
+// or estimates positions. Foresight orientation is fixed downstream as
+// x = uncertainty_average, y = importance_average.
+async function computeDriverSummary() {
   const { rows } = await db.query(
     `SELECT d.driver_id, d.title, d.category,
             COUNT(ri.id) AS n_responses,
@@ -225,7 +246,7 @@ app.get('/api/driver-summary', requireAdmin, async (req, res) => {
     return Math.sqrt(v);
   };
 
-  const out = rows.map((r) => {
+  return rows.map((r) => {
     const s = byDriver.get(r.driver_id) || { imp: [], unc: [] };
     const imp_avg = r.importance_average == null ? null : Number(r.importance_average);
     const unc_avg = r.uncertainty_average == null ? null : Number(r.uncertainty_average);
@@ -243,7 +264,44 @@ app.get('/api/driver-summary', requireAdmin, async (req, res) => {
         imp_avg != null && unc_avg != null ? imp_avg * unc_avg : null,
     };
   });
-  res.json({ driver_version: DRIVER_VERSION, summary: out });
+}
+
+app.get('/api/driver-summary', requireAdmin, async (req, res) => {
+  const summary = await computeDriverSummary();
+  res.json({ driver_version: DRIVER_VERSION, summary });
+});
+
+// Public, unauthenticated results feed for the closed-survey results page. It
+// reuses computeDriverSummary() so the public chart shows the SAME live
+// coordinates as the admin matrix. Only aggregate, non-identifying fields are
+// exposed (per-driver averages, counts, labels) — never raw responses,
+// comments, respondent groups or the response list. total_responses lets the
+// page show the sample size without revealing individual submissions.
+app.get('/api/public-results', async (req, res) => {
+  try {
+    const summary = await computeDriverSummary();
+    const totals = await db.query(`SELECT COUNT(*) AS n FROM survey_responses`);
+    const total_responses = Number(totals.rows[0] && totals.rows[0].n) || 0;
+    const publicSummary = summary.map((d) => ({
+      driver_id: d.driver_id,
+      title: d.title,
+      short_label: d.short_label,
+      category: d.category,
+      n_responses: d.n_responses,
+      importance_average: d.importance_average,
+      uncertainty_average: d.uncertainty_average,
+      critical_uncertainty_score: d.critical_uncertainty_score,
+    }));
+    res.json({
+      driver_version: DRIVER_VERSION,
+      survey_open: SURVEY_OPEN,
+      total_responses,
+      summary: publicSummary,
+    });
+  } catch (e) {
+    console.error('GET /api/public-results', e);
+    res.status(500).json({ error: 'server_error' });
+  }
 });
 
 app.get('/api/admin/responses', requireAdmin, async (req, res) => {

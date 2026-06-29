@@ -170,7 +170,7 @@
         <th>timestamp</th><th>scenario</th><th>tipo rispondente</th>
         <th>nome</th><th>email</th><th class="plaus">plaus.</th>
         <th>elementi credibili</th><th>elementi deboli</th><th>cosa manca</th>
-        <th>segnali</th><th>titolo/formulazione</th><th>commento generale</th>
+        <th>segnali</th><th>titolo/formulazione</th><th>scenario più utile (trasversale)</th><th>commento generale</th>
         <th class="actions-col">azioni</th>
       </tr></thead><tbody></tbody></table>
     </div>
@@ -545,7 +545,7 @@ async function refreshScenarioFeedback() {
   const tb = document.querySelector('#scenario-feedback-table tbody');
   tb.innerHTML = '';
   if (!rows.length) {
-    tb.innerHTML = '<tr><td colspan="13" class="fb-empty">Nessun contributo con questi filtri.</td></tr>';
+    tb.innerHTML = '<tr><td colspan="14" class="fb-empty">Nessun contributo con questi filtri.</td></tr>';
   } else {
     for (const r of rows) {
       const fid = escapeHtml(r.feedback_id);
@@ -562,6 +562,7 @@ async function refreshScenarioFeedback() {
         ${cell(r.blind_spots)}
         ${cell(r.signals)}
         ${cell(r.title_comment)}
+        ${cell(r.cross_scenario)}
         ${cell(r.general_comment)}
         <td class="actions-col">
           <button type="button" class="row-delete fb-delete" data-feedback-id="${fid}"

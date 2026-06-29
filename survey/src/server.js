@@ -6,6 +6,7 @@ const { seedDrivers } = require('./seed');
 const { DRIVER_VERSION, DRIVERS } = require('./drivers');
 const {
   SCENARIO_VERSION, AXES, SCENARIOS, RESPONDENT_GROUPS, VALID_SCENARIO_IDS,
+  CROSS_SCENARIO_QUESTION,
 } = require('./scenarios');
 
 // short_label is a synthetic, compact Italian display label kept in drivers.js
@@ -402,6 +403,7 @@ app.get('/api/scenarios', async (req, res) => {
     axes: AXES,
     scenarios: SCENARIOS,
     respondent_groups: RESPONDENT_GROUPS,
+    cross_scenario_question: CROSS_SCENARIO_QUESTION,
   });
 });
 
@@ -446,8 +448,8 @@ app.post('/api/scenario-feedback', async (req, res) => {
        (feedback_id, submitted_at, scenario_id, scenario_version,
         respondent_group, respondent_name, respondent_email, plausibility_score,
         credible_elements, weak_elements, blind_spots, signals, title_comment,
-        general_comment)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,
+        general_comment, cross_scenario)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)`,
       [
         feedback_id, submitted_at, scenario_id, SCENARIO_VERSION,
         respondent_group, str(body.respondent_name, 200), str(body.respondent_email, 200),
@@ -455,6 +457,7 @@ app.post('/api/scenario-feedback', async (req, res) => {
         str(body.credible_elements, 4000), str(body.weak_elements, 4000),
         str(body.blind_spots, 4000), str(body.signals, 4000),
         str(body.title_comment, 4000), str(body.general_comment, 4000),
+        str(body.cross_scenario, 4000),
       ],
     );
 
@@ -483,7 +486,7 @@ app.get('/api/admin/scenario-feedback', requireAdmin, async (req, res) => {
     `SELECT feedback_id, submitted_at, scenario_id, scenario_version,
             respondent_group, respondent_name, respondent_email,
             plausibility_score, credible_elements, weak_elements, blind_spots,
-            signals, title_comment, general_comment
+            signals, title_comment, general_comment, cross_scenario
      FROM scenario_feedback ${clause}
      ORDER BY submitted_at DESC`,
     params,
@@ -516,14 +519,14 @@ app.get('/api/admin/scenario-feedback.csv', requireAdmin, async (req, res) => {
     `SELECT feedback_id, submitted_at, scenario_id, scenario_version,
             respondent_group, respondent_name, respondent_email,
             plausibility_score, credible_elements, weak_elements, blind_spots,
-            signals, title_comment, general_comment
+            signals, title_comment, general_comment, cross_scenario
      FROM scenario_feedback ORDER BY scenario_id ASC, submitted_at DESC`,
   );
   const header = [
     'feedback_id','submitted_at','scenario_id','scenario_version',
     'respondent_group','respondent_name','respondent_email','plausibility_score',
     'credible_elements','weak_elements','blind_spots','signals','title_comment',
-    'general_comment',
+    'general_comment','cross_scenario',
   ];
   const esc = (v) => {
     if (v == null) return '';

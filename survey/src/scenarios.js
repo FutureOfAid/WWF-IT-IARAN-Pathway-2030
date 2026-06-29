@@ -8,20 +8,25 @@
 // SCENARIO_VERSION lets the backend tag every piece of feedback with the draft
 // edition it was given on, so future revisions stay joinable to the wording the
 // respondent actually saw (same versioning discipline as the driver survey).
-const SCENARIO_VERSION = 'scn-2030-draft-1';
+// Bumped to draft-2 for the corrected scenario architecture (corrected axis
+// labels + English public titles). Feedback rows store this version so any
+// pre-existing draft-1 feedback stays joinable to the wording it was given on.
+const SCENARIO_VERSION = 'scn-2030-draft-2';
 
-// The two critical-uncertainty axes that structure the 2x2 (current Italian
-// labels from the deck). Not reopened here — shown for context only.
+// The two critical-uncertainty axes that structure the 2x2. Corrected Italian
+// labels from the revised scenario deck. Not reopened here — shown for context
+// only. The quadrant logic is unchanged: axis1 = public legitimacy / political
+// feasibility, axis2 = effective implementation of protection and restoration.
 const AXES = {
   axis1: {
     key: 'legittimazione',
-    label: 'Legittimazione pubblica ed efficacia delle politiche',
+    label: 'Legittimazione pubblica e praticabilità politica della transizione ecologica',
     low: 'contestata · polarizzata · poca fiducia',
-    high: 'legittimata · sostenuta · efficace',
+    high: 'legittimata · sostenuta · praticabile',
   },
   axis2: {
     key: 'capacita',
-    label: 'Capacità di finanziare e attuare la protezione e il ripristino della natura',
+    label: 'Attuazione effettiva della tutela e del ripristino della natura',
     low: 'frammentata · sottofinanziata · in stallo',
     high: 'coerente · finanziata · ripristino e riduzione pressioni',
   },
@@ -35,7 +40,8 @@ const SCENARIOS = [
     scenario_id: 's1',
     number: 1,
     title: 'Promessa incompiuta',
-    quadrant: 'Alta legittimazione · Bassa capacità di attuazione',
+    title_en: 'Implementation Gap',
+    quadrant: 'Alta legittimazione · Bassa attuazione',
     axis_position: { legittimazione: 'ALTA', capacita: 'BASSA' },
     essence:
       'Gli italiani riconoscono che la natura conta, ma il sistema pubblico e ' +
@@ -54,7 +60,8 @@ const SCENARIOS = [
     scenario_id: 's2',
     number: 2,
     title: 'Il patto dei territori viventi',
-    quadrant: 'Alta legittimazione · Alta capacità di attuazione',
+    title_en: 'The Living Territories Pact',
+    quadrant: 'Alta legittimazione · Alta attuazione',
     axis_position: { legittimazione: 'ALTA', capacita: 'ALTA' },
     essence:
       'Ampio sostegno sociale e reale capacità di attuazione si allineano, e ' +
@@ -73,7 +80,8 @@ const SCENARIOS = [
     scenario_id: 's3',
     number: 3,
     title: 'La transizione che divide',
-    quadrant: 'Bassa legittimazione · Alta capacità di attuazione',
+    title_en: 'The Contested Transition',
+    quadrant: 'Bassa legittimazione · Alta attuazione',
     axis_position: { legittimazione: 'BASSA', capacita: 'ALTA' },
     essence:
       'L’Italia costruisce e finanzia la transizione con forza tecnocratica, ma ' +
@@ -92,7 +100,8 @@ const SCENARIOS = [
     scenario_id: 's4',
     number: 4,
     title: 'Disillusione ecologica',
-    quadrant: 'Bassa legittimazione · Bassa capacità di attuazione',
+    title_en: 'Age of Ecological Disillusion',
+    quadrant: 'Bassa legittimazione · Bassa attuazione',
     axis_position: { legittimazione: 'BASSA', capacita: 'BASSA' },
     essence:
       'Né consenso né capacità reggono: la natura scende nell’agenda, gli impegni ' +
@@ -123,10 +132,18 @@ const RESPONDENT_GROUPS = [
 
 const VALID_SCENARIO_IDS = new Set(SCENARIOS.map((s) => s.scenario_id));
 
+// One cross-scenario question, asked once (not per scenario). The answer is
+// stored in scenario_feedback.cross_scenario on the general-comment submission,
+// so it lands in the same table, logically separable from per-scenario fields.
+const CROSS_SCENARIO_QUESTION =
+  'Quale scenario le sembra più utile per mettere alla prova la strategia ' +
+  '2027–2030 di WWF Italia, e perché?';
+
 module.exports = {
   SCENARIO_VERSION,
   AXES,
   SCENARIOS,
   RESPONDENT_GROUPS,
   VALID_SCENARIO_IDS,
+  CROSS_SCENARIO_QUESTION,
 };

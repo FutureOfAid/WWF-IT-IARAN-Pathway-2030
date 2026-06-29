@@ -209,3 +209,40 @@ remain joinable to the wording they were collected under.
   submitted it stays blocked (its `localStorage` flag persists, and the only
   way to let that browser re-submit is to clear its site storage). There is no
   admin "reset client" workflow.
+
+## Scenario architecture (scn-2030-draft-2)
+
+`src/scenarios.js` defines the four 2030 scenarios and the two-axis frame used
+in the scenario-feedback page. As of `SCENARIO_VERSION = 'scn-2030-draft-2'`:
+
+- **Axis 1:** *Legittimazione pubblica e praticabilità politica della
+  transizione ecologica*
+- **Axis 2:** *Attuazione effettiva della tutela e del ripristino della natura*
+- **Scenario titles (IT / EN):**
+  1. Promessa incompiuta / *Implementation Gap*
+  2. Il patto dei territori viventi / *The Living Territories Pact*
+  3. La transizione che divide / *The Contested Transition*
+  4. Disillusione ecologica / *Age of Ecological Disillusion*
+
+Scenario descriptions are **external, plausible 2030 contexts only** — they
+contain no WWF strategic recommendations or positioning. A single
+cross-scenario question (`CROSS_SCENARIO_QUESTION`) is exported and surfaced via
+`GET /api/scenarios` as `cross_scenario_question`.
+
+Note: the *driver-survey foresight matrix* axes (Incertezza / Importanza) are a
+separate construct and are intentionally **unchanged**.
+
+### Additive migration: `scenario_feedback.cross_scenario`
+
+The cross-scenario answer is stored in a new nullable `cross_scenario TEXT`
+column on `scenario_feedback`. The migration is **purely additive and
+idempotent** — no data is touched, reset, or migrated destructively:
+
+- **Postgres:** `CREATE TABLE` includes the column, plus
+  `ALTER TABLE scenario_feedback ADD COLUMN IF NOT EXISTS cross_scenario TEXT;`
+- **SQLite:** `CREATE TABLE` includes the column; on existing DBs an
+  `ALTER TABLE ... ADD COLUMN cross_scenario TEXT` runs in `init()` and swallows
+  the "duplicate column" error so re-runs are safe.
+
+The column flows through `POST /api/scenario-feedback`, the admin feedback
+read endpoint, and the CSV/JSON exports.

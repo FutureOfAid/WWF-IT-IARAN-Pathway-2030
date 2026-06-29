@@ -146,6 +146,7 @@
     font-weight: 700; margin-bottom: 2px;
   }
   .scenario-title { margin: 0; font-size: 1.2rem; color: var(--ink); }
+  .scenario-title-en { margin: 2px 0 0; font-size: 0.85rem; font-style: italic; color: var(--ink-soft); }
   .scenario-essence {
     margin: 0 18px 12px; padding: 10px 12px; background: #fbfaf6; border: 1px solid var(--line);
     border-radius: 6px; font-size: 0.92rem; font-style: italic; color: var(--ink);
@@ -275,11 +276,12 @@
     <div class="method-note">
       Questa non è una nuova votazione e non riapre la scelta dei driver o degli assi.
       Serve a verificare se le bozze di scenario sono plausibili, riconoscibili e utili,
-      e a raccogliere suggerimenti concreti per migliorarle prima del workshop dell'8 luglio.
+      e a raccogliere suggerimenti concreti per migliorarle dopo il webinar di presentazione.
     </div>
     <p style="margin-top:12px;">
-      Qui sotto trovi le <strong>quattro bozze di scenario</strong> verso il 2030. Per ciascuna
-      puoi aprire un breve modulo di sense-check. Puoi commentare anche più di uno scenario.
+      Qui sotto trovi le <strong>quattro bozze di scenario</strong> verso il 2030, costruite
+      come contesti esterni plausibili per l’Italia (non raccomandazioni o posizioni di WWF).
+      Per ciascuna puoi aprire un breve modulo di sense-check. Puoi commentare anche più di uno scenario.
     </p>
   </section>
 
@@ -293,8 +295,12 @@
         <select id="gc-group" required></select>
       </div>
       <div class="field">
-        <label for="gc-text">Osservazioni complessive
-          <span class="hint">— ad es. quale scenario sembra più probabile, cosa manca nel quadro d’insieme, relazioni tra scenari.</span></label>
+        <label for="gc-cross" id="gc-cross-label">Quale scenario le sembra più utile per mettere alla prova la strategia 2027–2030 di WWF Italia, e perché?</label>
+        <textarea id="gc-cross" rows="3"></textarea>
+      </div>
+      <div class="field">
+        <label for="gc-text">Altre osservazioni complessive
+          <span class="hint">— ad es. cosa manca nel quadro d’insieme, relazioni tra scenari. (facoltativo)</span></label>
         <textarea id="gc-text" rows="4"></textarea>
       </div>
       <div class="fb-actions">
@@ -479,11 +485,11 @@ const PLAUSIBILITY = [
 // Open-ended sense-check questions, in the exact order/wording requested. The
 // `key` maps to the scenario_feedback column the answer is stored in.
 const OPEN_QUESTIONS = [
-  { key: 'credible_elements', label: 'Quali elementi dello scenario riconosce come particolarmente credibili o vicini alla realtà che osserva?' },
-  { key: 'weak_elements', label: 'Quali elementi le sembrano meno convincenti, troppo forti, troppo deboli o formulati male?' },
-  { key: 'blind_spots', label: 'C’è qualcosa di importante che manca nello scenario e che dovrebbe essere integrato per renderlo più realistico?' },
-  { key: 'signals', label: 'Quali segnali concreti ci direbbero, nei prossimi anni, che l’Italia sta andando verso questo scenario?' },
-  { key: 'title_comment', label: 'Il titolo e la formulazione aiutano a capire lo scenario? Se no, cosa cambierebbe?' },
+  { key: 'credible_elements', label: 'Quali elementi le sembrano più realistici o importanti da mantenere?' },
+  { key: 'weak_elements', label: 'Cosa è poco credibile o cosa andrebbe corretto?' },
+  { key: 'blind_spots', label: 'Cosa manca per rendere lo scenario più completo e realistico?' },
+  { key: 'signals', label: 'Quali segnali deboli o evidenze concrete potrebbero rafforzare questo scenario?' },
+  { key: 'title_comment', label: 'Il titolo e la formulazione aiutano a capire lo scenario? Se no, cosa cambierebbe? (facoltativo)' },
 ];
 
 let RESPONDENT_GROUPS = [];
@@ -535,12 +541,16 @@ function buildScenarioCard(s) {
     `</div>`,
   ).join('');
 
+  const titleEn = s.title_en
+    ? `<div class="scenario-title-en">${escapeHtml(s.title_en)}</div>` : '';
+
   card.innerHTML =
     `<div class="scenario-head">` +
       `<div class="scenario-num">${s.number}</div>` +
       `<div class="meta">` +
         `<div class="scenario-quadrant">${escapeHtml(s.quadrant)}</div>` +
         `<h3 class="scenario-title">${escapeHtml(s.title)}</h3>` +
+        titleEn +
       `</div>` +
     `</div>` +
     `<p class="scenario-essence">${escapeHtml(s.essence)}</p>` +
@@ -561,7 +571,7 @@ function buildScenarioCard(s) {
           `<input type="email" class="fb-email" autocomplete="email">` +
         `</div>` +
         `<div class="field">` +
-          `<label>Quanto le sembra plausibile questo scenario verso il 2030?</label>` +
+          `<label>Quanto questo scenario le sembra plausibile per l’Italia al 2030?</label>` +
           `<div class="scale">${scaleHtml}</div>` +
         `</div>` +
         openHtml +
@@ -633,13 +643,20 @@ function buildScenarioCard(s) {
   return card;
 }
 
-function wireGeneralComment() {
+function wireGeneralComment(crossQuestion) {
   const sel = document.getElementById('gc-group');
   fillGroupSelect(sel);
+  // Use the canonical cross-scenario question from the API when available, so
+  // the page and the backend stay on one source of truth.
+  if (crossQuestion) {
+    const lbl = document.getElementById('gc-cross-label');
+    if (lbl) lbl.textContent = crossQuestion;
+  }
   const btn = document.getElementById('gc-submit');
   const msg = document.getElementById('gc-msg');
   const success = document.getElementById('gc-success');
   const txt = document.getElementById('gc-text');
+  const cross = document.getElementById('gc-cross');
   btn.addEventListener('click', async () => {
     msg.className = 'fb-msg'; msg.textContent = '';
     const group = sel.value;
@@ -648,14 +665,15 @@ function wireGeneralComment() {
       msg.textContent = 'Indichi prima chi è (campo obbligatorio).';
       return;
     }
-    if (!txt.value.trim()) {
+    if (!cross.value.trim() && !txt.value.trim()) {
       msg.className = 'fb-msg err';
-      msg.textContent = 'Scriva un commento prima di inviare.';
+      msg.textContent = 'Risponda alla domanda trasversale o scriva un commento prima di inviare.';
       return;
     }
-    // The general comment is stored against scenario s1 with general_comment set,
-    // so it lands in the same scenario_feedback table and the admin general-comment
-    // column. (It is clearly distinguishable: only general_comment is populated.)
+    // The cross-scenario answer and any general comment are stored against
+    // scenario s1 with the cross_scenario / general_comment columns set, so they
+    // land in the same scenario_feedback table, logically separable from the
+    // per-scenario fields (only cross_scenario / general_comment are populated).
     btn.disabled = true; msg.textContent = 'Invio in corso…';
     try {
       const r = await fetch('/api/scenario-feedback', {
@@ -664,12 +682,14 @@ function wireGeneralComment() {
         body: JSON.stringify({
           scenario_id: 's1',
           respondent_group: group,
+          cross_scenario: cross.value,
           general_comment: txt.value,
         }),
       });
       if (!r.ok) throw new Error('http ' + r.status);
       await r.json();
       txt.value = '';
+      cross.value = '';
       btn.disabled = true;
       success.hidden = false;
       msg.textContent = '';
@@ -691,7 +711,7 @@ async function loadScenarios() {
     const wrap = document.getElementById('scenarios');
     wrap.innerHTML = '';
     for (const s of (data.scenarios || [])) wrap.appendChild(buildScenarioCard(s));
-    wireGeneralComment();
+    wireGeneralComment(data.cross_scenario_question);
   } catch (e) {
     document.getElementById('scenarios').innerHTML =
       '<section class="panel"><p class="empty"><strong>Anteprima statica.</strong> ' +

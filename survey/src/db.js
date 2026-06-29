@@ -121,8 +121,12 @@ const SCHEMA_PG = `
     blind_spots TEXT,
     signals TEXT,
     title_comment TEXT,
-    general_comment TEXT
+    general_comment TEXT,
+    cross_scenario TEXT
   );
+  -- Additive only: cross_scenario holds the single cross-scenario question's
+  -- answer for pre-existing scenario_feedback tables created before this column.
+  ALTER TABLE scenario_feedback ADD COLUMN IF NOT EXISTS cross_scenario TEXT;
   CREATE INDEX IF NOT EXISTS idx_feedback_scenario ON scenario_feedback(scenario_id);
   CREATE INDEX IF NOT EXISTS idx_feedback_group ON scenario_feedback(respondent_group);
 `;
@@ -180,7 +184,8 @@ const SCHEMA_SQLITE = `
     blind_spots TEXT,
     signals TEXT,
     title_comment TEXT,
-    general_comment TEXT
+    general_comment TEXT,
+    cross_scenario TEXT
   );
   CREATE INDEX IF NOT EXISTS idx_feedback_scenario ON scenario_feedback(scenario_id);
   CREATE INDEX IF NOT EXISTS idx_feedback_group ON scenario_feedback(respondent_group);
@@ -203,6 +208,17 @@ async function init() {
     } catch (e) {
       if (!/duplicate column name/i.test(String(e && e.message))) {
         console.error('client_id migration failed', e);
+      }
+    }
+    // Same additive pattern for the scenario_feedback.cross_scenario column on
+    // pre-existing SQLite databases (SQLite has no ADD COLUMN IF NOT EXISTS).
+    // Swallow only the "duplicate column" error (column already present). No
+    // existing row or value is touched — this only adds a nullable column.
+    try {
+      await impl.exec(`ALTER TABLE scenario_feedback ADD COLUMN cross_scenario TEXT`);
+    } catch (e) {
+      if (!/duplicate column name/i.test(String(e && e.message))) {
+        console.error('cross_scenario migration failed', e);
       }
     }
   }

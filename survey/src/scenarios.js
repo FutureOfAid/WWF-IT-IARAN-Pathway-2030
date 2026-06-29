@@ -11,7 +11,10 @@
 // Bumped to draft-2 for the corrected scenario architecture (corrected axis
 // labels + English public titles). Feedback rows store this version so any
 // pre-existing draft-1 feedback stays joinable to the wording it was given on.
-const SCENARIO_VERSION = 'scn-2030-draft-2';
+// Bumped to draft-3 to align the public essence/bullets with the corrected
+// PowerPoint deck (revised wording for scenarios 2–4). Feedback rows store this
+// version so earlier draft-1/draft-2 feedback stays joinable to its own wording.
+const SCENARIO_VERSION = 'scn-2030-draft-3';
 
 // The two critical-uncertainty axes that structure the 2x2. Corrected Italian
 // labels from the revised scenario deck. Not reopened here — shown for context
@@ -64,14 +67,14 @@ const SCENARIOS = [
     quadrant: 'Alta legittimazione · Alta attuazione',
     axis_position: { legittimazione: 'ALTA', capacita: 'ALTA' },
     essence:
-      'Ampio sostegno sociale e reale capacità di attuazione si allineano, e ' +
-      'l’Italia traduce i propri impegni per la natura in azione finanziata, ' +
-      'controllata e radicata nei territori.',
+      'Ampia legittimazione sociale e condizioni di attuazione selettive ma ' +
+      'sufficienti si allineano, e l’Italia traduce parte dei propri impegni ' +
+      'per la natura in azione finanziata, monitorata e radicata nei territori.',
     bullets: [
       'L’azione ecologica è ampiamente legittimata e vissuta come valore pubblico condiviso, non come identità politica contesa.',
-      'L’Italia avanza con credibilità verso il 30% di terra e mare protetti, con piani di ripristino finanziati e verificati su obiettivi misurabili.',
+      'L’Italia avanza in modo credibile verso il 30% di terra e mare protetti, con piani di ripristino finanziati e verificati dove le condizioni abilitanti sono presenti.',
       'Bilanci pubblici e un precoce riorientamento dei sussidi dannosi indirizzano finanza stabile verso natura, agroecologia e recupero costiero.',
-      'Regioni, comuni e attori locali hanno capacità, dati e continuità per attuare: i territori diventano motori, non colli di bottiglia.',
+      'Dove regioni, comuni e attori locali dispongono di dati e continuità, i territori diventano motori dell’attuazione anziché colli di bottiglia.',
       'I conflitti su energia, acqua, cibo e suolo si negoziano con la pianificazione territoriale, e le pressioni sugli ecosistemi calano in modo misurabile.',
       'Scienza e monitoraggio sorreggono le decisioni, dando alle politiche durata oltre i cicli elettorali.',
     ],
@@ -84,16 +87,17 @@ const SCENARIOS = [
     quadrant: 'Bassa legittimazione · Alta attuazione',
     axis_position: { legittimazione: 'BASSA', capacita: 'ALTA' },
     essence:
-      'L’Italia costruisce e finanzia la transizione con forza tecnocratica, ma ' +
-      'senza ampio consenso — così il progresso arriva accompagnato dalla ' +
-      'polarizzazione.',
+      'L’Italia riesce ad attuare parti importanti della transizione ecologica, ' +
+      'soprattutto dove obblighi europei, investimenti e capacità territoriali si ' +
+      'allineano, ma senza costruire un consenso sociale sufficientemente ampio: ' +
+      'il progresso avanza, ma divide.',
     bullets: [
-      'Rinnovabili, infrastrutture e ripristino vengono realizzati con rapidità grazie a finanziamenti, mandati e capacità amministrativa.',
-      'L’azione ecologica è politicamente contesa e percepita da parte del pubblico come imposta, elitaria o anti-territoriale.',
-      'L’attuazione si concentra dove Stato e mercati sono forti, acuendo le tensioni su suolo, coste, localizzazione energetica e uso dell’acqua.',
-      'Gli obiettivi misurabili avanzano — copertura delle aree protette, quota rinnovabili — mentre licenza sociale e titolarità locale si erodono.',
-      'La comunicazione raggiunge i già convinti; il «centro mobile» e i territori contesi si sentono agiti, non consultati.',
-      'Cresce la reazione contro le regole di origine UE anche mentre vengono attuate, rendendo i risultati fragili e reversibili.',
+      'Rinnovabili e ripristino avanzano in modo selettivo, dove obblighi europei, investimenti e capacità territoriali si allineano.',
+      'La pianificazione territoriale resta fragile: i progetti arrivano prima di una visione condivisa, generando conflitti locali.',
+      'L’azione ecologica è percepita da parte del pubblico come distante, tecnica e calata dall’alto.',
+      'Le rinnovabili diventano emblematiche: necessarie, ma fonte di conflitto dove mancano pianificazione e ascolto dei territori.',
+      'La comunicazione raggiunge soprattutto chi è già convinto, mentre i territori contesi restano esposti a polarizzazione e disinformazione.',
+      'I risultati sono reali ma fragili e reversibili in assenza di legittimazione sociale.',
     ],
   },
   {
@@ -104,16 +108,17 @@ const SCENARIOS = [
     quadrant: 'Bassa legittimazione · Bassa attuazione',
     axis_position: { legittimazione: 'BASSA', capacita: 'BASSA' },
     essence:
-      'Né consenso né capacità reggono: la natura scende nell’agenda, gli impegni ' +
-      'vengono silenziosamente abbandonati e le tendenze pesanti corrono in gran ' +
-      'parte non gestite.',
+      'Né il consenso sociale né la capacità di attuazione reggono: la natura ' +
+      'perde centralità politica, gli impegni restano in parte formali e le ' +
+      'pressioni ecologiche avanzano più rapidamente della capacità collettiva ' +
+      'di risposta.',
     bullets: [
-      'L’azione ecologica perde legittimazione e priorità politica; l’ambiente diventa un cuneo divisivo o semplicemente svanisce dal dibattito.',
-      'Gli impegni UE sono formalmente mantenuti ma svuotati, con ambizione di ripristino minima ed espansione delle aree protette in stallo.',
-      'La finanza per la natura crolla di fronte a priorità concorrenti; i sussidi dannosi persistono e gli allarmi sul rischio ecosistemico restano inascoltati.',
-      'Governance frammentata e regioni a corto di risorse non gestiscono i conflitti su terra, mare, acqua, cibo ed energia, che si intensificano.',
-      'Clima, siccità, incendi e pressioni marine avanzano con scarso adattamento, aumentando il rischio per il capitale naturale e l’economia.',
-      'Disimpegno civico e sfiducia verso le regole UE rafforzano l’inerzia, normalizzando il declino come uno status quo inavvertito.',
+      'L’azione ecologica perde priorità e tende a diventare divisiva, scivolando ai margini del dibattito pubblico.',
+      'Gli impegni europei vengono richiamati in modo formale, ma indeboliti nell’ambizione e nell’attuazione concreta.',
+      'La finanza per la natura viene compressa, i sussidi dannosi persistono e gli allarmi sul rischio ecosistemico sono poco ascoltati.',
+      'Governance frammentata e territori a corto di risorse faticano a gestire i conflitti su terra, mare, acqua, cibo ed energia.',
+      'Clima, siccità, incendi e pressioni marine avanzano mentre la capacità di adattamento resta debole.',
+      'L’inerzia istituzionale evita rotture brusche ma blocca la prevenzione; il disimpegno civico normalizza progressivamente il declino.',
     ],
   },
 ];

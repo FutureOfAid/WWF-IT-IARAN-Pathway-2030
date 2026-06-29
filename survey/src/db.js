@@ -102,6 +102,29 @@ const SCHEMA_PG = `
   );
   CREATE INDEX IF NOT EXISTS idx_items_response ON response_items(response_id);
   CREATE INDEX IF NOT EXISTS idx_items_driver ON response_items(driver_id);
+  -- Scenario sense-check feedback. Independent table: it never touches the
+  -- driver-survey tables above, so existing responses are fully preserved.
+  -- One row per (respondent, scenario) submission; a respondent may comment on
+  -- multiple scenarios (no same-device lock here, unlike the closed driver survey).
+  CREATE TABLE IF NOT EXISTS scenario_feedback (
+    id SERIAL PRIMARY KEY,
+    feedback_id TEXT UNIQUE NOT NULL,
+    submitted_at TEXT NOT NULL,
+    scenario_id TEXT NOT NULL,
+    scenario_version TEXT NOT NULL,
+    respondent_group TEXT NOT NULL,
+    respondent_name TEXT,
+    respondent_email TEXT,
+    plausibility_score INTEGER,
+    credible_elements TEXT,
+    weak_elements TEXT,
+    blind_spots TEXT,
+    signals TEXT,
+    title_comment TEXT,
+    general_comment TEXT
+  );
+  CREATE INDEX IF NOT EXISTS idx_feedback_scenario ON scenario_feedback(scenario_id);
+  CREATE INDEX IF NOT EXISTS idx_feedback_group ON scenario_feedback(respondent_group);
 `;
 
 const SCHEMA_SQLITE = `
@@ -142,6 +165,25 @@ const SCHEMA_SQLITE = `
   );
   CREATE INDEX IF NOT EXISTS idx_items_response ON response_items(response_id);
   CREATE INDEX IF NOT EXISTS idx_items_driver ON response_items(driver_id);
+  CREATE TABLE IF NOT EXISTS scenario_feedback (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    feedback_id TEXT UNIQUE NOT NULL,
+    submitted_at TEXT NOT NULL,
+    scenario_id TEXT NOT NULL,
+    scenario_version TEXT NOT NULL,
+    respondent_group TEXT NOT NULL,
+    respondent_name TEXT,
+    respondent_email TEXT,
+    plausibility_score INTEGER,
+    credible_elements TEXT,
+    weak_elements TEXT,
+    blind_spots TEXT,
+    signals TEXT,
+    title_comment TEXT,
+    general_comment TEXT
+  );
+  CREATE INDEX IF NOT EXISTS idx_feedback_scenario ON scenario_feedback(scenario_id);
+  CREATE INDEX IF NOT EXISTS idx_feedback_group ON scenario_feedback(respondent_group);
 `;
 
 async function init() {

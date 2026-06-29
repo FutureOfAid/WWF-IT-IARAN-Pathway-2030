@@ -68,6 +68,20 @@
     background: transparent; border: 1px solid #d8ded7; border-radius: 6px; padding: 5px 9px;
   }
   .confirm-yes:focus-visible, .confirm-no:focus-visible { outline: 2px solid #14281d; outline-offset: 1px; }
+
+  /* Scenario-feedback panel */
+  .fb-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+  .fb-toolbar label { font-size: 0.85rem; color: #46524c; display: flex; align-items: center; gap: 6px; }
+  .fb-toolbar select { font: inherit; padding: 6px 8px; border: 1px solid #d8ded7; border-radius: 6px; background: #fff; }
+  .fb-table-wrap { overflow-x: auto; }
+  #scenario-feedback-table { min-width: 1100px; }
+  #scenario-feedback-table td.txt { max-width: 220px; white-space: pre-wrap; word-break: break-word; font-size: 0.82rem; }
+  #scenario-feedback-table .plaus { font-weight: 700; text-align: center; }
+  .sc-pill {
+    display: inline-block; background: #e2efe7; color: #166d3b; font-weight: 700;
+    font-size: 0.75rem; border-radius: 4px; padding: 1px 6px; white-space: nowrap;
+  }
+  .fb-empty { font-size: 0.9rem; color: #46524c; }
 </style>
 </head>
 <body>
@@ -132,15 +146,46 @@
       <th class="num">items</th><th>driver_version</th><th class="actions-col">azioni</th>
     </tr></thead><tbody></tbody></table>
   </div>
+
+  <div class="panel">
+    <h3>Sense-check degli scenari</h3>
+    <p style="font-size:0.85rem;color:#46524c">
+      Feedback raccolti sulle quattro bozze di scenario (tabella separata dalla survey
+      sui driver). I commenti generali sui quattro scenari hanno solo la colonna
+      «commento generale» compilata.
+    </p>
+    <div class="fb-toolbar">
+      <label>Scenario
+        <select id="fb-filter-scenario"><option value="">Tutti</option></select>
+      </label>
+      <label>Tipo di rispondente
+        <select id="fb-filter-group"><option value="">Tutti</option></select>
+      </label>
+      <a class="button" id="fb-csv-link" href="#">Scarica CSV</a>
+      <a class="button" id="fb-json-link" href="#" download="scenario_feedback.json" style="background:#7a8b80">Scarica JSON</a>
+    </div>
+    <p style="font-size:0.85rem;color:#46524c" id="fb-status">—</p>
+    <div class="fb-table-wrap">
+      <table id="scenario-feedback-table"><thead><tr>
+        <th>timestamp</th><th>scenario</th><th>tipo rispondente</th>
+        <th>nome</th><th>email</th><th class="plaus">plaus.</th>
+        <th>elementi credibili</th><th>elementi deboli</th><th>cosa manca</th>
+        <th>segnali</th><th>titolo/formulazione</th><th>commento generale</th>
+        <th class="actions-col">azioni</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
   </div><!-- /#results -->
 </main>
 <script>
-// The token is only ever held in memory / sessionStorage from what the admin
-// types here. It is never baked into this file or any bundle, and is sent to
-// the backend only as the user-entered credential.
-const TOK_KEY = 'wwf_admin_token';
+// The token is held ONLY in an in-memory variable for the life of this page.
+// It is never persisted to any browser storage (such APIs are blocked in the
+// deployment sandbox), never baked into this file or any bundle, and is sent to
+// the backend only as the user-entered credential. Reloading the page clears
+// it, so the admin re-enters the password.
+let ADMIN_TOKEN = '';
 function tok() {
-  return (sessionStorage.getItem(TOK_KEY) || '').trim();
+  return (ADMIN_TOKEN || '').trim();
 }
 function authFetch(url, options = {}) {
   const t = tok();
@@ -233,6 +278,11 @@ async function refresh() {
   } catch (e) {
     document.getElementById('status').textContent = 'Errore: ' + e.message;
   }
+
+  // Scenario sense-check feedback (independent table). Loaded after the driver
+  // data so a failure here never blocks the driver-survey view.
+  await loadScenarioMeta();
+  await refreshScenarioFeedback();
 }
 
 // Per-response deletion. A two-step inline confirm guards against accidental
@@ -430,14 +480,163 @@ function displayGroup(g) {
   return GROUP_ALIASES.get(key) || g || '';
 }
 
+// ---------------------------------------------------------------------------
+// SCENARIO FEEDBACK (sense-check)
+// ---------------------------------------------------------------------------
+// Reads from the independent scenario_feedback table via the token-protected
+// admin endpoints. Filters by scenario and respondent type, exports CSV/JSON,
+// and supports the same two-step inline delete as the driver responses. The
+// driver-survey data and its panels are never touched.
+let SCENARIO_TITLES = {};   // scenario_id -> 'N. Titolo'
+let fbFiltersWired = false;
+
+async function loadScenarioMeta() {
+  if (Object.keys(SCENARIO_TITLES).length) return;
+  try {
+    const r = await fetch('/api/scenarios');
+    if (!r.ok) return;
+    const data = await r.json();
+    const selS = document.getElementById('fb-filter-scenario');
+    const selG = document.getElementById('fb-filter-group');
+    for (const s of (data.scenarios || [])) {
+      SCENARIO_TITLES[s.scenario_id] = s.number + '. ' + s.title;
+      const o = document.createElement('option');
+      o.value = s.scenario_id; o.textContent = SCENARIO_TITLES[s.scenario_id];
+      selS.appendChild(o);
+    }
+    for (const g of (data.respondent_groups || [])) {
+      const o = document.createElement('option');
+      o.value = g; o.textContent = g;
+      selG.appendChild(o);
+    }
+  } catch (e) { /* non-fatal: the panel still works without labels */ }
+}
+
+function scenarioLabel(id) { return SCENARIO_TITLES[id] || id; }
+
+async function refreshScenarioFeedback() {
+  const status = document.getElementById('fb-status');
+  const params = new URLSearchParams();
+  const sc = document.getElementById('fb-filter-scenario').value;
+  const gr = document.getElementById('fb-filter-group').value;
+  if (sc) params.set('scenario_id', sc);
+  if (gr) params.set('respondent_group', gr);
+
+  // CSV link carries the token + active filters in the query string. (The CSV
+  // endpoint returns all rows; client filters apply to the on-screen table.)
+  const csvParams = new URLSearchParams(params);
+  csvParams.set('token', tok());
+  document.getElementById('fb-csv-link').href =
+    '/api/admin/scenario-feedback.csv?' + csvParams.toString();
+
+  const qs = params.toString();
+  const resp = await authFetch('/api/admin/scenario-feedback' + (qs ? '?' + qs : ''));
+  if (!resp.ok) {
+    if (resp.status === 401 || resp.status === 503) { showGate(gateMessageFor(resp.status)); return; }
+    status.textContent = 'Errore caricamento feedback (' + resp.status + ').';
+    return;
+  }
+  const data = await resp.json();
+  const rows = data.feedback || [];
+  status.textContent =
+    `${rows.length} ${rows.length === 1 ? 'contributo' : 'contributi'}` +
+    (sc || gr ? ' (filtro attivo)' : '') + ` · versione bozze ${data.scenario_version || '—'}`;
+
+  const tb = document.querySelector('#scenario-feedback-table tbody');
+  tb.innerHTML = '';
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="13" class="fb-empty">Nessun contributo con questi filtri.</td></tr>';
+  } else {
+    for (const r of rows) {
+      const fid = escapeHtml(r.feedback_id);
+      const cell = (v) => `<td class="txt">${escapeHtml(v || '')}</td>`;
+      tb.insertAdjacentHTML('beforeend', `<tr data-feedback-id="${fid}">
+        <td>${escapeHtml(r.submitted_at)}</td>
+        <td><span class="sc-pill">${escapeHtml(scenarioLabel(r.scenario_id))}</span></td>
+        <td>${escapeHtml(displayGroup(r.respondent_group))}</td>
+        <td>${escapeHtml(r.respondent_name || '')}</td>
+        <td>${escapeHtml(r.respondent_email || '')}</td>
+        <td class="plaus">${r.plausibility_score == null ? '—' : r.plausibility_score}</td>
+        ${cell(r.credible_elements)}
+        ${cell(r.weak_elements)}
+        ${cell(r.blind_spots)}
+        ${cell(r.signals)}
+        ${cell(r.title_comment)}
+        ${cell(r.general_comment)}
+        <td class="actions-col">
+          <button type="button" class="row-delete fb-delete" data-feedback-id="${fid}"
+                  aria-label="Elimina il contributo ${escapeHtml(r.feedback_id.slice(0, 8))}">Elimina</button>
+        </td>
+      </tr>`);
+    }
+  }
+  const blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' });
+  document.getElementById('fb-json-link').href = URL.createObjectURL(blob);
+
+  if (!fbFiltersWired) {
+    document.getElementById('fb-filter-scenario').addEventListener('change', refreshScenarioFeedback);
+    document.getElementById('fb-filter-group').addEventListener('change', refreshScenarioFeedback);
+    fbFiltersWired = true;
+  }
+}
+
+async function deleteScenarioFeedback(feedbackId, triggerBtn) {
+  if (triggerBtn) triggerBtn.disabled = true;
+  try {
+    const resp = await authFetch(
+      '/api/admin/scenario-feedback/' + encodeURIComponent(feedbackId),
+      { method: 'DELETE' },
+    );
+    if (!resp.ok) {
+      if (resp.status === 401 || resp.status === 503) { showGate(gateMessageFor(resp.status)); return; }
+      document.getElementById('fb-status').textContent = resp.status === 404
+        ? 'Contributo non trovato (forse già eliminato).'
+        : 'Eliminazione non riuscita (' + resp.status + ').';
+      if (triggerBtn) triggerBtn.disabled = false;
+      return;
+    }
+    await refreshScenarioFeedback();
+  } catch (e) {
+    document.getElementById('fb-status').textContent = 'Errore eliminazione: ' + e.message;
+    if (triggerBtn) triggerBtn.disabled = false;
+  }
+}
+
+function showFbRowConfirm(cell, feedbackId) {
+  cell.innerHTML =
+    '<span class="confirm-delete">' +
+    '<span class="ask">Eliminare?</span>' +
+    '<button type="button" class="confirm-yes">Sì</button>' +
+    '<button type="button" class="confirm-no">No</button>' +
+    '</span>';
+  const yes = cell.querySelector('.confirm-yes');
+  const no = cell.querySelector('.confirm-no');
+  const fid8 = escapeHtml(feedbackId.slice(0, 8));
+  const restore = () => {
+    cell.innerHTML =
+      '<button type="button" class="row-delete fb-delete" data-feedback-id="' + escapeHtml(feedbackId) + '"' +
+      ' aria-label="Elimina il contributo ' + fid8 + '">Elimina</button>';
+  };
+  yes.addEventListener('click', () => deleteScenarioFeedback(feedbackId, yes));
+  no.addEventListener('click', restore);
+  yes.focus();
+}
+
+document.querySelector('#scenario-feedback-table tbody').addEventListener('click', (e) => {
+  const btn = e.target.closest('.fb-delete');
+  if (!btn) return;
+  const fid = btn.getAttribute('data-feedback-id');
+  if (fid) showFbRowConfirm(btn.parentElement, fid);
+});
+
 function unlock() {
   const entered = document.getElementById('tok').value.trim();
   if (!entered) { showGate('Inserisci la password.'); return; }
-  sessionStorage.setItem(TOK_KEY, entered);
+  ADMIN_TOKEN = entered;
   refresh();
 }
 function logout() {
-  sessionStorage.removeItem(TOK_KEY);
+  ADMIN_TOKEN = '';
   document.getElementById('tok').value = '';
   showGate('Sessione terminata. Inserisci la password per accedere di nuovo.');
 }
@@ -449,9 +648,9 @@ document.getElementById('tok').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') unlock();
 });
 
-// Do not auto-load results. Only attempt if a token is already in this session.
-if (tok()) { document.getElementById('tok').value = tok(); refresh(); }
-else { showGate(); }
+// No persisted token: always start at the password gate. The admin enters the
+// password each time the page loads (in-memory only, by sandbox requirement).
+showGate();
 </script>
 </body>
 </html>

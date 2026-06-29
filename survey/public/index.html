@@ -105,6 +105,98 @@
   .empty { font-size: 0.95rem; color: var(--ink-soft); }
   footer { text-align: center; font-size: 0.8rem; color: var(--ink-soft); padding: 16px; }
   footer a { color: var(--ink-soft); }
+
+  /* --- Phase banner (driver survey closed → scenario phase) --- */
+  .phase-banner {
+    background: linear-gradient(135deg, var(--iaran-dark) 0%, var(--iaran) 100%);
+    color: #eef5f1; border-radius: 8px; padding: 16px 18px; margin-bottom: 16px;
+    border-left: 4px solid var(--accent);
+  }
+  .phase-banner strong { color: #fff; }
+
+  /* --- Methodological note --- */
+  .method-note {
+    background: #fbfaf6; border: 1px solid var(--line); border-left: 4px solid var(--iaran);
+    border-radius: 4px; padding: 12px 14px; font-size: 0.9rem; color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  /* --- Axes recap --- */
+  .axes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 640px) { .axes-grid { grid-template-columns: 1fr; } }
+  .axis-card { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; background: #fbfaf6; }
+  .axis-card .eyebrow-sm { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); font-weight: 700; }
+  .axis-card h3 { margin: 4px 0 6px; font-size: 0.98rem; color: var(--accent); }
+  .axis-card .poles { font-size: 0.82rem; color: var(--ink-soft); }
+  .axis-card .poles b { color: var(--ink); }
+
+  /* --- Scenario cards --- */
+  .scenario-card {
+    border: 1px solid var(--cardbd, #d6cfc0); border-radius: 8px; background: var(--panel);
+    margin-bottom: 16px; overflow: hidden;
+  }
+  .scenario-head { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px 8px; }
+  .scenario-num {
+    flex: 0 0 auto; font-size: 2.1rem; font-weight: 800; line-height: 1; color: #6fa384;
+    font-variant-numeric: tabular-nums;
+  }
+  .scenario-head .meta { min-width: 0; }
+  .scenario-quadrant {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft);
+    font-weight: 700; margin-bottom: 2px;
+  }
+  .scenario-title { margin: 0; font-size: 1.2rem; color: var(--ink); }
+  .scenario-essence {
+    margin: 0 18px 12px; padding: 10px 12px; background: #fbfaf6; border: 1px solid var(--line);
+    border-radius: 6px; font-size: 0.92rem; font-style: italic; color: var(--ink);
+  }
+  .scenario-essence b { font-style: normal; color: var(--accent); }
+  .scenario-bullets { margin: 0 18px 14px; padding-left: 20px; font-size: 0.9rem; color: var(--ink-soft); }
+  .scenario-bullets li { margin-bottom: 5px; }
+
+  /* --- Feedback form --- */
+  details.fb { margin: 0 18px 16px; border-top: 1px solid var(--line); }
+  details.fb > summary {
+    cursor: pointer; list-style: none; padding: 12px 0 4px; font-weight: 600;
+    color: var(--accent); font-size: 0.95rem;
+  }
+  details.fb > summary::-webkit-details-marker { display: none; }
+  details.fb > summary::before { content: "+ "; font-weight: 700; }
+  details.fb[open] > summary::before { content: "– "; }
+  .fb-body { padding: 6px 0 14px; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 0.86rem; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+  .field .req { color: var(--danger); }
+  .field .hint { font-weight: 400; color: var(--ink-soft); font-size: 0.82rem; }
+  .field select, .field input[type=text], .field input[type=email], .field textarea {
+    width: 100%; font: inherit; padding: 8px 10px; border: 1px solid var(--line);
+    border-radius: 6px; background: #fff; color: var(--ink);
+  }
+  .field textarea { min-height: 64px; resize: vertical; }
+  .scale { display: flex; flex-wrap: wrap; gap: 6px; }
+  .scale label {
+    flex: 1 1 0; min-width: 130px; display: flex; gap: 8px; align-items: center;
+    border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; cursor: pointer;
+    font-weight: 400; font-size: 0.85rem; background: #fff; margin: 0;
+  }
+  .scale label:hover { border-color: var(--accent); }
+  .scale input { accent-color: var(--accent); }
+  .scale label.sel { border-color: var(--accent); background: var(--accent-soft); }
+  .fb-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-weight: 600; background: var(--accent); color: #fff; border: 0;
+    border-radius: 6px; padding: 9px 16px; cursor: pointer;
+  }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+  .fb-msg { font-size: 0.88rem; }
+  .fb-msg.ok { color: var(--accent); font-weight: 600; }
+  .fb-msg.err { color: var(--danger); }
+  .fb-success {
+    background: var(--accent-soft); border: 1px solid #b9d8c5; border-radius: 6px;
+    padding: 12px 14px; color: var(--ink); font-size: 0.9rem;
+  }
+  .fb-success b { color: var(--accent); }
+  .general-comment-box { border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; background: #fbfaf6; }
 </style>
 </head>
 <body>
@@ -113,7 +205,7 @@
     <div class="header-text">
       <div class="eyebrow">Processo di foresight</div>
       <h1>WWF Italia: Sistema Natura 2030</h1>
-      <div class="subtitle">Risultati della survey di prioritizzazione dei driver — versione <span id="driver-version">…</span></div>
+      <div class="subtitle">Risultati della survey sui driver e sense-check degli scenari verso il 2030</div>
     </div>
     <div class="header-logo">
       <img src="iaran_logo_white.png" alt="IARAN" width="500" height="671" />
@@ -122,13 +214,21 @@
 </header>
 
 <main>
+  <section class="phase-banner">
+    <p style="margin:0;color:#eef5f1;">
+      <strong>La fase di survey sui driver è conclusa. Ora entriamo nella fase di
+      costruzione e affinamento degli scenari.</strong>
+    </p>
+  </section>
+
   <section class="panel">
-    <h2>La survey è chiusa</h2>
+    <h2>1 · Risultati della survey sui driver</h2>
     <div class="closed-banner">
       <strong>La raccolta delle risposte è terminata.</strong> Il questionario di
       prioritizzazione dei driver del processo <strong>WWF Italia: Sistema Natura 2030</strong>
       non accetta più nuove risposte. Qui sotto trovi i risultati aggregati delle
-      valutazioni ricevute.
+      valutazioni ricevute, che hanno guidato la scelta dei due assi e la costruzione
+      delle quattro bozze di scenario.
     </div>
   </section>
 
@@ -158,6 +258,53 @@
       Il quadrante in alto a destra (alta incertezza + alta importanza) raccoglie le incertezze critiche.
     </p>
     <p class="meta-line" id="sample-line">—</p>
+  </section>
+
+  <section class="panel">
+    <h2>2 · I due assi degli scenari</h2>
+    <p>
+      Dalla survey sono emersi i due assi di incertezza critica attorno a cui sono
+      costruiti i quattro scenari. Questi assi <strong>non vengono riaperti</strong>:
+      sono riportati qui solo per leggere il posizionamento di ogni scenario.
+    </p>
+    <div class="axes-grid" id="axes-grid"></div>
+  </section>
+
+  <section class="panel" id="sense-check">
+    <h2>Contribuisci al sense-check degli scenari</h2>
+    <div class="method-note">
+      Questa non è una nuova votazione e non riapre la scelta dei driver o degli assi.
+      Serve a verificare se le bozze di scenario sono plausibili, riconoscibili e utili,
+      e a raccogliere suggerimenti concreti per migliorarle prima del workshop dell'8 luglio.
+    </div>
+    <p style="margin-top:12px;">
+      Qui sotto trovi le <strong>quattro bozze di scenario</strong> verso il 2030. Per ciascuna
+      puoi aprire un breve modulo di sense-check. Puoi commentare anche più di uno scenario.
+    </p>
+  </section>
+
+  <div id="scenarios"></div>
+
+  <section class="panel">
+    <h2>Un commento sui quattro scenari nel loro insieme (facoltativo)</h2>
+    <div class="general-comment-box">
+      <div class="field">
+        <label for="gc-group">Lei è <span class="req">*</span></label>
+        <select id="gc-group" required></select>
+      </div>
+      <div class="field">
+        <label for="gc-text">Osservazioni complessive
+          <span class="hint">— ad es. quale scenario sembra più probabile, cosa manca nel quadro d’insieme, relazioni tra scenari.</span></label>
+        <textarea id="gc-text" rows="4"></textarea>
+      </div>
+      <div class="fb-actions">
+        <button class="btn" id="gc-submit" type="button">Invia commento generale</button>
+        <span class="fb-msg" id="gc-msg"></span>
+      </div>
+      <div class="fb-success" id="gc-success" hidden>
+        <b>Grazie.</b> Il suo commento generale è stato registrato.
+      </div>
+    </div>
   </section>
 </main>
 
@@ -289,22 +436,272 @@ async function loadResults() {
     const r = await fetch('/api/public-results');
     if (!r.ok) throw new Error('http ' + r.status);
     const data = await r.json();
-    document.getElementById('driver-version').textContent = data.driver_version;
-    document.getElementById('footer-version').textContent = data.driver_version;
+    const setText = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    };
+    setText('driver-version', data.driver_version);
+    setText('footer-version', data.driver_version);
     drawMatrix(data.summary);
     const n = Number(data.total_responses) || 0;
     document.getElementById('sample-line').textContent =
       n === 0 ? 'Nessuna risposta registrata.'
               : `Basato su ${n} ${n === 1 ? 'risposta' : 'risposte'} alla survey.`;
   } catch (e) {
-    document.getElementById('results-empty').hidden = false;
-    document.getElementById('results-empty').textContent =
-      'Impossibile caricare i risultati al momento.';
+    const box = document.getElementById('results-empty');
+    box.hidden = false;
+    box.innerHTML =
+      '<strong>Anteprima statica.</strong> Questa versione di anteprima non \u00e8 ' +
+      'collegata al server dei dati, quindi i risultati aggregati della survey non ' +
+      'vengono mostrati qui. Nella versione pubblicata i dati vengono caricati ' +
+      'automaticamente dal database.';
     document.getElementById('matrix-wrap').hidden = true;
   }
 }
 
 loadResults();
+
+// ---------------------------------------------------------------------------
+// SCENARIO SENSE-CHECK
+// ---------------------------------------------------------------------------
+// Content is fetched from /api/scenarios and rendered into cards, each with a
+// collapsible feedback form that POSTs to /api/scenario-feedback. No browser
+// storage is used here: each submission goes straight to the backend DB, and
+// the success state lives only in the current DOM.
+
+const PLAUSIBILITY = [
+  { v: 1, label: '1 — Poco plausibile' },
+  { v: 2, label: '2 — Abbastanza plausibile' },
+  { v: 3, label: '3 — Molto plausibile' },
+  { v: 4, label: '4 — Estremamente plausibile' },
+];
+
+// Open-ended sense-check questions, in the exact order/wording requested. The
+// `key` maps to the scenario_feedback column the answer is stored in.
+const OPEN_QUESTIONS = [
+  { key: 'credible_elements', label: 'Quali elementi dello scenario riconosce come particolarmente credibili o vicini alla realtà che osserva?' },
+  { key: 'weak_elements', label: 'Quali elementi le sembrano meno convincenti, troppo forti, troppo deboli o formulati male?' },
+  { key: 'blind_spots', label: 'C’è qualcosa di importante che manca nello scenario e che dovrebbe essere integrato per renderlo più realistico?' },
+  { key: 'signals', label: 'Quali segnali concreti ci direbbero, nei prossimi anni, che l’Italia sta andando verso questo scenario?' },
+  { key: 'title_comment', label: 'Il titolo e la formulazione aiutano a capire lo scenario? Se no, cosa cambierebbe?' },
+];
+
+let RESPONDENT_GROUPS = [];
+
+function fillGroupSelect(sel) {
+  sel.innerHTML = '';
+  const ph = document.createElement('option');
+  ph.value = ''; ph.textContent = '— Seleziona —'; ph.disabled = true; ph.selected = true;
+  sel.appendChild(ph);
+  for (const g of RESPONDENT_GROUPS) {
+    const o = document.createElement('option');
+    o.value = g; o.textContent = g;
+    sel.appendChild(o);
+  }
+}
+
+function renderAxes(axes) {
+  const grid = document.getElementById('axes-grid');
+  grid.innerHTML = '';
+  const order = [['Asse 1', axes.axis1], ['Asse 2', axes.axis2]];
+  for (const [eyebrow, ax] of order) {
+    if (!ax) continue;
+    const div = document.createElement('div');
+    div.className = 'axis-card';
+    div.innerHTML =
+      `<div class="eyebrow-sm">${escapeHtml(eyebrow)}</div>` +
+      `<h3>${escapeHtml(ax.label)}</h3>` +
+      `<div class="poles"><b>Basso:</b> ${escapeHtml(ax.low)}<br><b>Alto:</b> ${escapeHtml(ax.high)}</div>`;
+    grid.appendChild(div);
+  }
+}
+
+function buildScenarioCard(s) {
+  const card = document.createElement('section');
+  card.className = 'scenario-card';
+  card.id = 'scenario-' + s.scenario_id;
+
+  const bullets = (s.bullets || []).map((b) => `<li>${escapeHtml(b)}</li>`).join('');
+
+  const scaleId = 'plaus-' + s.scenario_id;
+  const scaleHtml = PLAUSIBILITY.map((p) =>
+    `<label data-val="${p.v}"><input type="radio" name="${scaleId}" value="${p.v}"> ${escapeHtml(p.label)}</label>`,
+  ).join('');
+
+  const openHtml = OPEN_QUESTIONS.map((q) =>
+    `<div class="field">` +
+    `<label>${escapeHtml(q.label)}</label>` +
+    `<textarea data-key="${q.key}" rows="3"></textarea>` +
+    `</div>`,
+  ).join('');
+
+  card.innerHTML =
+    `<div class="scenario-head">` +
+      `<div class="scenario-num">${s.number}</div>` +
+      `<div class="meta">` +
+        `<div class="scenario-quadrant">${escapeHtml(s.quadrant)}</div>` +
+        `<h3 class="scenario-title">${escapeHtml(s.title)}</h3>` +
+      `</div>` +
+    `</div>` +
+    `<p class="scenario-essence">${escapeHtml(s.essence)}</p>` +
+    `<ul class="scenario-bullets">${bullets}</ul>` +
+    `<details class="fb">` +
+      `<summary>Apri il modulo di sense-check per «${escapeHtml(s.title)}»</summary>` +
+      `<div class="fb-body">` +
+        `<div class="field">` +
+          `<label>Lei è <span class="req">*</span></label>` +
+          `<select class="fb-group" required></select>` +
+        `</div>` +
+        `<div class="field two">` +
+          `<label>Nome <span class="hint">(facoltativo)</span></label>` +
+          `<input type="text" class="fb-name" autocomplete="name">` +
+        `</div>` +
+        `<div class="field">` +
+          `<label>Email <span class="hint">(facoltativo)</span></label>` +
+          `<input type="email" class="fb-email" autocomplete="email">` +
+        `</div>` +
+        `<div class="field">` +
+          `<label>Quanto le sembra plausibile questo scenario verso il 2030?</label>` +
+          `<div class="scale">${scaleHtml}</div>` +
+        `</div>` +
+        openHtml +
+        `<div class="fb-actions">` +
+          `<button class="btn fb-submit" type="button">Invia il sense-check</button>` +
+          `<span class="fb-msg"></span>` +
+        `</div>` +
+        `<div class="fb-success" hidden><b>Grazie.</b> Il suo contributo per questo scenario è stato registrato. Può commentare anche gli altri scenari.</div>` +
+      `</div>` +
+    `</details>`;
+
+  // Wire selection highlight on the plausibility scale.
+  const scale = card.querySelector('.scale');
+  scale.addEventListener('change', () => {
+    scale.querySelectorAll('label').forEach((l) => {
+      const inp = l.querySelector('input');
+      l.classList.toggle('sel', inp.checked);
+    });
+  });
+
+  fillGroupSelect(card.querySelector('.fb-group'));
+
+  const btn = card.querySelector('.fb-submit');
+  const msg = card.querySelector('.fb-msg');
+  const success = card.querySelector('.fb-success');
+  const body = card.querySelector('.fb-body');
+
+  btn.addEventListener('click', async () => {
+    msg.className = 'fb-msg';
+    msg.textContent = '';
+    const group = card.querySelector('.fb-group').value;
+    if (!group) {
+      msg.className = 'fb-msg err';
+      msg.textContent = 'Indichi prima chi è (campo obbligatorio).';
+      return;
+    }
+    const checked = card.querySelector(`input[name="${scaleId}"]:checked`);
+    const payload = {
+      scenario_id: s.scenario_id,
+      respondent_group: group,
+      respondent_name: card.querySelector('.fb-name').value,
+      respondent_email: card.querySelector('.fb-email').value,
+      plausibility_score: checked ? Number(checked.value) : null,
+    };
+    card.querySelectorAll('textarea[data-key]').forEach((t) => {
+      payload[t.getAttribute('data-key')] = t.value;
+    });
+    btn.disabled = true;
+    msg.textContent = 'Invio in corso…';
+    try {
+      const r = await fetch('/api/scenario-feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!r.ok) throw new Error('http ' + r.status);
+      await r.json();
+      // Replace the form body with a clear success state.
+      body.innerHTML = '';
+      body.appendChild(success);
+      success.hidden = false;
+    } catch (e) {
+      btn.disabled = false;
+      msg.className = 'fb-msg err';
+      msg.textContent = 'Invio non riuscito. Riprovi tra poco.';
+    }
+  });
+
+  return card;
+}
+
+function wireGeneralComment() {
+  const sel = document.getElementById('gc-group');
+  fillGroupSelect(sel);
+  const btn = document.getElementById('gc-submit');
+  const msg = document.getElementById('gc-msg');
+  const success = document.getElementById('gc-success');
+  const txt = document.getElementById('gc-text');
+  btn.addEventListener('click', async () => {
+    msg.className = 'fb-msg'; msg.textContent = '';
+    const group = sel.value;
+    if (!group) {
+      msg.className = 'fb-msg err';
+      msg.textContent = 'Indichi prima chi è (campo obbligatorio).';
+      return;
+    }
+    if (!txt.value.trim()) {
+      msg.className = 'fb-msg err';
+      msg.textContent = 'Scriva un commento prima di inviare.';
+      return;
+    }
+    // The general comment is stored against scenario s1 with general_comment set,
+    // so it lands in the same scenario_feedback table and the admin general-comment
+    // column. (It is clearly distinguishable: only general_comment is populated.)
+    btn.disabled = true; msg.textContent = 'Invio in corso…';
+    try {
+      const r = await fetch('/api/scenario-feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scenario_id: 's1',
+          respondent_group: group,
+          general_comment: txt.value,
+        }),
+      });
+      if (!r.ok) throw new Error('http ' + r.status);
+      await r.json();
+      txt.value = '';
+      btn.disabled = true;
+      success.hidden = false;
+      msg.textContent = '';
+    } catch (e) {
+      btn.disabled = false;
+      msg.className = 'fb-msg err';
+      msg.textContent = 'Invio non riuscito. Riprovi tra poco.';
+    }
+  });
+}
+
+async function loadScenarios() {
+  try {
+    const r = await fetch('/api/scenarios');
+    if (!r.ok) throw new Error('http ' + r.status);
+    const data = await r.json();
+    RESPONDENT_GROUPS = data.respondent_groups || [];
+    renderAxes(data.axes || {});
+    const wrap = document.getElementById('scenarios');
+    wrap.innerHTML = '';
+    for (const s of (data.scenarios || [])) wrap.appendChild(buildScenarioCard(s));
+    wireGeneralComment();
+  } catch (e) {
+    document.getElementById('scenarios').innerHTML =
+      '<section class="panel"><p class="empty"><strong>Anteprima statica.</strong> ' +
+      'Gli scenari e il modulo di riscontro sono disponibili solo nella versione ' +
+      'pubblicata, collegata al database. In questa anteprima il contenuto non viene ' +
+      'caricato.</p></section>';
+  }
+}
+
+loadScenarios();
 </script>
 </body>
 </html>

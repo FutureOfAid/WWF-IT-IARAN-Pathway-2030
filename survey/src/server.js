@@ -4,6 +4,9 @@ const crypto = require('crypto');
 const db = require('./db');
 const { seedDrivers } = require('./seed');
 const { DRIVER_VERSION, DRIVERS } = require('./drivers');
+const {
+  SCENARIO_VERSION, AXES, SCENARIOS, RESPONDENT_GROUPS, VALID_SCENARIO_IDS,
+} = require('./scenarios');
 
 // short_label is a synthetic, compact Italian display label kept in drivers.js
 // (not a DB column, like title_en). Looked up by driver_id so the admin matrix
@@ -379,6 +382,159 @@ app.get('/api/matrix', requireAdmin, async (req, res) => {
      WHERE importance_score IS NOT NULL AND uncertainty_score IS NOT NULL`,
   );
   res.json({ points: rows });
+});
+
+// ---------------------------------------------------------------------------
+// SCENARIO SENSE-CHECK
+// ---------------------------------------------------------------------------
+// A separate, public-facing layer that lets people sense-check the four scenario
+// drafts. It does NOT reopen the driver survey or the axes, and it writes only
+// to the independent `scenario_feedback` table — the closed driver-survey data
+// is never touched. There is intentionally NO same-device lock here: a person
+// may legitimately comment on several scenarios.
+
+// Public content feed for the sense-check page: axes (for context), the four
+// scenarios with their wording, and the respondent categories. Unauthenticated
+// because it exposes only the draft content the page must render — no responses.
+app.get('/api/scenarios', async (req, res) => {
+  res.json({
+    scenario_version: SCENARIO_VERSION,
+    axes: AXES,
+    scenarios: SCENARIOS,
+    respondent_groups: RESPONDENT_GROUPS,
+  });
+});
+
+// Plausibility is a pedagogical 4-level scale (1-4). Mirrors validateScore but
+// kept separate so the two instruments can diverge without coupling.
+function validatePlausibility(v) {
+  if (v == null || v === '') return null;
+  const n = Number(v);
+  if (!Number.isInteger(n) || n < 1 || n > 4) return null;
+  return n;
+}
+
+app.post('/api/scenario-feedback', async (req, res) => {
+  try {
+    const body = req.body || {};
+
+    const scenario_id = (body.scenario_id || '').toString().trim();
+    if (!VALID_SCENARIO_IDS.has(scenario_id)) {
+      return res.status(400).json({ error: 'invalid_scenario_id' });
+    }
+
+    // Respondent type is required, same as the driver survey.
+    const respondent_group = (body.respondent_group || '').toString().slice(0, 200).trim();
+    if (!respondent_group) {
+      return res.status(400).json({ error: 'respondent_group_required' });
+    }
+
+    const plausibility_score = validatePlausibility(body.plausibility_score);
+
+    // Identity is optional and low-friction (the driver survey never asked for a
+    // name/email either). Empty strings are stored as NULL.
+    const str = (v, max) => {
+      const s = (v == null ? '' : String(v)).slice(0, max).trim();
+      return s || null;
+    };
+
+    const feedback_id = crypto.randomUUID();
+    const submitted_at = new Date().toISOString();
+
+    await db.query(
+      `INSERT INTO scenario_feedback
+       (feedback_id, submitted_at, scenario_id, scenario_version,
+        respondent_group, respondent_name, respondent_email, plausibility_score,
+        credible_elements, weak_elements, blind_spots, signals, title_comment,
+        general_comment)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,
+      [
+        feedback_id, submitted_at, scenario_id, SCENARIO_VERSION,
+        respondent_group, str(body.respondent_name, 200), str(body.respondent_email, 200),
+        plausibility_score,
+        str(body.credible_elements, 4000), str(body.weak_elements, 4000),
+        str(body.blind_spots, 4000), str(body.signals, 4000),
+        str(body.title_comment, 4000), str(body.general_comment, 4000),
+      ],
+    );
+
+    res.json({ ok: true, feedback_id });
+  } catch (e) {
+    console.error('POST /api/scenario-feedback', e);
+    res.status(500).json({ error: 'server_error' });
+  }
+});
+
+// Admin: all scenario feedback rows (JSON). Token-protected like every other
+// admin/results endpoint. Optional ?scenario_id= and ?respondent_group= filters.
+app.get('/api/admin/scenario-feedback', requireAdmin, async (req, res) => {
+  const where = [];
+  const params = [];
+  if (req.query.scenario_id) {
+    params.push(String(req.query.scenario_id));
+    where.push(`scenario_id = $${params.length}`);
+  }
+  if (req.query.respondent_group) {
+    params.push(String(req.query.respondent_group));
+    where.push(`respondent_group = $${params.length}`);
+  }
+  const clause = where.length ? `WHERE ${where.join(' AND ')}` : '';
+  const { rows } = await db.query(
+    `SELECT feedback_id, submitted_at, scenario_id, scenario_version,
+            respondent_group, respondent_name, respondent_email,
+            plausibility_score, credible_elements, weak_elements, blind_spots,
+            signals, title_comment, general_comment
+     FROM scenario_feedback ${clause}
+     ORDER BY submitted_at DESC`,
+    params,
+  );
+  res.json({ scenario_version: SCENARIO_VERSION, feedback: rows });
+});
+
+// Admin: delete one feedback row by feedback_id. Same pattern and safety as the
+// driver-response delete (scoped to a single row, 404 if absent). Nothing else
+// is touched; the DB is never reset.
+app.delete('/api/admin/scenario-feedback/:feedbackId', requireAdmin, async (req, res) => {
+  try {
+    const feedbackId = String(req.params.feedbackId || '');
+    if (!feedbackId) return res.status(400).json({ error: 'missing_feedback_id' });
+    const result = await db.query(
+      `DELETE FROM scenario_feedback WHERE feedback_id = $1`,
+      [feedbackId],
+    );
+    if (!result.rowCount) return res.status(404).json({ error: 'not_found' });
+    res.json({ ok: true, feedback_id: feedbackId });
+  } catch (e) {
+    console.error('DELETE /api/admin/scenario-feedback/:feedbackId', e);
+    res.status(500).json({ error: 'server_error' });
+  }
+});
+
+// Admin: flat CSV export of scenario feedback (one row per submission).
+app.get('/api/admin/scenario-feedback.csv', requireAdmin, async (req, res) => {
+  const { rows } = await db.query(
+    `SELECT feedback_id, submitted_at, scenario_id, scenario_version,
+            respondent_group, respondent_name, respondent_email,
+            plausibility_score, credible_elements, weak_elements, blind_spots,
+            signals, title_comment, general_comment
+     FROM scenario_feedback ORDER BY scenario_id ASC, submitted_at DESC`,
+  );
+  const header = [
+    'feedback_id','submitted_at','scenario_id','scenario_version',
+    'respondent_group','respondent_name','respondent_email','plausibility_score',
+    'credible_elements','weak_elements','blind_spots','signals','title_comment',
+    'general_comment',
+  ];
+  const esc = (v) => {
+    if (v == null) return '';
+    const s = String(v);
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+  const lines = [header.join(',')];
+  for (const r of rows) lines.push(header.map((h) => esc(r[h])).join(','));
+  res.set('Content-Type', 'text/csv; charset=utf-8');
+  res.set('Content-Disposition', 'attachment; filename="wwf_pathway_2030_scenario_feedback.csv"');
+  res.send(lines.join('\n'));
 });
 
 const PORT = process.env.PORT || 3001;

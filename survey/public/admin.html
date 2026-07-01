@@ -75,7 +75,23 @@
   .fb-toolbar select { font: inherit; padding: 6px 8px; border: 1px solid #d8ded7; border-radius: 6px; background: #fff; }
   .fb-table-wrap { overflow-x: auto; }
   #scenario-feedback-table { min-width: 1100px; }
-  #scenario-feedback-table td.txt { max-width: 220px; white-space: pre-wrap; word-break: break-word; font-size: 0.82rem; }
+  #scenario-feedback-table td.txt { max-width: 260px; font-size: 0.82rem; vertical-align: top; }
+  /* Collapsed contributions show ~3 lines; the toggle reveals the full text.
+     Full text is always present in the DOM (and in CSV/JSON exports) — this is
+     display-only truncation, so no contribution content is ever lost. */
+  .clip-text {
+    white-space: pre-wrap; word-break: break-word;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+  .clip-text.expanded { display: block; -webkit-line-clamp: unset; overflow: visible; }
+  .clip-toggle {
+    margin-top: 4px; font: inherit; font-size: 0.78rem; line-height: 1;
+    background: transparent; border: 0; padding: 0; cursor: pointer;
+    color: #166d3b; text-decoration: underline;
+  }
+  .clip-toggle:focus-visible { outline: 2px solid #14281d; outline-offset: 2px; }
+  .clip-empty { color: #9aa39d; }
   #scenario-feedback-table .plaus { font-weight: 700; text-align: center; }
   .sc-pill {
     display: inline-block; background: #e2efe7; color: #166d3b; font-weight: 700;
@@ -549,7 +565,14 @@ async function refreshScenarioFeedback() {
   } else {
     for (const r of rows) {
       const fid = escapeHtml(r.feedback_id);
-      const cell = (v) => `<td class="txt">${escapeHtml(v || '')}</td>`;
+      const cell = (v) => {
+        const t = (v == null ? '' : String(v));
+        if (!t.trim()) return '<td class="txt"><span class="clip-empty">—</span></td>';
+        // Full text goes into the DOM; the toggle button is revealed only when
+        // the clamped text actually overflows (decided in wireClipToggles()).
+        return '<td class="txt"><div class="clip-text">' + escapeHtml(t) + '</div>'
+          + '<button type="button" class="clip-toggle" aria-expanded="false" hidden>Leggi tutto</button></td>';
+      };
       tb.insertAdjacentHTML('beforeend', `<tr data-feedback-id="${fid}">
         <td>${escapeHtml(r.submitted_at)}</td>
         <td><span class="sc-pill">${escapeHtml(scenarioLabel(r.scenario_id))}</span></td>
@@ -574,11 +597,42 @@ async function refreshScenarioFeedback() {
   const blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' });
   document.getElementById('fb-json-link').href = URL.createObjectURL(blob);
 
+  wireClipToggles();
+
   if (!fbFiltersWired) {
     document.getElementById('fb-filter-scenario').addEventListener('change', refreshScenarioFeedback);
     document.getElementById('fb-filter-group').addEventListener('change', refreshScenarioFeedback);
+    // Delegated toggle: expand/collapse a single contribution cell.
+    document.getElementById('scenario-feedback-table').addEventListener('click', (e) => {
+      const btn = e.target.closest('.clip-toggle');
+      if (!btn) return;
+      const div = btn.previousElementSibling;
+      const expanded = div.classList.toggle('expanded');
+      btn.setAttribute('aria-expanded', String(expanded));
+      btn.textContent = expanded ? 'Comprimi' : 'Leggi tutto';
+    });
     fbFiltersWired = true;
   }
+}
+
+// Reveal a "Leggi tutto" toggle only for cells whose clamped text overflows the
+// ~3 visible lines. Cells that already fit show no button. Re-run on each
+// refresh since rows are rebuilt.
+function wireClipToggles() {
+  const cells = document.querySelectorAll('#scenario-feedback-table td.txt .clip-text');
+  cells.forEach((div) => {
+    const btn = div.nextElementSibling;
+    if (!btn || !btn.classList.contains('clip-toggle')) return;
+    const overflowing = div.scrollHeight - div.clientHeight > 2;
+    if (overflowing) {
+      btn.hidden = false;
+    } else {
+      btn.hidden = true;
+      div.classList.remove('expanded');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'Leggi tutto';
+    }
+  });
 }
 
 async function deleteScenarioFeedback(feedbackId, triggerBtn) {

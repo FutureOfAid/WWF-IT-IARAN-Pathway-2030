@@ -1,0 +1,9 @@
+node_modules/
+db/*.sqlite
+db/*.sqlite-wal
+db/*.sqlite-shm
+.env
+
+# Brand assets must ship with the deploy (the root .gitignore ignores *.png).
+!public/iaran_logo_white.png
+!public/iaran_logo.png

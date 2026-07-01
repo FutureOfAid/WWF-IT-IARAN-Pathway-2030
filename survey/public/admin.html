@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WWF-IT-Pathway-2030 — Admin / risultati</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         margin: 0; background: #f5f6f3; color: #14281d; }
+  header { background: #166d3b; color: white; padding: 14px 20px; }
+  header h1 { margin: 0; font-size: 1rem; }
+  main { max-width: 1000px; margin: 0 auto; padding: 16px; }
+  .panel { background: white; border: 1px solid #d8ded7; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th, td { border-bottom: 1px solid #d8ded7; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #f0f3ef; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  a.button {
+    display: inline-block; background: #166d3b; color: white; padding: 8px 12px;
+    border-radius: 6px; text-decoration: none; font-size: 0.9rem; margin-right: 6px;
+  }
+  input { font: inherit; padding: 6px 8px; border: 1px solid #d8ded7; border-radius: 6px; }
+  #matrix { width: 100%; height: auto; display: block; }
+  .grid line { stroke: #d8ded7; }
+  .axis-label { font-size: 11px; fill: #46524c; }
+  .axis-title { font-size: 12px; font-weight: 600; fill: #14281d; }
+  .quad-label { font-size: 10px; fill: #7a8b80; text-transform: uppercase; letter-spacing: 0.04em; }
+  .point { fill: #166d3b; opacity: 0.9; stroke: #fff; stroke-width: 1.5; }
+  .point-label { font-size: 10px; font-weight: 700; fill: #fff; pointer-events: none; }
+
+  /* Matrix + ranked legend sit side by side on wide screens, stack on mobile. */
+  .matrix-wrap { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+  .matrix-svg-box { flex: 1 1 420px; min-width: 280px; }
+  .matrix-legend { flex: 1 1 280px; min-width: 240px; }
+  .matrix-legend ol { list-style: none; margin: 0; padding: 0; font-size: 0.85rem; }
+  .matrix-legend li {
+    display: flex; align-items: baseline; gap: 8px;
+    padding: 4px 0; border-bottom: 1px solid #eef1ed;
+  }
+  .matrix-legend .tag {
+    flex: 0 0 auto; display: inline-block; min-width: 30px; text-align: center;
+    background: #166d3b; color: #fff; font-weight: 700; font-size: 0.78rem;
+    border-radius: 4px; padding: 1px 5px; font-variant-numeric: tabular-nums;
+  }
+  .matrix-legend .lab { flex: 1 1 auto; color: #14281d; }
+  .matrix-legend .sc { flex: 0 0 auto; color: #46524c; font-variant-numeric: tabular-nums; font-size: 0.8rem; }
+  .legend-head { font-size: 0.8rem; color: #46524c; margin: 0 0 6px; }
+
+  /* Per-row delete: subdued by default, danger colour only on hover/focus so the
+     table stays calm. The confirm step (inline) prevents accidental deletion. */
+  th.actions-col, td.actions-col { text-align: right; white-space: nowrap; }
+  .row-delete {
+    font: inherit; font-size: 0.8rem; line-height: 1; cursor: pointer;
+    color: #9a2b2b; background: transparent; border: 1px solid #e0c9c9;
+    border-radius: 6px; padding: 5px 9px;
+  }
+  .row-delete:hover, .row-delete:focus-visible { background: #fbeaea; border-color: #c98a8a; }
+  .row-delete:focus-visible { outline: 2px solid #9a2b2b; outline-offset: 1px; }
+  .row-delete[disabled] { opacity: 0.5; cursor: default; }
+  .confirm-delete { display: inline-flex; gap: 6px; align-items: center; }
+  .confirm-delete .ask { font-size: 0.8rem; color: #9a2b2b; }
+  .confirm-yes {
+    font: inherit; font-size: 0.8rem; line-height: 1; cursor: pointer; color: #fff;
+    background: #9a2b2b; border: 1px solid #9a2b2b; border-radius: 6px; padding: 5px 9px;
+  }
+  .confirm-no {
+    font: inherit; font-size: 0.8rem; line-height: 1; cursor: pointer; color: #46524c;
+    background: transparent; border: 1px solid #d8ded7; border-radius: 6px; padding: 5px 9px;
+  }
+  .confirm-yes:focus-visible, .confirm-no:focus-visible { outline: 2px solid #14281d; outline-offset: 1px; }
+
+  /* Scenario-feedback panel */
+  .fb-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+  .fb-toolbar label { font-size: 0.85rem; color: #46524c; display: flex; align-items: center; gap: 6px; }
+  .fb-toolbar select { font: inherit; padding: 6px 8px; border: 1px solid #d8ded7; border-radius: 6px; background: #fff; }
+  .fb-table-wrap { overflow-x: auto; }
+  #scenario-feedback-table { min-width: 1100px; }
+  #scenario-feedback-table td.txt { max-width: 260px; font-size: 0.82rem; vertical-align: top; }
+  /* Collapsed contributions show ~3 lines; the toggle reveals the full text.
+     Full text is always present in the DOM (and in CSV/JSON exports) — this is
+     display-only truncation, so no contribution content is ever lost. */
+  .clip-text {
+    white-space: pre-wrap; word-break: break-word;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+  .clip-text.expanded { display: block; -webkit-line-clamp: unset; overflow: visible; }
+  .clip-toggle {
+    margin-top: 4px; font: inherit; font-size: 0.78rem; line-height: 1;
+    background: transparent; border: 0; padding: 0; cursor: pointer;
+    color: #166d3b; text-decoration: underline;
+  }
+  .clip-toggle:focus-visible { outline: 2px solid #14281d; outline-offset: 2px; }
+  .clip-empty { color: #9aa39d; }
+  #scenario-feedback-table .plaus { font-weight: 700; text-align: center; }
+  .sc-pill {
+    display: inline-block; background: #e2efe7; color: #166d3b; font-weight: 700;
+    font-size: 0.75rem; border-radius: 4px; padding: 1px 6px; white-space: nowrap;
+  }
+  .fb-empty { font-size: 0.9rem; color: #46524c; }
+</style>
+</head>
+<body>
+<header><h1>WWF-IT-Pathway-2030 — Admin / risultati</h1></header>
+<main>
+  <div class="panel">
+    <label>Password / admin token: <input id="tok" type="password" placeholder="ADMIN_TOKEN" autocomplete="current-password" /></label>
+    <div style="margin-top:10px">
+      <button class="button" id="unlock" style="border:0; cursor:pointer">Accedi</button>
+      <a class="button" id="csv-link" href="#" hidden>Scarica CSV</a>
+      <a class="button" id="json-link" href="#" download="responses.json" hidden>Scarica JSON</a>
+      <button class="button" id="refresh" style="border:0; cursor:pointer" hidden>Aggiorna</button>
+      <button class="button" id="logout" style="border:0; cursor:pointer; background:#7a8b80" hidden>Esci</button>
+    </div>
+    <p id="gate-msg" style="font-size:0.85rem;color:#46524c;margin:10px 0 0">
+      Inserisci la password per visualizzare i risultati.
+    </p>
+  </div>
+
+  <div id="results" hidden>
+
+  <div class="panel">
+    <h3>Driver summary (aggregato)</h3>
+    <table id="summary-table"><thead><tr>
+      <th>Driver</th><th class="num">N</th>
+      <th class="num">Imp. media</th><th class="num">Imp. σ</th>
+      <th class="num">Inc. media</th><th class="num">Inc. σ</th>
+      <th class="num">Imp × Inc</th>
+    </tr></thead><tbody></tbody></table>
+  </div>
+
+  <div class="panel">
+    <h3>Mappa incertezza × importanza</h3>
+    <div class="matrix-wrap">
+      <div class="matrix-svg-box">
+        <svg id="matrix" viewBox="0 0 520 420" role="img"
+             aria-label="Mappa dei driver: asse X incertezza media, asse Y importanza media"></svg>
+      </div>
+      <div class="matrix-legend">
+        <p class="legend-head">
+          Driver ordinati per <strong>incertezza critica</strong> (importanza media × incertezza media).
+          I più in alto sono prioritari per lo scenario planning.
+        </p>
+        <ol id="matrix-legend-list"></ol>
+      </div>
+    </div>
+    <p style="font-size:0.85rem;color:#46524c;margin-top:12px">
+      Asse X: incertezza media verso il 2030 (1 → 4). Asse Y: importanza media per il
+      sistema «WWF Italia: Natura 2030» (1 → 4).
+      Ogni punto è un <strong>driver</strong>, posizionato sulla media delle valutazioni ricevute
+      ed etichettato con il suo codice <code>Dxx</code> (vedi legenda).
+      Il quadrante in alto a destra (alta incertezza + alta importanza) raccoglie le incertezze critiche.
+      Passa il mouse / tocca un punto per vedere il driver e i valori.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h3>Risposte grezze</h3>
+    <p style="font-size:0.85rem;color:#46524c" id="status">—</p>
+    <table id="responses-table"><thead><tr>
+      <th>response_id</th><th>submitted_at</th><th>group</th><th>role</th>
+      <th class="num">items</th><th>driver_version</th><th class="actions-col">azioni</th>
+    </tr></thead><tbody></tbody></table>
+  </div>
+
+  <div class="panel">
+    <h3>Sense-check degli scenari</h3>
+    <p style="font-size:0.85rem;color:#46524c">
+      Feedback raccolti sulle quattro bozze di scenario (tabella separata dalla survey
+      sui driver). I commenti generali sui quattro scenari hanno solo la colonna
+      «commento generale» compilata.
+    </p>
+    <div class="fb-toolbar">
+      <label>Scenario
+        <select id="fb-filter-scenario"><option value="">Tutti</option></select>
+      </label>
+      <label>Tipo di rispondente
+        <select id="fb-filter-group"><option value="">Tutti</option></select>
+      </label>
+      <a class="button" id="fb-csv-link" href="#">Scarica CSV</a>
+      <a class="button" id="fb-json-link" href="#" download="scenario_feedback.json" style="background:#7a8b80">Scarica JSON</a>
+    </div>
+    <p style="font-size:0.85rem;color:#46524c" id="fb-status">—</p>
+    <div class="fb-table-wrap">
+      <table id="scenario-feedback-table"><thead><tr>
+        <th>timestamp</th><th>scenario</th><th>tipo rispondente</th>
+        <th>nome</th><th>email</th><th class="plaus">plaus.</th>
+        <th>elementi credibili</th><th>elementi deboli</th><th>cosa manca</th>
+        <th>segnali</th><th>titolo/formulazione</th><th>scenario più utile (trasversale)</th><th>commento generale</th>
+        <th class="actions-col">azioni</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+  </div><!-- /#results -->
+</main>
+<script>
+// The token is held ONLY in an in-memory variable for the life of this page.
+// It is never persisted to any browser storage (such APIs are blocked in the
+// deployment sandbox), never baked into this file or any bundle, and is sent to
+// the backend only as the user-entered credential. Reloading the page clears
+// it, so the admin re-enters the password.
+let ADMIN_TOKEN = '';
+function tok() {
+  return (ADMIN_TOKEN || '').trim();
+}
+function authFetch(url, options = {}) {
+  const t = tok();
+  const headers = Object.assign({}, options.headers, t ? { 'X-Admin-Token': t } : {});
+  return fetch(url, Object.assign({}, options, { headers }));
+}
+
+function showGate(msg) {
+  document.getElementById('results').hidden = true;
+  document.getElementById('csv-link').hidden = true;
+  document.getElementById('json-link').hidden = true;
+  document.getElementById('refresh').hidden = true;
+  document.getElementById('logout').hidden = true;
+  document.getElementById('unlock').hidden = false;
+  document.getElementById('gate-msg').textContent = msg || 'Inserisci la password per visualizzare i risultati.';
+}
+function showResults() {
+  document.getElementById('results').hidden = false;
+  document.getElementById('csv-link').hidden = false;
+  document.getElementById('json-link').hidden = false;
+  document.getElementById('refresh').hidden = false;
+  document.getElementById('logout').hidden = false;
+  document.getElementById('unlock').hidden = true;
+  document.getElementById('gate-msg').textContent = '';
+}
+function gateMessageFor(status) {
+  if (status === 401) return 'Password errata.';
+  if (status === 503) return 'ADMIN_TOKEN non configurato sul server. Contatta l’amministratore.';
+  return 'Errore di caricamento (' + status + ').';
+}
+
+async function refresh() {
+  // CSV link carries the token in the query string so the browser download works.
+  document.getElementById('csv-link').href =
+    '/api/admin/export.csv?token=' + encodeURIComponent(tok());
+
+  const sumResp = await authFetch('/api/driver-summary');
+  if (!sumResp.ok) { showGate(gateMessageFor(sumResp.status)); return; }
+  showResults();
+  const sum = await sumResp.json();
+  drawMatrix(sum.summary);
+  const tb = document.querySelector('#summary-table tbody');
+  tb.innerHTML = '';
+  for (const r of sum.summary) {
+    const fmt = (v, p=2) => v == null ? '—' : Number(v).toFixed(p);
+    tb.insertAdjacentHTML('beforeend', `<tr>
+      <td><strong>${r.driver_id}</strong> — ${escapeHtml(r.short_label || r.title)}</td>
+      <td class="num">${r.n_responses}</td>
+      <td class="num">${fmt(r.importance_average)}</td>
+      <td class="num">${fmt(r.importance_stddev)}</td>
+      <td class="num">${fmt(r.uncertainty_average)}</td>
+      <td class="num">${fmt(r.uncertainty_stddev)}</td>
+      <td class="num">${fmt(r.critical_uncertainty_score)}</td>
+    </tr>`);
+  }
+
+  try {
+    const resp = await authFetch('/api/admin/responses');
+    if (!resp.ok) {
+      document.getElementById('status').textContent =
+        resp.status === 401 ? 'Token mancante o errato.' : 'Errore caricamento risposte.';
+      return;
+    }
+    const data = await resp.json();
+    document.getElementById('status').textContent =
+      `${data.responses.length} risposte · ${data.items.length} valutazioni totali`;
+    const rt = document.querySelector('#responses-table tbody');
+    rt.innerHTML = '';
+    const itemsByResp = new Map();
+    for (const it of data.items) {
+      itemsByResp.set(it.response_id, (itemsByResp.get(it.response_id) || 0) + 1);
+    }
+    for (const r of data.responses) {
+      const rid = escapeHtml(r.response_id);
+      rt.insertAdjacentHTML('beforeend', `<tr data-response-id="${rid}">
+        <td><code>${escapeHtml(r.response_id.slice(0, 8))}…</code></td>
+        <td>${escapeHtml(r.submitted_at)}</td>
+        <td>${escapeHtml(displayGroup(r.respondent_group))}</td>
+        <td>${escapeHtml(r.role_or_function || '')}</td>
+        <td class="num">${itemsByResp.get(r.response_id) || 0}</td>
+        <td>${escapeHtml(r.driver_version)}</td>
+        <td class="actions-col">
+          <button type="button" class="row-delete" data-response-id="${rid}"
+                  aria-label="Elimina la risposta ${escapeHtml(r.response_id.slice(0, 8))}">Elimina</button>
+        </td>
+      </tr>`);
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    document.getElementById('json-link').href = URL.createObjectURL(blob);
+  } catch (e) {
+    document.getElementById('status').textContent = 'Errore: ' + e.message;
+  }
+
+  // Scenario sense-check feedback (independent table). Loaded after the driver
+  // data so a failure here never blocks the driver-survey view.
+  await loadScenarioMeta();
+  await refreshScenarioFeedback();
+}
+
+// Per-response deletion. A two-step inline confirm guards against accidental
+// removal: the first click swaps the "Elimina" button for "Eliminare? Sì / No".
+// On confirm we DELETE the single response by id, then refresh() so the summary
+// table, matrix and raw list all reflect the change. All other data is left
+// untouched; the DB is never reset.
+async function deleteResponse(responseId, triggerBtn) {
+  if (triggerBtn) triggerBtn.disabled = true;
+  try {
+    const resp = await authFetch(
+      '/api/admin/responses/' + encodeURIComponent(responseId),
+      { method: 'DELETE' },
+    );
+    if (!resp.ok) {
+      if (resp.status === 401 || resp.status === 503) { showGate(gateMessageFor(resp.status)); return; }
+      const msg = resp.status === 404
+        ? 'Risposta non trovata (forse già eliminata).'
+        : 'Eliminazione non riuscita (' + resp.status + ').';
+      document.getElementById('status').textContent = msg;
+      if (triggerBtn) triggerBtn.disabled = false;
+      return;
+    }
+    await refresh();
+  } catch (e) {
+    document.getElementById('status').textContent = 'Errore eliminazione: ' + e.message;
+    if (triggerBtn) triggerBtn.disabled = false;
+  }
+}
+
+// Inline confirm rendered in place of the row's delete button.
+function showRowConfirm(cell, responseId) {
+  cell.innerHTML =
+    '<span class="confirm-delete">' +
+    '<span class="ask">Eliminare?</span>' +
+    '<button type="button" class="confirm-yes">Sì</button>' +
+    '<button type="button" class="confirm-no">No</button>' +
+    '</span>';
+  const yes = cell.querySelector('.confirm-yes');
+  const no = cell.querySelector('.confirm-no');
+  const rid8 = escapeHtml(responseId.slice(0, 8));
+  const restore = () => {
+    cell.innerHTML =
+      '<button type="button" class="row-delete" data-response-id="' + escapeHtml(responseId) + '"' +
+      ' aria-label="Elimina la risposta ' + rid8 + '">Elimina</button>';
+  };
+  yes.addEventListener('click', () => deleteResponse(responseId, yes));
+  no.addEventListener('click', restore);
+  yes.focus();
+}
+
+// Delegated handler: survives table re-renders on every refresh().
+document.querySelector('#responses-table tbody').addEventListener('click', (e) => {
+  const btn = e.target.closest('.row-delete');
+  if (!btn) return;
+  const responseId = btn.getAttribute('data-response-id');
+  if (responseId) showRowConfirm(btn.parentElement, responseId);
+});
+
+// The matrix plots one point PER DRIVER following the strategic-foresight
+// convention: x = mean uncertainty, y = mean importance (the same averages
+// shown in the summary table — the calculation is unchanged). Each point
+// carries its Dxx code; a ranked legend beside the
+// chart maps Dxx → compact Italian label, so individual drivers stay readable
+// even when points cluster. Drivers with no responses yet are skipped.
+const ns = 'http://www.w3.org/2000/svg';
+function svgEl(name, attrs) {
+  const el = document.createElementNS(ns, name);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+
+function drawMatrix(summary) {
+  const svg = document.getElementById('matrix');
+  const legend = document.getElementById('matrix-legend-list');
+  svg.innerHTML = '';
+  legend.innerHTML = '';
+
+  const drivers = (summary || []).filter(
+    (d) => d.importance_average != null && d.uncertainty_average != null,
+  );
+  if (drivers.length === 0) {
+    svg.appendChild(svgEl('text', {
+      x: 260, y: 210, 'text-anchor': 'middle', class: 'axis-label',
+    })).textContent = 'Nessuna valutazione disponibile.';
+    return;
+  }
+
+  const w = 520, h = 420, pad = 46;
+  const xScale = (v) => pad + (v - 1) / 3 * (w - 2 * pad);
+  const yScale = (v) => (h - pad) - (v - 1) / 3 * (h - 2 * pad);
+
+  // Subtle shading of the high-importance / high-uncertainty quadrant.
+  svg.appendChild(svgEl('rect', {
+    x: xScale(2.5), y: pad, width: (w - pad) - xScale(2.5), height: yScale(2.5) - pad,
+    fill: '#166d3b', opacity: 0.05,
+  }));
+
+  for (let i = 1; i <= 4; i++) {
+    svg.appendChild(svgEl('line', {
+      x1: xScale(i), x2: xScale(i), y1: pad, y2: h - pad, stroke: '#d8ded7',
+    }));
+    svg.appendChild(svgEl('line', {
+      x1: pad, x2: w - pad, y1: yScale(i), y2: yScale(i), stroke: '#d8ded7',
+    }));
+    const xt = svgEl('text', { x: xScale(i), y: h - pad + 16, 'text-anchor': 'middle', class: 'axis-label' });
+    xt.textContent = i; svg.appendChild(xt);
+    const yt = svgEl('text', { x: pad - 8, y: yScale(i) + 4, 'text-anchor': 'end', class: 'axis-label' });
+    yt.textContent = i; svg.appendChild(yt);
+  }
+
+  const xlab = svgEl('text', { x: w / 2, y: h - 8, 'text-anchor': 'middle', class: 'axis-title' });
+  xlab.textContent = 'Incertezza media →'; svg.appendChild(xlab);
+  const ylab = svgEl('text', { transform: `rotate(-90 16 ${h / 2})`, x: 16, y: h / 2, 'text-anchor': 'middle', class: 'axis-title' });
+  ylab.textContent = 'Importanza media →'; svg.appendChild(ylab);
+
+  const qHi = svgEl('text', { x: w - pad - 4, y: pad + 14, 'text-anchor': 'end', class: 'quad-label' });
+  qHi.textContent = 'Incertezze critiche'; svg.appendChild(qHi);
+
+  // Place points; nudge labels of near-coincident points to reduce overlap.
+  const placed = [];
+  // Draw highest-score drivers last so their labels sit on top.
+  const sorted = drivers.slice().sort(
+    (a, b) => (a.critical_uncertainty_score || 0) - (b.critical_uncertainty_score || 0),
+  );
+  for (const d of sorted) {
+    // Strategic-foresight convention: x = uncertainty, y = importance.
+    const cx = xScale(d.uncertainty_average);
+    const cy = yScale(d.importance_average);
+    // Offset overlapping markers slightly so coincident drivers stay distinct.
+    let n = 0;
+    for (const p of placed) {
+      if (Math.abs(p.cx - cx) < 12 && Math.abs(p.cy - cy) < 12) n += 1;
+    }
+    const ang = n * 2.39996; // golden-angle spread for overlapping points
+    const off = n === 0 ? 0 : 9 + n * 1.5;
+    const px = cx + Math.cos(ang) * off;
+    const py = cy + Math.sin(ang) * off;
+    placed.push({ cx: px, cy: py });
+
+    const g = svgEl('g', {});
+    const c = svgEl('circle', { cx: px, cy: py, r: 12, class: 'point' });
+    const title = svgEl('title', {});
+    title.textContent =
+      `${d.driver_id} — ${d.short_label || d.title}\n` +
+      `Incertezza media ${Number(d.uncertainty_average).toFixed(2)} · ` +
+      `Importanza media ${Number(d.importance_average).toFixed(2)} · ` +
+      `N ${d.n_responses}`;
+    c.appendChild(title);
+    g.appendChild(c);
+    const t = svgEl('text', { x: px, y: py + 3.5, 'text-anchor': 'middle', class: 'point-label' });
+    t.textContent = d.driver_id.replace(/^D/, '');
+    g.appendChild(t);
+    svg.appendChild(g);
+  }
+
+  // Ranked legend: highest critical-uncertainty score first.
+  const ranked = drivers.slice().sort(
+    (a, b) => (b.critical_uncertainty_score || 0) - (a.critical_uncertainty_score || 0),
+  );
+  for (const d of ranked) {
+    const li = document.createElement('li');
+    const score = d.critical_uncertainty_score == null
+      ? '—' : Number(d.critical_uncertainty_score).toFixed(1);
+    li.innerHTML =
+      `<span class="tag">${escapeHtml(d.driver_id)}</span>` +
+      `<span class="lab">${escapeHtml(d.short_label || d.title)}</span>` +
+      `<span class="sc" title="Importanza × Incertezza">${score}</span>`;
+    legend.appendChild(li);
+  }
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
+// Display-only alias map: legacy respondent-group labels stored in older
+// responses are shown under the current v0.5 category names. Raw DB values and
+// the CSV/JSON exports are left untouched; this only normalises the admin view.
+const GROUP_ALIASES = new Map([
+  ['wwf italia - staff', 'WWF Italia Staff'],
+  ['wwf italia – staff', 'WWF Italia Staff'],
+  ['wwf italia - membro del consiglio', 'Consiglieri'],
+  ['wwf italia – membro del consiglio', 'Consiglieri'],
+  ['wwf italia - volontari/attivisti', 'Delegati e volontari WWF'],
+  ['wwf italia – volontari/attivisti', 'Delegati e volontari WWF'],
+  ['partner/rete', 'Partner e stakeholder'],
+  ['partner / rete', 'Partner e stakeholder'],
+  ['esperti esterni', 'Comitato scientifico WWF e altri esperti'],
+]);
+function displayGroup(g) {
+  const key = String(g ?? '').trim().toLowerCase();
+  return GROUP_ALIASES.get(key) || g || '';
+}
+
+// ---------------------------------------------------------------------------
+// SCENARIO FEEDBACK (sense-check)
+// ---------------------------------------------------------------------------
+// Reads from the independent scenario_feedback table via the token-protected
+// admin endpoints. Filters by scenario and respondent type, exports CSV/JSON,
+// and supports the same two-step inline delete as the driver responses. The
+// driver-survey data and its panels are never touched.
+let SCENARIO_TITLES = {};   // scenario_id -> 'N. Titolo'
+let fbFiltersWired = false;
+
+async function loadScenarioMeta() {
+  if (Object.keys(SCENARIO_TITLES).length) return;
+  try {
+    const r = await fetch('/api/scenarios');
+    if (!r.ok) return;
+    const data = await r.json();
+    const selS = document.getElementById('fb-filter-scenario');
+    const selG = document.getElementById('fb-filter-group');
+    for (const s of (data.scenarios || [])) {
+      SCENARIO_TITLES[s.scenario_id] = s.number + '. ' + s.title;
+      const o = document.createElement('option');
+      o.value = s.scenario_id; o.textContent = SCENARIO_TITLES[s.scenario_id];
+      selS.appendChild(o);
+    }
+    for (const g of (data.respondent_groups || [])) {
+      const o = document.createElement('option');
+      o.value = g; o.textContent = g;
+      selG.appendChild(o);
+    }
+  } catch (e) { /* non-fatal: the panel still works without labels */ }
+}
+
+function scenarioLabel(id) { return SCENARIO_TITLES[id] || id; }
+
+async function refreshScenarioFeedback() {
+  const status = document.getElementById('fb-status');
+  const params = new URLSearchParams();
+  const sc = document.getElementById('fb-filter-scenario').value;
+  const gr = document.getElementById('fb-filter-group').value;
+  if (sc) params.set('scenario_id', sc);
+  if (gr) params.set('respondent_group', gr);
+
+  // CSV link carries the token + active filters in the query string. (The CSV
+  // endpoint returns all rows; client filters apply to the on-screen table.)
+  const csvParams = new URLSearchParams(params);
+  csvParams.set('token', tok());
+  document.getElementById('fb-csv-link').href =
+    '/api/admin/scenario-feedback.csv?' + csvParams.toString();
+
+  const qs = params.toString();
+  const resp = await authFetch('/api/admin/scenario-feedback' + (qs ? '?' + qs : ''));
+  if (!resp.ok) {
+    if (resp.status === 401 || resp.status === 503) { showGate(gateMessageFor(resp.status)); return; }
+    status.textContent = 'Errore caricamento feedback (' + resp.status + ').';
+    return;
+  }
+  const data = await resp.json();
+  const rows = data.feedback || [];
+  status.textContent =
+    `${rows.length} ${rows.length === 1 ? 'contributo' : 'contributi'}` +
+    (sc || gr ? ' (filtro attivo)' : '') + ` · versione bozze ${data.scenario_version || '—'}`;
+
+  const tb = document.querySelector('#scenario-feedback-table tbody');
+  tb.innerHTML = '';
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="14" class="fb-empty">Nessun contributo con questi filtri.</td></tr>';
+  } else {
+    for (const r of rows) {
+      const fid = escapeHtml(r.feedback_id);
+      const cell = (v) => {
+        const t = (v == null ? '' : String(v));
+        if (!t.trim()) return '<td class="txt"><span class="clip-empty">—</span></td>';
+        // Full text goes into the DOM; the toggle button is revealed only when
+        // the clamped text actually overflows (decided in wireClipToggles()).
+        return '<td class="txt"><div class="clip-text">' + escapeHtml(t) + '</div>'
+          + '<button type="button" class="clip-toggle" aria-expanded="false" hidden>Leggi tutto</button></td>';
+      };
+      tb.insertAdjacentHTML('beforeend', `<tr data-feedback-id="${fid}">
+        <td>${escapeHtml(r.submitted_at)}</td>
+        <td><span class="sc-pill">${escapeHtml(scenarioLabel(r.scenario_id))}</span></td>
+        <td>${escapeHtml(displayGroup(r.respondent_group))}</td>
+        <td>${escapeHtml(r.respondent_name || '')}</td>
+        <td>${escapeHtml(r.respondent_email || '')}</td>
+        <td class="plaus">${r.plausibility_score == null ? '—' : r.plausibility_score}</td>
+        ${cell(r.credible_elements)}
+        ${cell(r.weak_elements)}
+        ${cell(r.blind_spots)}
+        ${cell(r.signals)}
+        ${cell(r.title_comment)}
+        ${cell(r.cross_scenario)}
+        ${cell(r.general_comment)}
+        <td class="actions-col">
+          <button type="button" class="row-delete fb-delete" data-feedback-id="${fid}"
+                  aria-label="Elimina il contributo ${escapeHtml(r.feedback_id.slice(0, 8))}">Elimina</button>
+        </td>
+      </tr>`);
+    }
+  }
+  const blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' });
+  document.getElementById('fb-json-link').href = URL.createObjectURL(blob);
+
+  wireClipToggles();
+
+  if (!fbFiltersWired) {
+    document.getElementById('fb-filter-scenario').addEventListener('change', refreshScenarioFeedback);
+    document.getElementById('fb-filter-group').addEventListener('change', refreshScenarioFeedback);
+    // Delegated toggle: expand/collapse a single contribution cell.
+    document.getElementById('scenario-feedback-table').addEventListener('click', (e) => {
+      const btn = e.target.closest('.clip-toggle');
+      if (!btn) return;
+      const div = btn.previousElementSibling;
+      const expanded = div.classList.toggle('expanded');
+      btn.setAttribute('aria-expanded', String(expanded));
+      btn.textContent = expanded ? 'Comprimi' : 'Leggi tutto';
+    });
+    fbFiltersWired = true;
+  }
+}
+
+// Reveal a "Leggi tutto" toggle only for cells whose clamped text overflows the
+// ~3 visible lines. Cells that already fit show no button. Re-run on each
+// refresh since rows are rebuilt.
+function wireClipToggles() {
+  const cells = document.querySelectorAll('#scenario-feedback-table td.txt .clip-text');
+  cells.forEach((div) => {
+    const btn = div.nextElementSibling;
+    if (!btn || !btn.classList.contains('clip-toggle')) return;
+    const overflowing = div.scrollHeight - div.clientHeight > 2;
+    if (overflowing) {
+      btn.hidden = false;
+    } else {
+      btn.hidden = true;
+      div.classList.remove('expanded');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'Leggi tutto';
+    }
+  });
+}
+
+async function deleteScenarioFeedback(feedbackId, triggerBtn) {
+  if (triggerBtn) triggerBtn.disabled = true;
+  try {
+    const resp = await authFetch(
+      '/api/admin/scenario-feedback/' + encodeURIComponent(feedbackId),
+      { method: 'DELETE' },
+    );
+    if (!resp.ok) {
+      if (resp.status === 401 || resp.status === 503) { showGate(gateMessageFor(resp.status)); return; }
+      document.getElementById('fb-status').textContent = resp.status === 404
+        ? 'Contributo non trovato (forse già eliminato).'
+        : 'Eliminazione non riuscita (' + resp.status + ').';
+      if (triggerBtn) triggerBtn.disabled = false;
+      return;
+    }
+    await refreshScenarioFeedback();
+  } catch (e) {
+    document.getElementById('fb-status').textContent = 'Errore eliminazione: ' + e.message;
+    if (triggerBtn) triggerBtn.disabled = false;
+  }
+}
+
+function showFbRowConfirm(cell, feedbackId) {
+  cell.innerHTML =
+    '<span class="confirm-delete">' +
+    '<span class="ask">Eliminare?</span>' +
+    '<button type="button" class="confirm-yes">Sì</button>' +
+    '<button type="button" class="confirm-no">No</button>' +
+    '</span>';
+  const yes = cell.querySelector('.confirm-yes');
+  const no = cell.querySelector('.confirm-no');
+  const fid8 = escapeHtml(feedbackId.slice(0, 8));
+  const restore = () => {
+    cell.innerHTML =
+      '<button type="button" class="row-delete fb-delete" data-feedback-id="' + escapeHtml(feedbackId) + '"' +
+      ' aria-label="Elimina il contributo ' + fid8 + '">Elimina</button>';
+  };
+  yes.addEventListener('click', () => deleteScenarioFeedback(feedbackId, yes));
+  no.addEventListener('click', restore);
+  yes.focus();
+}
+
+document.querySelector('#scenario-feedback-table tbody').addEventListener('click', (e) => {
+  const btn = e.target.closest('.fb-delete');
+  if (!btn) return;
+  const fid = btn.getAttribute('data-feedback-id');
+  if (fid) showFbRowConfirm(btn.parentElement, fid);
+});
+
+function unlock() {
+  const entered = document.getElementById('tok').value.trim();
+  if (!entered) { showGate('Inserisci la password.'); return; }
+  ADMIN_TOKEN = entered;
+  refresh();
+}
+function logout() {
+  ADMIN_TOKEN = '';
+  document.getElementById('tok').value = '';
+  showGate('Sessione terminata. Inserisci la password per accedere di nuovo.');
+}
+
+document.getElementById('unlock').addEventListener('click', unlock);
+document.getElementById('logout').addEventListener('click', logout);
+document.getElementById('refresh').addEventListener('click', refresh);
+document.getElementById('tok').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') unlock();
+});
+
+// No persisted token: always start at the password gate. The admin enters the
+// password each time the page loads (in-memory only, by sandbox requirement).
+showGate();
+</script>
+</body>
+</html>

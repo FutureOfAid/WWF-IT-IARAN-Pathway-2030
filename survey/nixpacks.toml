@@ -1,0 +1,21 @@
+# Nixpacks build configuration for the WWF-IT-Pathway-2030 survey service.
+#
+# `better-sqlite3` is an optionalDependency that needs a C++ toolchain. We add
+# python3 / gcc / pkg-config here so that even if Nixpacks tries to build it,
+# the install succeeds. In production on Railway the app uses Postgres via
+# DATABASE_URL and never loads better-sqlite3 at runtime; this is just to
+# keep `npm install` from failing during the build phase.
+
+providers = ["node"]
+
+[phases.setup]
+nixPkgs = ["nodejs_20", "python3", "gcc", "pkg-config", "gnumake"]
+
+[phases.install]
+cmds = ["npm install --no-audit --no-fund"]
+
+[phases.build]
+cmds = ["echo 'no build step required'"]
+
+[start]
+cmd = "npm start"

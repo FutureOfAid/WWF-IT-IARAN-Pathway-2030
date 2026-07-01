@@ -1,0 +1,23 @@
+{
+  "name": "wwf-it-pathway-2030",
+  "version": "0.4.0",
+  "description": "WWF Italia: Sistema Natura 2030 — driver prioritisation survey (importance × uncertainty).",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "seed": "node src/seed.js",
+    "dev": "node src/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "pg": "^8.13.0"
+  },
+  "optionalDependencies": {
+    "better-sqlite3": "^11.3.0"
+  },
+  "author": "IARAN",
+  "license": "UNLICENSED"
+}

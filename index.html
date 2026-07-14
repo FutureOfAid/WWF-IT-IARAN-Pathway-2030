@@ -744,6 +744,9 @@
           <label for="scScenario">Scenario</label>
           <select id="scScenario"></select>
 
+          <label for="scToc">Theory of Change</label>
+          <select id="scToc"></select>
+
           <label for="scSearch">Ricerca testo</label>
           <input id="scSearch" type="search" placeholder="es. governance, sussidi, prevenzione, art. 117..." />
 
@@ -1513,6 +1516,11 @@
         scActiveId = id;
         const scenario = scenarioData.scenarios.find((s) => s.id === id);
         if (!scenario) return;
+        // Keep the Scenario and Theory of Change dropdowns in sync (both ways).
+        const scSel = document.getElementById("scScenario");
+        const tocSel = document.getElementById("scToc");
+        if (scSel && scSel.value !== id) scSel.value = id;
+        if (tocSel && tocSel.value !== id) tocSel.value = id;
         scGraph = buildScenarioGraph(scenario);
         nodePopup.classList.remove("open");
         renderScenario();
@@ -1521,12 +1529,18 @@
       async function scenarioInit() {
         scenarioData = await fetch("./scenario-data.json").then((r) => r.json());
         const sel = document.getElementById("scScenario");
+        const tocSel = document.getElementById("scToc");
         sel.innerHTML = scenarioData.scenarios
-          .map((s) => `<option value="${s.id}">S${s.number} · ${escapeHtml(s.name)} — ToC ${escapeHtml(s.tocCode)} · ${escapeHtml(s.tocTitle)}</option>`)
+          .map((s) => `<option value="${s.id}">S${s.number} · ${escapeHtml(s.name)}</option>`)
+          .join("");
+        tocSel.innerHTML = scenarioData.scenarios
+          .map((s) => `<option value="${s.id}">ToC ${escapeHtml(s.tocCode)} · ${escapeHtml(s.tocTitle)}</option>`)
           .join("");
         scActiveId = scenarioData.scenarios[0].id;
         sel.value = scActiveId;
+        tocSel.value = scActiveId;
         sel.addEventListener("change", () => setActiveScenario(sel.value));
+        tocSel.addEventListener("change", () => setActiveScenario(tocSel.value));
         ["scSearch", "scShowResults"].forEach((cid) => {
           const el = document.getElementById(cid);
           el.addEventListener("input", renderScenario);

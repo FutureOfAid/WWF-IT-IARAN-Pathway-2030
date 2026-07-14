@@ -659,8 +659,8 @@
           Click any node to see its full information.
         </p>
         <div class="section-switch" aria-label="ToC section">
-          <button class="section-btn active" id="strategySectionBtn">ToC strategia precedente</button>
-          <button class="section-btn" id="scenarioSectionBtn">ToC scenari 2030</button>
+          <button class="section-btn" id="strategySectionBtn">ToC strategia precedente</button>
+          <button class="section-btn active" id="scenarioSectionBtn">ToC scenari 2030</button>
         </div>
         <div class="view-switch" id="strategyViewSwitch" aria-label="Network view">
           <button class="view-button active" id="tocView">TOC Network</button>
@@ -677,7 +677,7 @@
       </div>
     </header>
 
-    <div id="strategySection">
+    <div id="strategySection" hidden>
     <div class="layout">
       <aside class="panel">
         <div class="panel-header">
@@ -733,7 +733,7 @@
     </div>
     </div><!-- /#strategySection -->
 
-    <div id="scenarioSection" hidden>
+    <div id="scenarioSection">
     <div class="layout">
       <aside class="panel">
         <div class="panel-header">
@@ -1246,7 +1246,7 @@
         });
       }
 
-      init();
+      init().then(showScenarioSection);
 
       // =====================================================================
       // SCENARIO SECTION — four ToC networks (scenari 2030). Fully separate

@@ -11,88 +11,76 @@
       "goals": [
         {
           "code": "G1",
-          "short": "Capacità di attuazione",
-          "full": "I piani e gli impegni di transizione ecologica vengono tradotti in attuazione coordinata, monitorata e coerente tra livelli istituzionali, territori e investimenti.",
+          "short": "Attuazione coordinata e sistematica dei piani",
+          "full": "Attuazione coordinata e sistematica dei piani.",
           "objectives": [
             {
               "code": "O1.1",
               "short": "Coerenza degli investimenti",
-              "full": "Allineare investimenti pubblici e privati agli obiettivi di transizione ecologica, riducendo misure incoerenti e sussidi dannosi.",
-              "results": [
-                { "code": "R1.1.1", "short": "Investimenti più coerenti", "full": "Gli investimenti rilevanti per clima, biodiversità, adattamento e infrastrutture sono valutati rispetto alla loro coerenza ecologica." }
-              ]
+              "full": "Garantire che le risorse pubbliche e private siano orientate in modo coerente alla transizione ecologica.",
+              "results": []
             },
             {
               "code": "O1.2",
               "short": "Alleanze operative pubblico-private",
-              "full": "Costruire alleanze tra PA, imprese e attori territoriali per passare da progetti isolati a interventi verificabili.",
+              "full": "Sviluppare alleanze tra soggetti privati e Pubblica Amministrazione per accelerare interventi concreti.",
               "results": [
-                { "code": "R1.2.1", "short": "Progettazione partecipata", "full": "Gli interventi di transizione sono progettati con coinvolgimento territoriale, competenze tecniche e criteri ecologici espliciti." }
+                { "code": "R1.2.1", "short": "Interventi progettati in modo partecipato", "full": "Gli interventi di transizione ecologica sono progettati in modo partecipato." }
               ]
             },
             {
               "code": "O1.3",
               "short": "Coerenza normativa multilivello",
-              "full": "Ridurre la frammentazione tra competenze statali, regionali e locali che blocca l'attuazione.",
+              "full": "Armonizzare la normativa regionale e superare la frammentazione delle competenze tra enti.",
               "results": [
-                { "code": "R1.3.1", "short": "Quadro competenze chiarito", "full": "Il rapporto tra competenze statali e regionali viene chiarito, anche rispetto all'art. 117." },
-                { "code": "R1.3.2", "short": "Contraddizioni normative ridotte", "full": "Le principali incoerenze regolamentari che frenano la transizione sono identificate e corrette." }
+                { "code": "R1.3.1", "short": "Art. 117 riformato", "full": "L'art. 117 della Costituzione è riformato." },
+                { "code": "R1.3.2", "short": "Contraddizioni normative risolte", "full": "Risolte le contraddizioni normative e regolamentari." }
               ]
             },
             {
               "code": "O1.4",
               "short": "Monitoraggio e controllo",
-              "full": "Rafforzare sistemi di monitoraggio, controllo e rendicontazione dell'attuazione.",
+              "full": "Sviluppare e rendere operativo un sistema di monitoraggio, controllo e rendicontazione della transizione ecologica.",
               "results": [
-                { "code": "R1.4.1", "short": "Capacità di coordinamento rafforzata", "full": "Una funzione di coordinamento nazionale o interistituzionale sostiene monitoraggio, apprendimento e correzione delle politiche." }
+                { "code": "R1.4.1", "short": "Agenzia per la transizione ecologica istituita", "full": "Istituita un'agenzia per la transizione ecologica." }
               ]
             },
             {
               "code": "O1.5",
-              "short": "Capacità amministrativa",
-              "full": "Superare frammentazione di competenze e deficit tecnici negli enti responsabili.",
-              "results": [
-                { "code": "R1.5.1", "short": "Competenze operative rafforzate", "full": "Gli enti responsabili dispongono di strumenti, dati e competenze per attuare e monitorare le misure." }
-              ]
-            },
-            {
-              "code": "O1.6",
-              "short": "Capitale naturale nelle decisioni",
-              "full": "Rendere il capitale naturale visibile in policy, investimenti e valutazioni.",
-              "results": [
-                { "code": "R1.6.1", "short": "Capitale naturale contabilizzato", "full": "Il valore della natura pesa maggiormente in decisioni pubbliche, investimenti e valutazioni di impatto." }
-              ]
+              "short": "Capitale naturale",
+              "full": "Dare valore tangibile al capitale naturale nelle decisioni pubbliche, economiche e territoriali.",
+              "results": []
             }
           ]
         },
         {
           "code": "G2",
-          "short": "Legittimazione e fiducia",
-          "full": "La transizione ecologica è percepita come equa, concreta e utile perché produce benefici visibili e processi decisionali più inclusivi.",
+          "short": "Legittimazione consolidata della transizione ecologica",
+          "full": "Legittimazione consolidata della transizione ecologica.",
           "objectives": [
             {
               "code": "O2.1",
-              "short": "Equità della transizione",
-              "full": "Integrare misure fiscali, incentivi e compensazioni per rendere la transizione socialmente accettabile.",
+              "short": "Modelli riusciti",
+              "full": "Valorizzare e replicare modelli di successo della transizione ecologica.",
               "results": [
-                { "code": "R2.1.1", "short": "Incentivi operativi", "full": "Misure fiscali e incentivi economici sostengono comportamenti e investimenti coerenti con la transizione." }
+                { "code": "R2.1.1", "short": "Buone pratiche replicate", "full": "Le buone pratiche sono ampiamente replicate sul territorio." }
               ]
             },
             {
               "code": "O2.2",
-              "short": "Evidenza dei benefici",
-              "full": "Valorizzare modelli di successo e risultati concreti per evitare che la transizione resti promessa astratta.",
+              "short": "Equità e inclusione",
+              "full": "Promuovere misure fiscali, economiche e sociali per una transizione equa e inclusiva.",
               "results": [
-                { "code": "R2.2.1", "short": "Buone pratiche replicate", "full": "Le esperienze riuscite sono adattate e replicate in più territori." },
-                { "code": "R2.2.2", "short": "Fiducia ricostruita", "full": "Cittadini, imprese e istituzioni riconoscono benefici concreti e verificabili della transizione ecologica." }
+                { "code": "R2.2.1", "short": "Misure fiscali e incentivi economici operativi", "full": "Introdotte e rese operative misure fiscali e incentivi economici." },
+                { "code": "R2.2.2", "short": "Fiducia nei benefici concreti ripristinata", "full": "Ripristinata la fiducia nei confronti dei benefici concreti della transizione ecologica." }
               ]
             },
             {
               "code": "O2.3",
-              "short": "Partecipazione istituzionalizzata",
-              "full": "Rendere i processi multi-stakeholder parte stabile della governance territoriale.",
+              "short": "Partecipazione multi-stakeholder",
+              "full": "Promuovere processi partecipativi istituzionalizzati a tutti i livelli di governance territoriale.",
               "results": [
-                { "code": "R2.3.1", "short": "Percorsi partecipativi stabili", "full": "I processi partecipativi diventano prassi riconosciuta nei livelli di governance territoriale." }
+                { "code": "R2.3.1", "short": "Percorsi partecipativi istituzionalizzati", "full": "I percorsi partecipativi sono stati istituzionalizzati a tutti i livelli di governance del territorio." }
               ]
             }
           ]
@@ -106,58 +94,30 @@
       "goals": [
         {
           "code": "G1",
-          "short": "Patto territoriale natura-economia-società",
-          "full": "Il valore della natura è integrato nelle decisioni economiche, sociali e istituzionali dei territori, attraverso patti concreti tra istituzioni, comunità, imprese e WWF.",
+          "short": "Valore integrato della natura",
+          "full": "Valore integrato della natura.",
           "objectives": [
             {
               "code": "O1.1",
-              "short": "Governance territoriale integrata",
-              "full": "Responsabilizzare gli stakeholder nella pianificazione e attuazione della transizione.",
+              "short": "Stakeholder responsabilizzati",
+              "full": "Ingaggiare istituzioni, imprese, comunità scientifica, società civile e attori territoriali nella pianificazione e realizzazione della transizione.",
               "results": [
-                { "code": "R1.1.1", "short": "Governance semplificata", "full": "La governance istituzionale a sostegno della transizione è più chiara, coordinata e operativa." },
-                { "code": "R1.1.2", "short": "Interdipendenze attivate", "full": "Stakeholder diversi si sostengono reciprocamente attraverso responsabilità, incentivi e benefici condivisi." }
+                { "code": "R1.1.1", "short": "Governance istituzionale rafforzata e semplificata", "full": "Ruoli, responsabilità e meccanismi di coordinamento più chiari a sostegno della transizione." },
+                { "code": "R1.1.2", "short": "Interdipendenze tra stakeholder rese operative", "full": "Attori pubblici, economici, scientifici e civici si sostengono e si incentivano reciprocamente." },
+                { "code": "R1.1.3", "short": "Advocacy WWF più orientata alle risorse", "full": "Capacità rafforzata di indirizzare risorse pubbliche e private verso ripristino, adattamento, prevenzione e capitale naturale." },
+                { "code": "R1.1.4", "short": "Rischio ecologico tradotto in rischio operativo", "full": "Utility, assicurazioni, agroalimentare, turismo e infrastrutture leggono natura e clima come variabili economiche e operative, non solo reputazionali." },
+                { "code": "R1.1.5", "short": "Alleanze territoriali pilota attivate", "full": "Processi e patti territoriali avviati con risultati osservabili e replicabili." }
               ]
             },
             {
               "code": "O1.2",
-              "short": "Advocacy per risorse e investimenti",
-              "full": "Rafforzare l'azione WWF per orientare risorse verso ripristino, adattamento e prevenzione.",
-              "results": [
-                { "code": "R1.2.1", "short": "Risorse orientate alla transizione", "full": "Risorse pubbliche e private sono indirizzate verso interventi territoriali coerenti con natura e resilienza." }
-              ]
-            },
-            {
-              "code": "O1.3",
-              "short": "Rischio ecologico per attori economici",
-              "full": "Far riconoscere agli attori economici il rischio ecologico come operativo ed economico, non solo reputazionale.",
-              "results": [
-                { "code": "R1.3.1", "short": "Rischio operativo riconosciuto", "full": "Imprese, utilities, agro-food, assicurazioni e finanza territoriale integrano biodiversità, acqua, suolo e clima nella gestione del rischio." }
-              ]
-            },
-            {
-              "code": "O1.4",
-              "short": "Alleanze territoriali pilota",
-              "full": "Attivare patti territoriali dimostrativi su bacini, coste, corridoi ecologici, aree agricole o urbane vulnerabili.",
-              "results": [
-                { "code": "R1.4.1", "short": "Patti pilota attivati", "full": "WWF contribuisce ad alleanze territoriali pilota capaci di produrre risultati visibili e replicabili." }
-              ]
-            },
-            {
-              "code": "O1.5",
-              "short": "Messaggio sistemico accessibile",
-              "full": "Rendere l'approccio sistemico del WWF concreto, credibile e comprensibile.",
-              "results": [
-                { "code": "R1.5.1", "short": "Approccio WWF riconosciuto", "full": "Il messaggio e l'approccio WWF sono recepiti come concreti, credibili e accessibili." }
-              ]
-            },
-            {
-              "code": "O1.6",
               "short": "Cittadinanza attiva",
-              "full": "Creare condizioni perché cittadini e cittadine partecipino e agiscano nella transizione.",
+              "full": "Rafforzare la partecipazione e l'azione dei cittadini per favorire la transizione nei territori.",
               "results": [
-                { "code": "R1.6.1", "short": "Presenza territoriale rafforzata", "full": "Spazi pubblici e momenti di incontro rendono WWF più presente nei territori." },
-                { "code": "R1.6.2", "short": "Incentivi sociali ed economici", "full": "Sistemi di incentivo favoriscono comportamenti e scelte territoriali coerenti con la transizione." },
-                { "code": "R1.6.3", "short": "Comprensione dei sistemi complessi", "full": "Cresce la capacità collettiva di leggere interdipendenze tra natura, economia, salute e sicurezza." }
+                { "code": "R1.2.1", "short": "Messaggio WWF riconosciuto", "full": "Approccio sistemico percepito come concreto, credibile e accessibile." },
+                { "code": "R1.2.2", "short": "Spazi pubblici di incontro consolidati", "full": "Presenza territoriale rafforzata attraverso luoghi di confronto con cittadinanza e stakeholder." },
+                { "code": "R1.2.3", "short": "Incentivi economici e sociali connessi alla transizione", "full": "Strumenti che rendono più visibili benefici, compensazioni e responsabilità." },
+                { "code": "R1.2.4", "short": "Comprensione dei sistemi complessi", "full": "Materiali, processi e pratiche che aiutano gli attori a vedere relazioni tra acqua, suolo, biodiversità, salute, produzione e sicurezza." }
               ]
             }
           ]
@@ -171,47 +131,54 @@
       "goals": [
         {
           "code": "G1",
-          "short": "Resilienza dei territori",
-          "full": "I territori italiani diventano più capaci di assorbire gli impatti della crisi ecologica senza scaricare vulnerabilità e costi su comunità già fragili.",
+          "short": "Territorio resiliente agli impatti della crisi ecologica",
+          "full": "Territorio resiliente agli impatti della crisi ecologica.",
           "objectives": [
             {
               "code": "O1.1",
-              "short": "Pianificazione integrata e partecipata",
-              "full": "Co-costruire un quadro strategico territoriale che integri agricoltura, rinnovabili, ripristino, aree protette e Nature-based Solutions.",
+              "short": "Piano strategico integrato e partecipato",
+              "full": "Co-costruire un unico piano strategico integrato e partecipato per la transizione ecologica.",
               "results": [
-                { "code": "R1.1.1", "short": "Aree cruciali mappate", "full": "Sono mappate aree ad alta tensione o opportunità per agricoltura, rinnovabili, restoration, aree protette e NbS." }
+                { "code": "R1.1.1", "short": "Aree cruciali mappate", "full": "Mappate aree cruciali per agricoltura, rinnovabili, restoration, aree protette, NbS." }
               ]
             }
           ]
         },
         {
           "code": "G2",
-          "short": "Transizione equa e democratica",
-          "full": "Costi, benefici e decisioni della transizione sono distribuiti e governati in modo più equo, riducendo polarizzazione e conflitti territoriali.",
+          "short": "Benefici e costi equamente distribuiti",
+          "full": "Benefici e costi equamente distribuiti.",
           "objectives": [
             {
               "code": "O2.1",
-              "short": "Riorientamento dei sussidi",
-              "full": "Riallineare sussidi perversi e incentivi incoerenti per rendere la transizione più equa e attuabile.",
+              "short": "Sussidi riallineati",
+              "full": "Riorientare i sussidi perversi per rendere la transizione equa e attuabile.",
               "results": [
-                { "code": "R2.1.1", "short": "PMI accompagnate", "full": "Le PMI e gli attori territoriali accedono a strumenti, competenze e finanziamenti per implementare la transizione." },
-                { "code": "R2.1.2", "short": "Istanze sociali rappresentate", "full": "Le preoccupazioni sociali e territoriali sono portate nei processi istituzionali per evitare effetti regressivi." }
+                { "code": "R2.1.1", "short": "PMI e attori territoriali supportati", "full": "Supportare le PMI nell'ottenimento di supporto e finanziamenti per implementare la transizione ecologica, inclusi biodiversity credits dove pertinenti." },
+                { "code": "R2.1.2", "short": "Istanze sociali rappresentate", "full": "Rappresentare le istanze sociali in ambito istituzionale per garantire equità." }
               ]
             },
             {
               "code": "O2.2",
-              "short": "Comprensione dei trade-off",
-              "full": "Favorire una comunicazione pubblica capace di spiegare complessità, costi, benefici e arbitraggi.",
+              "short": "Comprensione della complessità",
+              "full": "Favorire la comprensione della complessità e del valore della transizione ecologica.",
               "results": [
-                { "code": "R2.2.1", "short": "Risultati comunicati con credibilità", "full": "I benefici della transizione sono comunicati senza nascondere conflitti, costi e condizioni di riuscita." }
+                { "code": "R2.2.1", "short": "Risultati positivi comunicati", "full": "Comunicati efficacemente i risultati positivi della transizione." }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "code": "G3",
+          "short": "Necessità e urgenza della transizione condivise",
+          "full": "Necessità e urgenza della transizione condivise.",
+          "objectives": [
             {
-              "code": "O2.3",
-              "short": "Spazi democratici di co-gestione",
-              "full": "Creare spazi locali e nazionali di confronto per prevenire polarizzazione e costruire decisioni legittime.",
+              "code": "O3.1",
+              "short": "Spazi democratici di confronto",
+              "full": "Creare spazi di confronto locali e nazionali per favorire la partecipazione democratica.",
               "results": [
-                { "code": "R2.3.1", "short": "Hub di co-gestione attivati", "full": "Tavoli o hub territoriali consentono confronto, negoziazione e co-gestione dei conflitti." }
+                { "code": "R3.1.1", "short": "Tavoli e hub di co-gestione creati", "full": "Creati tavoli/hub di co-gestione." }
               ]
             }
           ]
@@ -225,51 +192,50 @@
       "goals": [
         {
           "code": "G1",
-          "short": "Anticipazione e prevenzione",
-          "full": "WWF aiuta territori e istituzioni a non normalizzare le emergenze ecologiche, trasformando natura e prevenzione in strumenti concreti di sicurezza collettiva.",
+          "short": "WWF anticipatore delle crisi ambientali",
+          "full": "WWF anticipatore delle crisi ambientali.",
           "objectives": [
             {
               "code": "O1.1",
-              "short": "Patti di prevenzione territoriale",
-              "full": "Catalizzare patti territoriali per prevenzione, preparazione e gestione dei disastri.",
+              "short": "Patti territoriali per prevenzione e disastri",
+              "full": "Catalizzare l'attuazione di patti territoriali per prevenire e gestire rischio idrogeologico, calore, siccità, incendi e degrado costiero.",
               "results": [
-                { "code": "R1.1.1", "short": "Stakeholder ingaggiati", "full": "Attori istituzionali, economici e comunitari sono coinvolti in patti di prevenzione." },
-                { "code": "R1.1.2", "short": "Benefici socio-economici riconosciuti", "full": "Gli stakeholder comprendono i benefici economici e sociali della prevenzione basata sulla natura." }
+                { "code": "R1.1.1", "short": "Stakeholder ingaggiati", "full": "Stakeholder ingaggiati." },
+                { "code": "R1.1.2", "short": "Stakeholder consapevoli dei benefici socio-economici", "full": "Stakeholder consapevoli dei benefici socio-economici associati alla natura." }
               ]
             },
             {
               "code": "O1.2",
               "short": "Natura come infrastruttura di sicurezza",
-              "full": "Promuovere soluzioni basate sulla natura come parte della sicurezza dei territori.",
+              "full": "Promuovere la natura come infrastruttura che riduce esposizione e vulnerabilità.",
               "results": [
-                { "code": "R1.2.1", "short": "Natura come assicurazione collettiva", "full": "La natura è riconosciuta come protezione collettiva contro rischi climatici, idrogeologici e sanitari." },
-                { "code": "R1.2.2", "short": "Buone pratiche diffuse", "full": "Le pratiche efficaci di prevenzione e adattamento sono identificate, documentate e diffuse." },
-                { "code": "R1.2.3", "short": "Emergenze reinterpretate", "full": "Gli impatti delle emergenze sono letti anche come esito di mancata prevenzione, non solo come eventi eccezionali." }
+                { "code": "R1.2.1", "short": "Natura come assicurazione collettiva", "full": "Consapevolezza della natura come assicurazione collettiva." },
+                { "code": "R1.2.2", "short": "Buone pratiche identificate e disseminate", "full": "Buone pratiche identificate e disseminate." },
+                { "code": "R1.2.3", "short": "Impatti delle emergenze reinterpretati", "full": "Impatti delle emergenze reinterpretati." }
               ]
             }
           ]
         },
         {
           "code": "G2",
-          "short": "Natura, uguaglianza e salute",
-          "full": "La natura diventa leva di uguaglianza, salute e protezione sociale, soprattutto per comunità e territori più esposti.",
+          "short": "Natura come strumento di uguaglianza",
+          "full": "Natura come strumento di uguaglianza.",
           "objectives": [
             {
               "code": "O2.1",
               "short": "Natura e salute umana",
-              "full": "Integrare natura, salute pubblica, città e comunità nelle strategie di adattamento.",
+              "full": "Rendere la natura elemento centrale di prevenzione, salute e qualità della vita.",
               "results": [
-                { "code": "R2.1.1", "short": "Soluzioni sociali e urbane attivate", "full": "Interventi sociali, urbani e comunitari rafforzano salute, coesione e resilienza." },
-                { "code": "R2.1.2", "short": "Paradigma di prevenzione", "full": "Si afferma un nuovo paradigma che collega natura, salute, sicurezza e giustizia sociale." }
+                { "code": "R2.1.1", "short": "Ingegneria sociale, urbana, comunitaria", "full": "Ingegneria sociale, urbana, comunitaria." },
+                { "code": "R2.1.2", "short": "Cambio del paradigma attuale", "full": "Cambio del paradigma attuale." }
               ]
             },
             {
               "code": "O2.2",
-              "short": "Finanza della prevenzione",
-              "full": "Collegare natura, riduzione del rischio e strumenti finanziari/fiscali.",
+              "short": "Natura come protezione collettiva",
+              "full": "Presentare la natura come forma di assicurazione collettiva contro disastri, vulnerabilità e perdita di servizi essenziali.",
               "results": [
-                { "code": "R2.2.1", "short": "Protezione dai disastri riconosciuta", "full": "La natura è riconosciuta come componente della protezione dai disastri." },
-                { "code": "R2.2.2", "short": "Strumenti finanziari e fiscali attivati", "full": "Strumenti finanziari e fiscali sostengono prevenzione, ripristino e adattamento." }
+                { "code": "R2.2.1", "short": "Strumenti fiscali e finanziari proposti", "full": "Meccanismi per orientare risorse pubbliche e private dalla risposta post-disastro alla prevenzione." }
               ]
             }
           ]

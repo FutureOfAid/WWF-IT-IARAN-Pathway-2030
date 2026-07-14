@@ -122,6 +122,31 @@
         color: white;
       }
 
+      .section-switch {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 4px;
+      }
+
+      .section-btn {
+        border: 1.5px solid var(--blue-mid);
+        border-radius: 999px;
+        background: var(--surface);
+        color: var(--blue-dark);
+        padding: 9px 16px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      .section-btn.active {
+        background: var(--blue-dark);
+        border-color: var(--blue-dark);
+        color: #fff;
+      }
+
+
       .pill {
         border: 1px solid var(--border);
         background: var(--surface);
@@ -270,7 +295,8 @@
         border: 1px solid rgba(0, 0, 0, 0.15);
       }
 
-      #graph {
+      #graph,
+      #scGraph {
         width: 100%;
         height: 100%;
         display: block;
@@ -279,7 +305,8 @@
         user-select: none;
       }
 
-      #graph:active {
+      #graph:active,
+      #scGraph:active {
         cursor: grabbing;
       }
 
@@ -631,7 +658,11 @@
           objectives, official results, and the level 4 and 5 activities extracted from the results maps.
           Click any node to see its full information.
         </p>
-        <div class="view-switch" aria-label="Network view">
+        <div class="section-switch" aria-label="ToC section">
+          <button class="section-btn active" id="strategySectionBtn">ToC strategia precedente</button>
+          <button class="section-btn" id="scenarioSectionBtn">ToC scenari 2030</button>
+        </div>
+        <div class="view-switch" id="strategyViewSwitch" aria-label="Network view">
           <button class="view-button active" id="tocView">TOC Network</button>
           <button class="view-button" id="perceptionView">Implicit System Perception Map</button>
         </div>
@@ -646,6 +677,7 @@
       </div>
     </header>
 
+    <div id="strategySection">
     <div class="layout">
       <aside class="panel">
         <div class="panel-header">
@@ -699,6 +731,42 @@
         <svg id="graph" role="img" aria-label="WWF Italia Theory of Change network"></svg>
       </main>
     </div>
+    </div><!-- /#strategySection -->
+
+    <div id="scenarioSection" hidden>
+    <div class="layout">
+      <aside class="panel">
+        <div class="panel-header">
+          <p class="panel-title">Filtri e legenda</p>
+          <p class="panel-note">Seleziona uno scenario e clicca un nodo per vedere la definizione completa.</p>
+        </div>
+        <div class="controls">
+          <label for="scScenario">Scenario</label>
+          <select id="scScenario"></select>
+
+          <label for="scSearch">Ricerca testo</label>
+          <input id="scSearch" type="search" placeholder="es. governance, sussidi, prevenzione, art. 117..." />
+
+          <label>Visualizzazione</label>
+          <label class="check" for="scShowResults">
+            <input type="checkbox" id="scShowResults" checked />
+            <span>Mostra risultati (R)</span>
+          </label>
+
+          <div class="legend" aria-label="Legenda scenari">
+            <div class="legend-row"><span class="dot" style="background: #00375c"></span><span>Obiettivo generale, codice G</span></div>
+            <div class="legend-row"><span class="dot" style="background: #99cae4"></span><span>Obiettivo specifico, codice O</span></div>
+            <div class="legend-row"><span class="dot" style="background: #ffffff"></span><span>Risultato, codice R</span></div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="panel graph-panel" aria-label="Rete Theory of Change dello scenario">
+        <p class="mobile-hint">Trascina o usa il pinch per esplorare. Tocca un nodo per i dettagli. I filtri sono qui sotto.</p>
+        <svg id="scGraph" role="img" aria-label="Rete Theory of Change dello scenario selezionato"></svg>
+      </main>
+    </div>
+    </div><!-- /#scenarioSection -->
 
     <div class="node-popup" id="nodePopup" role="dialog" aria-live="polite" aria-label="Node information">
       <div class="popup-top">
@@ -1179,6 +1247,335 @@
       }
 
       init();
+
+      // =====================================================================
+      // SCENARIO SECTION — four ToC networks (scenari 2030). Fully separate
+      // from the strategy network above: its own data file, svg, popup filler,
+      // and force simulation. Reuses the same visual grammar (COLORS palette,
+      // node radii, layered force layout, popup DOM) as the strategy ToC.
+      // =====================================================================
+      // Three-level ToC grammar, matching the strategy network: strategic goal
+      // (G) at the top, specific objective (O) in the middle, result (R) below.
+      // Notes / punti aperti are NOT graph nodes — they live in the side panel.
+      const SC_CATS = {
+        goal:      { type: "goal",      label: "Obiettivo generale (G)",  r: 15, stroke: "#00375C", y: 0.15, size: 12 },
+        objective: { type: "objective", label: "Obiettivo specifico (O)", r: 11, stroke: "#1A5D80", y: 0.45, size: 10.5 },
+        result:    { type: "result",    label: "Risultato (R)",           r: 7.5, stroke: "#5795B5", y: 0.78, size: 9 },
+      };
+
+      let scenarioData = null;
+      let scActiveId = null;
+      let scGraph = null;      // { nodes, links } built for the active scenario
+      let scSim = null;
+      const scSvg = d3.select("#scGraph");
+
+      // Build a hierarchical G -> O -> R graph for one scenario. Results link to
+      // their objective; objectives link to their goal; goal-level convergence
+      // results (e.g. R2.4 in scenario 1) link directly to the goal.
+      function buildScenarioGraph(scenario) {
+        const nodes = [];
+        const links = [];
+        const goals = scenario.goals || [];
+        let objSlots = 0;
+        goals.forEach((g) => { objSlots += Math.max(1, (g.objectives || []).length); });
+        let objRun = 0;
+
+        goals.forEach((g, gi) => {
+          const goalId = `${scenario.id}-g${gi}`;
+          const objs = g.objectives || [];
+          const objXs = [];
+
+          objs.forEach((o, oi) => {
+            const x = objSlots > 1 ? (objRun + 0.5) / objSlots : 0.5;
+            objRun++;
+            objXs.push(x);
+            const oid = `${goalId}-o${oi}`;
+            nodes.push({
+              id: oid, cat: "objective", parentId: goalId,
+              code: o.code, label: o.short || o.code, full: `${o.code} · ${o.full}`,
+              x_order: x,
+            });
+            links.push({ source: oid, target: goalId, kind: "core" });
+            const rs = o.results || [];
+            rs.forEach((r, ri) => {
+              const rid = `${oid}-r${ri}`;
+              const rx = rs.length > 1 ? x + (ri - (rs.length - 1) / 2) * 0.03 : x;
+              nodes.push({
+                id: rid, cat: "result", parentId: oid,
+                code: r.code, label: r.short || r.code, full: `${r.code} · ${r.full}`,
+                x_order: rx,
+              });
+              links.push({ source: rid, target: oid, kind: "support" });
+            });
+          });
+
+          const gx = objXs.length ? objXs.reduce((a, b) => a + b, 0) / objXs.length
+                                  : (gi + 0.5) / Math.max(1, goals.length);
+          // goal-level convergence results
+          (g.results || []).forEach((r, ri) => {
+            const rid = `${goalId}-cr${ri}`;
+            nodes.push({
+              id: rid, cat: "result", parentId: goalId,
+              code: r.code, label: r.short || r.code, full: `${r.code} · ${r.full}`,
+              x_order: gx,
+            });
+            links.push({ source: rid, target: goalId, kind: "support" });
+          });
+
+          nodes.push({
+            id: goalId, cat: "goal", parentId: null,
+            code: g.code, label: g.short || g.code, full: `${g.code} · ${g.full}`,
+            x_order: gx,
+          });
+        });
+
+        return { nodes, links, nodesById: new Map(nodes.map((n) => [n.id, n])) };
+      }
+
+      // Word-wrap a string into up to maxLines lines of ~maxChars each. A word
+      // longer than maxChars gets its own line; overflow is marked with an ellipsis.
+      function scWrap(text, maxChars, maxLines) {
+        const words = String(text || "").split(/\s+/).filter(Boolean);
+        const lines = [];
+        let cur = "";
+        let i = 0;
+        for (; i < words.length; i++) {
+          const w = words[i];
+          const candidate = cur ? `${cur} ${w}` : w;
+          if (candidate.length <= maxChars || !cur) {
+            cur = candidate;
+          } else {
+            lines.push(cur);
+            cur = w;
+            if (lines.length === maxLines - 1) break;
+          }
+        }
+        if (cur) lines.push(cur);
+        // count consumed words; if any remain, append an ellipsis to the last line
+        const consumed = lines.join(" ").split(/\s+/).filter(Boolean).length;
+        if (consumed < words.length && lines.length) {
+          lines[lines.length - 1] = `${lines[lines.length - 1]}…`;
+        }
+        return lines;
+      }
+
+      // Node label lines: extended labels are always on — every level (goals,
+      // objectives, results) shows a wrapped, code-prefixed label.
+      function scLabelLines(d) {
+        const text = d.code ? `${d.code} · ${d.label}` : d.label;
+        const maxChars = d.cat === "goal" ? 22 : 18;
+        return scWrap(text, maxChars, 4);
+      }
+
+      // Visibility: goals always shown (few, and anchor the tree). Objectives
+      // shown unless a search hides them (kept if they or any child result match).
+      // Results shown only when the toggle is on and they match the search.
+      function scVisibleIds() {
+        const q = document.getElementById("scSearch").value.trim().toLowerCase();
+        const showR = document.getElementById("scShowResults").checked;
+        const match = (n) => !q || `${n.code || ""} ${n.full || ""}`.toLowerCase().includes(q);
+        const resultsByParent = {};
+        scGraph.nodes.forEach((n) => {
+          if (n.cat === "result") (resultsByParent[n.parentId] ||= []).push(n);
+        });
+        const ids = new Set();
+        scGraph.nodes.forEach((n) => {
+          if (n.cat === "goal") ids.add(n.id);
+          else if (n.cat === "objective") {
+            const kids = resultsByParent[n.id] || [];
+            if (!q || match(n) || kids.some(match)) ids.add(n.id);
+          }
+        });
+        scGraph.nodes.forEach((n) => {
+          if (n.cat === "result" && showR && ids.has(n.parentId) && match(n)) ids.add(n.id);
+        });
+        return ids;
+      }
+
+      function renderScenario() {
+        if (!scGraph) return;
+        // Measure the panel (container), not the SVG — we resize the SVG below,
+        // so its own clientWidth is not a stable reference across re-renders.
+        const width = scSvg.node().clientWidth;
+        const height = scSvg.node().clientHeight;
+        if (!width || !height) return;
+        scSvg.attr("viewBox", [0, 0, width, height]);
+        scSvg.selectAll("*").remove();
+
+        const idSet = scVisibleIds();
+        const nodes = scGraph.nodes.filter((n) => idSet.has(n.id));
+        const links = scGraph.links
+          .filter((l) => idSet.has(l.source.id || l.source) && idSet.has(l.target.id || l.target))
+          .map((l) => ({ ...l }));
+
+        const g = scSvg.append("g");
+        scSvg.call(d3.zoom().scaleExtent([0.3, 4]).on("zoom", (event) => g.attr("transform", event.transform)));
+
+        const link = g.append("g")
+          .selectAll("line")
+          .data(links)
+          .join("line")
+          .attr("class", "link")
+          .attr("stroke", (d) => d.kind === "core" ? COLORS.blue : COLORS.border)
+          .attr("stroke-opacity", (d) => d.kind === "core" ? 0.55 : 0.45)
+          .attr("stroke-width", (d) => d.kind === "core" ? 1.8 : 1.1);
+
+        const node = g.append("g")
+          .selectAll("g")
+          .data(nodes)
+          .join("g")
+          .attr("class", "node")
+          .call(d3.drag()
+            .on("start", (event, d) => { if (!event.active) scSim.alphaTarget(0.2).restart(); d.fx = d.x; d.fy = d.y; })
+            .on("drag", (event, d) => { d.fx = event.x; d.fy = event.y; })
+            .on("end", (event, d) => { if (!event.active) scSim.alphaTarget(0); }));
+
+        node.append("circle")
+          .attr("r", (d) => SC_CATS[d.cat].r)
+          .attr("fill", (d) => COLORS[SC_CATS[d.cat].type])
+          .attr("stroke", (d) => SC_CATS[d.cat].stroke)
+          .attr("stroke-width", (d) => d.cat === "goal" ? 2.2 : 1.2);
+
+        node.append("title").text((d) => d.full);
+
+        // Centered, wrapped labels below each node — avoids the horizontal overlap
+        // that single long right-anchored lines produced (esp. Scenario 1).
+        node.append("text")
+          .attr("text-anchor", "middle")
+          .attr("font-size", (d) => SC_CATS[d.cat].size)
+          .attr("font-weight", (d) => d.cat === "goal" ? 700 : 600)
+          .attr("fill", (d) => d.cat === "goal" ? COLORS.blue : COLORS.text)
+          .each(function (d) {
+            const el = d3.select(this);
+            const size = SC_CATS[d.cat].size;
+            const lineH = size + 2;
+            const startY = SC_CATS[d.cat].r + size + 2;
+            scLabelLines(d).forEach((ln, i) => {
+              el.append("tspan")
+                .attr("x", 0)
+                .attr("dy", i === 0 ? startY : lineH)
+                .text(ln);
+            });
+          });
+
+        node.on("click", (event, d) => {
+          showScenarioPopup(d, event);
+          node.selectAll("circle").attr("stroke-width", (n) => n.id === d.id ? 4 : n.cat === "goal" ? 2.2 : 1.2);
+        });
+
+        document.getElementById("statNodes").textContent = `${nodes.length} nodi`;
+        document.getElementById("statLinks").textContent = `${links.length} collegamenti`;
+
+        // Collision radii leave room for the wrapped label footprint under each node.
+        // Kept modest so dense scenarios fit the card; pan/zoom reveals detail, like
+        // the original strategy graph.
+        const collide = { goal: 74, objective: 66, result: 48 };
+        scSim && scSim.stop();
+        scSim = d3.forceSimulation(nodes)
+          .force("link", d3.forceLink(links).id((d) => d.id).distance((d) => d.kind === "core" ? 120 : 78).strength(0.15))
+          .force("charge", d3.forceManyBody().strength((d) => d.cat === "goal" ? -420 : d.cat === "objective" ? -220 : -90))
+          .force("collision", d3.forceCollide().radius((d) => collide[d.cat]).iterations(3))
+          .force("x", d3.forceX((d) => width * (0.05 + d.x_order * 0.90)).strength(0.65))
+          .force("y", d3.forceY((d) => height * SC_CATS[d.cat].y).strength(0.92))
+          .on("tick", () => {
+            nodes.forEach((d) => {
+              d.x = Math.max(60, Math.min(width - 60, d.x));
+              d.y = Math.max(40, Math.min(height - 56, d.y));
+            });
+            link
+              .attr("x1", (d) => d.source.x).attr("y1", (d) => d.source.y)
+              .attr("x2", (d) => d.target.x).attr("y2", (d) => d.target.y);
+            node.attr("transform", (d) => `translate(${d.x},${d.y})`);
+          });
+      }
+
+      function showScenarioPopup(d, event) {
+        const cat = SC_CATS[d.cat];
+        const scenario = scenarioData.scenarios.find((s) => s.id === scActiveId);
+        popupType.textContent = cat.label;
+        popupTitle.textContent = d.full;
+        popupMeta.innerHTML = `
+          <strong>Sezione:</strong> ToC scenari 2030<br>
+          <strong>Scenario:</strong> ${escapeHtml((scenario ? scenario.number + ". " + scenario.name : ""))}<br>
+          <strong>Livello:</strong> ${escapeHtml(cat.label)}
+        `;
+        const margin = window.innerWidth <= 700 ? 12 : 18;
+        const rectWidth = Math.min(390, window.innerWidth - margin * 2);
+        const x = Math.min(window.innerWidth - rectWidth - margin, Math.max(margin, event.clientX + 14));
+        const popupHeight = window.innerWidth <= 700 ? Math.min(360, window.innerHeight * 0.45) : 200;
+        const y = Math.min(window.innerHeight - popupHeight - margin, Math.max(margin, event.clientY + 14));
+        nodePopup.style.left = `${x}px`;
+        nodePopup.style.top = `${y}px`;
+        nodePopup.classList.add("open");
+      }
+
+      function setActiveScenario(id) {
+        scActiveId = id;
+        const scenario = scenarioData.scenarios.find((s) => s.id === id);
+        if (!scenario) return;
+        scGraph = buildScenarioGraph(scenario);
+        nodePopup.classList.remove("open");
+        renderScenario();
+      }
+
+      async function scenarioInit() {
+        scenarioData = await fetch("./scenario-data.json").then((r) => r.json());
+        const sel = document.getElementById("scScenario");
+        sel.innerHTML = scenarioData.scenarios
+          .map((s) => `<option value="${s.id}">${s.number}. ${escapeHtml(s.name)}</option>`)
+          .join("");
+        scActiveId = scenarioData.scenarios[0].id;
+        sel.value = scActiveId;
+        sel.addEventListener("change", () => setActiveScenario(sel.value));
+        ["scSearch", "scShowResults"].forEach((cid) => {
+          const el = document.getElementById(cid);
+          el.addEventListener("input", renderScenario);
+          el.addEventListener("change", renderScenario);
+        });
+      }
+
+      // ---- Section (volet) switch: strategy ⇄ scenarios --------------------
+      const strategySection = document.getElementById("strategySection");
+      const scenarioSection = document.getElementById("scenarioSection");
+      const strategySectionBtn = document.getElementById("strategySectionBtn");
+      const scenarioSectionBtn = document.getElementById("scenarioSectionBtn");
+      const strategyViewSwitch = document.getElementById("strategyViewSwitch");
+      let scenarioLoaded = false;
+
+      const statusPills = document.querySelector(".status");
+
+      function showStrategySection() {
+        strategySection.hidden = false;
+        scenarioSection.hidden = true;
+        strategyViewSwitch.style.display = "";
+        if (statusPills) statusPills.style.display = "";
+        strategySectionBtn.classList.add("active");
+        scenarioSectionBtn.classList.remove("active");
+        nodePopup.classList.remove("open");
+        updateTerminology();
+        render();
+      }
+
+      async function showScenarioSection() {
+        strategySection.hidden = true;
+        scenarioSection.hidden = false;
+        strategyViewSwitch.style.display = "none";
+        scenarioSectionBtn.classList.add("active");
+        strategySectionBtn.classList.remove("active");
+        nodePopup.classList.remove("open");
+        if (statusPills) statusPills.style.display = "none";
+        if (!scenarioLoaded) {
+          await scenarioInit();
+          scenarioLoaded = true;
+        }
+        setActiveScenario(scActiveId || (scenarioData.scenarios[0] && scenarioData.scenarios[0].id));
+      }
+
+      strategySectionBtn.addEventListener("click", showStrategySection);
+      scenarioSectionBtn.addEventListener("click", showScenarioSection);
+      window.addEventListener("resize", () => {
+        if (!scenarioSection.hidden) renderScenario();
+      });
     </script>
   </body>
 </html>

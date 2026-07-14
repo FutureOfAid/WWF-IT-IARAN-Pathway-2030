@@ -1522,7 +1522,7 @@
         scenarioData = await fetch("./scenario-data.json").then((r) => r.json());
         const sel = document.getElementById("scScenario");
         sel.innerHTML = scenarioData.scenarios
-          .map((s) => `<option value="${s.id}">${s.number}. ${escapeHtml(s.name)}</option>`)
+          .map((s) => `<option value="${s.id}">S${s.number} · ${escapeHtml(s.name)} — ToC ${escapeHtml(s.tocCode)} · ${escapeHtml(s.tocTitle)}</option>`)
           .join("");
         scActiveId = scenarioData.scenarios[0].id;
         sel.value = scActiveId;

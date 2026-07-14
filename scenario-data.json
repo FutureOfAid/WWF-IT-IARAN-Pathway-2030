@@ -8,6 +8,8 @@
       "id": "s1",
       "number": 1,
       "name": "La promessa incompiuta",
+      "tocCode": "A",
+      "tocTitle": "La transizione è servita",
       "goals": [
         {
           "code": "G1",
@@ -103,6 +105,8 @@
       "id": "s2",
       "number": 2,
       "name": "Il patto dei territori viventi",
+      "tocCode": "B",
+      "tocTitle": "Futura",
       "goals": [
         {
           "code": "G1",
@@ -168,6 +172,8 @@
       "id": "s3",
       "number": 3,
       "name": "La transizione che divide",
+      "tocCode": "C",
+      "tocTitle": "Democrazia ecologica",
       "goals": [
         {
           "code": "G1",
@@ -222,6 +228,8 @@
       "id": "s4",
       "number": 4,
       "name": "Disillusione ecologica",
+      "tocCode": "D",
+      "tocTitle": "Natura popolare",
       "goals": [
         {
           "code": "G1",
